@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Test from '@/components/Pages/Test'
+import SignIn from '@/components/Pages/SignIn'
 
 Vue.use(Router)
-
+// change the router mode to 'history' to remove the # from the URL
 export default new Router({
   routes: [
     {
@@ -13,9 +13,9 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: Test
+      path: '/SignIn',
+      name: 'SignIn',
+      component: SignIn
     }
   ]
 })
