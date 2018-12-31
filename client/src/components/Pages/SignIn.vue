@@ -1,7 +1,7 @@
 <template>
     <div class='container'>
       <img src="../../assets/shuffleLogo.png">
-      <div class='row'>
+      <div class='row mt-3'>
         <div class='container' id='form-container'>
           <form>
             <div class="form-group">
@@ -17,7 +17,7 @@
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
             <button type="submit" class="btn btn-primary">Login</button>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button @click='registerRoute' class="btn btn-primary">Register</button>
           </form>
         </div>
       </div>
@@ -27,6 +27,13 @@
 <script>
 export default {
   name: 'SignIn',
+  methods: {
+    registerRoute: function() {
+      this.$router.push({
+        path: 'Register'
+      })
+    }
+  },
   data () {
     return {
     }
@@ -38,6 +45,6 @@ export default {
 <style scoped>
 #form-container
 {
-  width: 50%;
+  width: 70%;
 }
 </style>

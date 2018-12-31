@@ -12,8 +12,14 @@ app.use(cors());
 // routing
 const port = process.env.PORT || 5000;
 
+// get endpoints
 app.get('/', (req, res) => {
     res.send('This is working');
+});
+
+// post endpoints
+app.post('/register', (req,res) => {
+    res.send(req.body)
 });
 
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
