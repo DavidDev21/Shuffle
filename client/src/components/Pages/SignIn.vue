@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import AuthenticationService from '../../services/AuthenticationService'
+
 export default {
   name: 'SignIn',
   methods: {
@@ -32,10 +34,19 @@ export default {
       this.$router.push({
         path: 'Register'
       })
+    },
+    authenticateUser: async function(){
+      const response = await AuthenticationService.loginUser({
+        email: this.email,
+        password: this.password
+      })
     }
   },
   data () {
     return {
+      email: '',
+      password: '',
+      newUser: false
     }
   }
 }

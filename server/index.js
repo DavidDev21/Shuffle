@@ -19,7 +19,8 @@ app.get('/', (req, res) => {
 
 // post endpoints
 app.post('/register', (req,res) => {
-    res.send(req.body)
+    console.log('Register Endpoint Reached VIA POST')
+    res.send(req.body);
 });
 
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
