@@ -1,10 +1,10 @@
 <template>
-    <nav class="navbar navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-sm justify-content-between navbar-light bg-light fixed-top">
         <router-link class="navbar-brand" to="home">
             <img src="../../assets/shuffleLogo.png" height="30" class="d-inline-block align-top" alt="Shuffle">
         </router-link>
 
-        <div class="nav navbar-nav navbar-right">
+        <div class="navbar-nav justify-content-end">
             <router-link class="nav-item nav-link" to="settings">Settings</router-link>
             <router-link class="nav-item nav-link" to="logout">Logout</router-link>
         </div>
