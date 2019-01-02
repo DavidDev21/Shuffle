@@ -66,7 +66,8 @@ export default {
             fName: this.fName,
             lName: this.lName,
             major: this.major,
-            gradYear: this.gradYear
+            gradYear: this.gradYear,
+            userType: this.userType
           });
           // note to self: try to pass params to SignIn component to detect a newly created a account
           this.$router.push({
