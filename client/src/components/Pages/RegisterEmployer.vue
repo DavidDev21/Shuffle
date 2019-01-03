@@ -23,11 +23,11 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="yearFound" class="float-left">Year Founded</label>
-                    <input v-model="yearFound" type="text" class="form-control" id="yearFound" placeholder="Last Name">
+                    <input v-model="yearFound" type="month" class="form-control" id="yearFound">
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group col-12">
                     <label for="companyDescription" class="float-left">Company Description</label>
                     <textarea v-model="companyDescription" class="form-control" id="companyDescription" placeholder="Enter company description"></textarea>
                 </div>

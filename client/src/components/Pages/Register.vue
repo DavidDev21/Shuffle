@@ -6,8 +6,8 @@
             <font-awesome-icon class="fa-3x" icon="coffee" />
             <br>Testing
           </button> --> 
-          <SelectionButton btnText="Applicant" btnIcon="ShuffleIcon.png"></SelectionButton>
-          <SelectionButton btnText="Employer" btnIcon="shuffleLogo.png"></SelectionButton>
+          <SelectionButton btnText="Applicant" btnIcon="ShuffleIcon.png" to='RegisterApplicant'></SelectionButton>
+          <SelectionButton btnText="Employer" btnIcon="shuffleLogo.png" to='RegisterEmployer'></SelectionButton>
       </div>
       <div class='row justify-content-center mt-3'>
         <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
@@ -28,17 +28,6 @@ export default {
       loginRoute: function() {
           this.$router.push({
               path: 'SignIn'
-          })
-      },
-      applicantRoute: function() {
-          // note to self: try to pass params to SignIn component to detect a newly created a account
-          this.$router.push({
-              path: 'RegisterApplicant',
-          })
-      },
-      employerRoute: function() {
-          this.$router.push({
-              path: 'RegisterEmployer'
           })
       }
   },

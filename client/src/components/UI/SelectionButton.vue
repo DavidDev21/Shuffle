@@ -1,5 +1,5 @@
 <template>
-    <button class='btn btn-sq-lg btn-light ml-3'>
+    <button @click='goTo' class='btn btn-sq-lg btn-light ml-3'>
         <img class="icon" v-bind:src="require('../../assets/' + btnIcon)"/>
         <!--<font-awesome-icon class='fa-3x' v-bind:icon="btnIcon" /> -->
         <br><h3>{{btnText}}</h3>
@@ -9,7 +9,14 @@
 <script>
 export default {
   name: 'SelectionButton',
-  props: ['btnText', 'btnIcon'],
+  methods: {
+      goTo: function() {
+          this.$router.push({
+              path: this.to
+          })
+      }
+  },
+  props: ['btnText', 'btnIcon', 'to'],
   data () {
     return {
     }
