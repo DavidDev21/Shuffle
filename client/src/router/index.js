@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import SignIn from '@/components/Pages/SignIn'
 import Register from '@/components/Pages/Register'
+import RegisterApplicant from  "@/components/Pages/RegisterApplicant"
+import RegisterEmployer from  "@/components/Pages/RegisterEmployer"
 import NotFound from '@/components/Pages/NotFound'
 
 Vue.use(Router);
@@ -23,6 +25,16 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {      
+      path: '/registerApplicant',
+      name: 'RegisterApplicant',
+      component: RegisterApplicant
+    },
+    {
+      path: '/registerEmployer',
+      name: 'RegisterEmployer',
+      component: RegisterEmployer
     },
     {
       path: '*',

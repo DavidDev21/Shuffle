@@ -1,92 +1,49 @@
 <template>
     <div class='container'>
       <img src="../../assets/shuffleLogo.png">
-      <div class='row mt-3'>
-        <div class='container' id='form-container'>
-          <form>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="userEmail" class="float-left">Email address</label>
-                    <input v-model="email" type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="userPassword" class="float-left">Password</label>
-                    <input v-model="password" type="password" class="form-control" id="userPassword" placeholder="Password">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="userFName" class="float-left">First Name</label>
-                    <input v-model="fName" type="text" class="form-control" id="userFName" placeholder="First Name">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="userLName" class="float-left">Last Name</label>
-                    <input v-model="lName" type="text" class="form-control" id="userLName" placeholder="Last Name">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="userMajor" class="float-left">Major</label>
-                    <input v-model="major" type="text" class="form-control" id="userMajor" placeholder="Major">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="userGraduation" class="float-left">Expected Year of Graduation</label>
-                    <input v-model="gradYear" type="date" class="form-control" id="userGraduation">
-                </div>
-            </div>
-            <!-- <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div> -->
-            <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
-            <button @click="registerUser" class="btn btn-primary">Create account</button>
-          </form>
-        </div>
+      <div class='row justify-content-center mt-3'>
+          <!-- <button class='btn btn-sq-lg btn-primary'>
+            <font-awesome-icon class="fa-3x" icon="coffee" />
+            <br>Testing
+          </button> --> 
+          <SelectionButton btnText="Applicant" btnIcon="ShuffleIcon.png"></SelectionButton>
+          <SelectionButton btnText="Employer" btnIcon="shuffleLogo.png"></SelectionButton>
+      </div>
+      <div class='row justify-content-center mt-3'>
+        <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
       </div>
     </div>
 </template>
 
 <script>
 import AuthenticationService from '../../services/AuthenticationService'
+import SelectionButton from '../UI/SelectionButton'
 
 export default {
   name: 'Register',
+  components: {
+    'SelectionButton': SelectionButton
+  },
   methods: {
       loginRoute: function() {
           this.$router.push({
               path: 'SignIn'
           })
       },
-      registerUser: async function() {
-          const response = await AuthenticationService.registerUser({
-            email: this.email,
-            password: this.password,
-            fName: this.fName,
-            lName: this.lName,
-            major: this.major,
-            gradYear: this.gradYear,
-            userType: this.userType
-          });
+      applicantRoute: function() {
           // note to self: try to pass params to SignIn component to detect a newly created a account
           this.$router.push({
-              path: 'SignIn',
-              props: {
-                  
-              }
+              path: 'RegisterApplicant',
           })
-          console.log(response.data);
+      },
+      employerRoute: function() {
+          this.$router.push({
+              path: 'RegisterEmployer'
+          })
       }
   },
   data () {
     return {
-        email: '',
-        password: '',
-        fName: '',
-        lName: '',
-        major: '',
-        gradYear: ''
     }
   }
 }
@@ -94,8 +51,31 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#form-container
+.form-container
 {
   width: 70%;
 }
+
+/* Small */
+@media only screen and (max-width : 540px) {
+    .btn-sq-lg{
+        width: 150px !important;
+        height: 150px !important;
+    }
+};
+/* Desktops and laptops ----------- medium */
+@media only screen and (min-width : 541px) {
+    .btn-sq-lg{
+        width: 300px !important;
+        height: 300px !important;
+    }
+};
+
+/* Large screens ----------- large */
+@media only screen and (min-width : 1824px) {
+    .btn-sq-lg{
+        width: 500px !important;
+        height: 500px !important;
+    }
+};
 </style>
