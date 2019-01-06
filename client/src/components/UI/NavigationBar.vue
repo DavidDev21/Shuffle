@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-sm justify-content-between navbar-light bg-light fixed-top">
-        <router-link class="navbar-brand" to="home">
+        <router-link class="navbar-brand" to="dashboard">
             <img src="../../assets/shuffleLogo.png" height="30" class="d-inline-block align-top" alt="Shuffle">
         </router-link>
 

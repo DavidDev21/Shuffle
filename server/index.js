@@ -28,7 +28,14 @@ app.post('/register', (req,res) => {
     {
         console.log('Received Employer info')
     }
+    console.log(req.body)
     res.send(req.body);
+});
+
+app.post('/login', (req,res) => {
+    res.status(200).send({
+        userType: 'applicant'
+    })
 });
 
 app.listen(port, () => console.log(`Server listening on port: ${port}`));

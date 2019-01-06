@@ -3,7 +3,7 @@
       <img src="../../assets/shuffleLogo.png">
       <div class='row mt-3'>
         <div class='container form-container'>
-          <form>
+          <form autocomplete="off">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="userEmail" class="float-left">Email address</label>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="userPassword" class="float-left">Password</label>
-                    <input v-model="password" type="password" class="form-control" id="userPassword" placeholder="Password">
+                    <input autocomplete="new-password" v-model="password" type="password" class="form-control" id="userPassword" placeholder="Password">
                 </div>
             </div>
 
@@ -55,7 +55,7 @@ export default {
   methods: {
       loginRoute: function() {
           this.$router.push({
-              path: 'SignIn'
+              path: '/'
           })
       },
       registerUser: async function() {
@@ -70,7 +70,7 @@ export default {
           });
           // note to self: try to pass params to SignIn component to detect a newly created a account
           this.$router.push({
-              path: 'SignIn',
+              path: '/',
               props: {
                   
               }

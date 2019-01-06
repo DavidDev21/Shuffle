@@ -5,7 +5,8 @@ import SignIn from '@/components/Pages/SignIn'
 import Register from '@/components/Pages/Register'
 import RegisterApplicant from  "@/components/Pages/RegisterApplicant"
 import RegisterEmployer from  "@/components/Pages/RegisterEmployer"
-import NotFound from '@/components/Pages/NotFound'
+import DashBoard from "@/components/Pages/DashBoard"
+import NotFound from "@/components/Pages/NotFound"
 
 Vue.use(Router);
 // change the router mode to 'history' to remove the # from the URL
@@ -13,11 +14,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/signin',
       name: 'SignIn',
       component: SignIn
     },
@@ -35,6 +31,12 @@ export default new Router({
       path: '/registerEmployer',
       name: 'RegisterEmployer',
       component: RegisterEmployer
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashBoard,
+      props: true
     },
     {
       path: '*',

@@ -16,7 +16,7 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button @click='authenticateUser' class="btn btn-primary">Login</button>
             <button @click='registerRoute' class="btn btn-primary">Register</button>
           </form>
         </div>
@@ -36,10 +36,26 @@ export default {
       })
     },
     authenticateUser: async function(){
-      const response = await AuthenticationService.loginUser({
-        email: this.email,
-        password: this.password
-      })
+      try {
+        const response = await AuthenticationService.loginUser({
+          email: this.email,
+          password: this.password
+        });
+        console.log('No errors');
+        console.log(response);
+        // response.data
+        // if success, then push userType to dashboard component
+        this.$router.push({
+          name: 'dashboard',
+          params: {userType: response.data.userType}
+        });
+      }
+      catch(error)
+      {
+        // error.response.data = accessing data that was passed by the backend as part of the error object
+        console.log(error.response);
+      }
+
     }
   },
   data () {

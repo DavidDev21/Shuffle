@@ -27,7 +27,7 @@ export default {
   methods: {
       loginRoute: function() {
           this.$router.push({
-              path: 'SignIn'
+              path: '/'
           })
       }
   },

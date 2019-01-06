@@ -16,7 +16,11 @@ export default {
           })
       }
   },
-  props: ['btnText', 'btnIcon', 'to'],
+  props: {
+      btnText: {default: 'default'}, 
+      btnIcon: {default: 'logo.png'}, 
+      to: {default: '/'}
+  },
   data () {
     return {
     }
@@ -34,6 +38,7 @@ export default {
 /* Small */
 @media only screen and (max-width : 540px) {
     .btn-sq-lg{
+        padding: 0;
         width: 150px !important;
         height: 150px !important;
     }
@@ -41,6 +46,7 @@ export default {
 /* Desktops and laptops ----------- medium */
 @media only screen and (min-width : 541px) {
     .btn-sq-lg{
+        padding: 0;
         width: 300px !important;
         height: 300px !important;
     }
@@ -49,8 +55,9 @@ export default {
 /* Large screens ----------- large */
 @media only screen and (min-width : 1824px) {
     .btn-sq-lg{
-        width: 500px !important;
-        height: 500px !important;
+        padding: 0;
+        width: 450px !important;
+        height: 450px !important;
     }
 };
 </style>

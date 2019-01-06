@@ -22,7 +22,7 @@ export default {
   methods: {
       redirect: function() {
           this.$router.push({
-              path: 'SignIn'
+              path: '/'
           })
       }
   },
