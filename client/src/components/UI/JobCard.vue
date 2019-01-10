@@ -1,31 +1,34 @@
 <template>
     <div class='container'>
         <div class='row justify-content-center'>
-                <div class='row job-card'>
-                    <div class='card-image d-flex align-items-center justify-content-center col-6'>
-                        <img alt='Some Img' />
+            <div class='row job-card'>
+                <div class='card-image d-flex align-items-center justify-content-center col-4'>
+                    <img alt='Some Img' />
+                </div>
+                <div class='card-body col-8 text-left'>
+                    <div class='job-header'>
+                        <h3>{{jobTitle}}</h3>
+                        <div class='text-uppercase header-tagline'>
+                            <p>{{jobLocation}}</p>
+                        </div>
                     </div>
-                    <div class='card-body col-6'>
-                        <div class='job-header'>
-                            <h3 class='text-left'>{{jobTitle}}</h3>
-                            <div class='text-left text-uppercase header-tagline'>
-                                <p>{{jobLocation}}</p>
-                            </div>
-                        </div>
-                        <div class='mt-3 job-description'>
-                            <p class='text-left'>{{jobDescription}}</p>
+                    <div class='mt-3 job-description'>
+                        <p>{{jobDescription}}</p>
 
-                            <div class='job-qualification text-left'>
-                                <h5 v-if="skills.length > 0">Qualifications</h5>
-                                <ul>
-                                    <li v-for="skill in skills">
-                                        {{skill.trait}}
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class='job-qualification'>
+                            <h6 v-if="skills.length > 0">Qualifications</h6>
+                            <ul>
+                                <li v-for="skill in skills">
+                                    {{skill.trait}}
+                                </li>
+                            </ul>
                         </div>
+                    </div>
+                    <div class='mt-3 job-footer'>
+                        <p>{{jobFooter}}</p>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </template>
@@ -58,7 +61,8 @@ export default {
         jobTitle: 'Software Engineer',
         jobLocation: 'New York, NY, 11355',
         jobDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
-        skills: [{trait:'Git'},{trait:'60 years of experience'}]
+        skills: [{trait:'Git'},{trait:'60 years of experience'}],
+        jobFooter: 'So apply or call 1800-I-Am-Broke'
     }
   }
 }
@@ -69,6 +73,7 @@ export default {
 .job-card
 {
     border: black 1px solid;
+    width: 75%;
 }
 
 .card-image
@@ -78,7 +83,7 @@ export default {
 
 .card-body
 {
-
+    font-size: small;
 }
 
 .job-header
@@ -88,7 +93,6 @@ export default {
 
 .job-qualification
 {
-    font-size: small;
 }
 
 .header-tagline

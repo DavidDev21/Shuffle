@@ -3,7 +3,10 @@
         <NavigationBar></NavigationBar>
 
         <JobCard ref='JobCard'></JobCard>
-        <button class='btn btn-primary' @click='fetchJob'>Get Next Job</button>
+        <div class='row mt-3 justify-content-center'>
+            <button class='btn btn-primary mr-3' @click='fetchJob'>&#60;&#60;&#60; View Next Job</button>
+            <button class='btn btn-primary' @click='fetchJob'>Apply To Job &#62;&#62;&#62;</button>
+        </div>
     </div>
 </template>
 
