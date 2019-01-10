@@ -18,3 +18,8 @@ npm run dev # to run dev server
 # Potential Issues
 > axios package has 2 vulnerabilities. 
 > 
+
+#To Do List
+> Figure out how to properly handle files
+> Setup database tables
+> Setup all API routes
