@@ -4,7 +4,7 @@
         <h3>{{userType}}</h3>
         <div class='row'>
             <div class='col-12'>
-                <SelectionButton></SelectionButton>
+                <SelectionButton btnText='Apply To Job' to='/applyjob'></SelectionButton>
                 <SelectionButton></SelectionButton>
             </div>
         </div>

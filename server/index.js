@@ -37,6 +37,13 @@ app.post('/login', (req,res) => {
     })
 });
 
+app.post('/getJob', (req, res) => {
+    res.send({
+        img_path: '../../assets/ShuffleIcon.png',
+        jobTitle: 'This worked'
+    })
+})
+
 sequelize.sync({force:true})
     .then(() => {
         app.listen(config.port, () => console.log(`Server listening on port: ${config.port}`));

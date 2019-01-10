@@ -5,6 +5,7 @@ import SignIn from '@/components/Pages/SignIn'
 import Register from '@/components/Pages/Register'
 import RegisterApplicant from  "@/components/Pages/RegisterApplicant"
 import RegisterEmployer from  "@/components/Pages/RegisterEmployer"
+import ApplyJob from "@/components/Pages/ApplyJob"
 import DashBoard from "@/components/Pages/DashBoard"
 import NotFound from "@/components/Pages/NotFound"
 
@@ -37,6 +38,11 @@ export default new Router({
       name: 'dashboard',
       component: DashBoard,
       props: true
+    },
+    {
+      path: '/applyjob',
+      name: 'ApplyJob',
+      component: ApplyJob
     },
     {
       path: '*',
