@@ -1,7 +1,7 @@
 <template>
     <div class='container'>
         <NavigationBar></NavigationBar>
-        <h3>{{userType}}</h3>
+        <h3>Welcome to your dashboard, {{userType}}</h3>
         <div class='row'>
             <div class='col-12'>
                 <SelectionButton btnText='Apply To Job' to='/applyjob'></SelectionButton>

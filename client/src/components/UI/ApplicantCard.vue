@@ -1,22 +1,23 @@
 <template>
+    <!-- Applicant Card, (contains info on applicant for a job) -->
     <div class='container'>
         <div class='row justify-content-center'>
-            <div class='row job-card' id='draggable'>
+            <div class='row applicant-card' id='draggable'>
                 <div class='card-image d-flex align-items-center justify-content-center col-4'>
                     <img alt='Some Img' />
                 </div>
                 <div class='card-body col-8 text-left'>
-                    <div class='job-header'>
-                        <h3>{{jobTitle}}</h3>
+                    <div class='applicant-header'>
+                        <h3>{{applicantName}}</h3>
                         <div class='text-uppercase header-tagline'>
-                            <p>{{jobLocation}}</p>
+                            <p>{{applicantTag}}</p>
                         </div>
                     </div>
-                    <div class='mt-3 job-description'>
-                        <p>{{jobDescription}}</p>
+                    <div class='mt-3 applicant-description'>
+                        <p>{{applicantDescription}}</p>
 
-                        <div class='job-qualification'>
-                            <h6 v-if="skills.length > 0">Qualifications</h6>
+                        <div class='applicant-experience'>
+                            <h6 v-if="skills.length > 0">Experiences / Skills</h6>
                             <ul>
                                 <li v-for="skill in skills">
                                     {{skill.trait}}
@@ -24,8 +25,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class='mt-3 job-footer'>
-                        <p>{{jobFooter}}</p>
+                    <div class='mt-3 applicant-footer'>
+                        <p>{{applicantFooter}}</p>
                     </div>
                 </div>
             </div>
@@ -37,7 +38,7 @@
 import JobService from '../../services/JobService'
 
 export default {
-  name: 'JobCard',
+  name: 'ApplicantCard',
   props: { 
   },
   methods: {
@@ -58,11 +59,11 @@ export default {
   data () {
     return {
         img_path: '../../assets/shuffleLogo.png',
-        jobTitle: 'Software Engineer',
-        jobLocation: 'New York, NY, 11355',
-        jobDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
+        applicantName: 'Software Engineer',
+        applicantTag: 'New York, NY, 11355',
+        applicantDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
         skills: [{trait:'Git'},{trait:'60 years of experience'}],
-        jobFooter: 'So apply or call 1800-I-Am-Broke'
+        applicantFooter: 'So apply or call 1800-I-Am-Broke'
     }
   }
 }
@@ -70,7 +71,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.job-card
+.applicant-card
 {
     border: black 1px solid;
     width: 75%;
@@ -86,12 +87,12 @@ export default {
     font-size: small;
 }
 
-.job-header
+.applicant-header
 {
     border-bottom: grey .5px solid;
 }
 
-.job-qualification
+.applicant-qualification
 {
 }
 
