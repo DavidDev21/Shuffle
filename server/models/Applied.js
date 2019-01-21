@@ -20,6 +20,19 @@ module.exports = (sequelize, DataTypes) =>
         status: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        coverLetter: {
+            type: DataTypes.STRING
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
         }
     }, {
         // disable the modification of table names; By default, sequelize will automatically
@@ -29,5 +42,5 @@ module.exports = (sequelize, DataTypes) =>
 
         // define the table's name
         tableName: 'Applied',
-
+        timestamps: true
     });

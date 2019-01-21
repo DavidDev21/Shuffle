@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING
         },
         grad_year: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         }
+    }, {
+        timestamps: false
     });

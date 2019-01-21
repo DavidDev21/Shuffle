@@ -23,7 +23,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="yearFound" class="float-left">Year Founded</label>
-                    <input v-model="yearFound" type="month" class="form-control" id="yearFound">
+                    <input v-model="yearFound" type="date" class="form-control" id="yearFound">
                 </div>
             </div>
             <div class="form-row">

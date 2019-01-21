@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false
         },
+        employerLogo: {
+            type: DataTypes.STRING,
+            defaultValue: 'SOME PATH'
+        },
         title: {
             type: DataTypes.STRING,
             allowNull: false   
@@ -28,8 +32,21 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false
         },
+        requireCoverLetter: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: 0,
+            allowNull: false
+        },
         createdAt: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
         }
+    }, {
+        timestamps: true
     });

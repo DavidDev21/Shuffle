@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false   
         },
         year_found: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         }
+    },  {
+        timestamps: false
     });

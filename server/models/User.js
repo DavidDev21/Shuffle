@@ -13,12 +13,24 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false
         },
+        profileImg: {
+            type: DataTypes.STRING,
+            defaultValue: 'SOME PATH ON SERVER'
+        },
         userType: {
             type: DataTypes.STRING,
             allowNull: false
         },
         createdAt: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: sequelize.literal('NOW()')
         }
+    }, {
+        timestamps: true
     });
