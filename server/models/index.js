@@ -32,6 +32,12 @@ db.Sequelize = Sequelize // sequelize DataTypes
 // BelongsTo puts the key on the source
 // hasOne puts the key on the target
 
+// Note: seqeuelize will create a foreign key that auto points to the target's PK
+// By default, it will reference the target model's PK (if it is only one column)
+// "By default the foreign key for a belongsTo relation will be generated from the target model name and the target primary key name."
+
+// Remember: FK has to be unique
+
 // Applicant and Employer referencing User
 db.User.hasOne(db.Applicant, {
     foreignKey: {
@@ -49,7 +55,7 @@ db.User.hasOne(db.Employer, {
 // Job Table
 db.Job.belongsTo(db.Employer, {
     foreignKey: {
-        name: 'email',
+        name: 'employer',
         allowNull: false
     }
 })
@@ -61,7 +67,6 @@ db.Applied.belongsTo(db.Job, {
         allowNull: false
     }
 })
-
 // db.Applied.belongsTo(db.Applicant, {
 //     foreignKey: {
 //         name: 'email',
