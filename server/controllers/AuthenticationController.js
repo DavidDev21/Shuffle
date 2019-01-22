@@ -7,8 +7,8 @@ module.exports = {
         try 
         {
             const user = await User.create({
-                email: req.body.email,
-                password: req.body.password,
+                userEmail: req.body.email,
+                userPassword: req.body.password,
                 userType: req.body.userType
             })
             if(req.body.userType === 'applicant')
@@ -38,5 +38,37 @@ module.exports = {
         res.send(
             req.body
         )
+    },
+
+    async login (req, res) {
+        try
+        {
+            const response = await User.findAll({
+                limit: 1,
+                where: {
+                    userEmail: req.body.email,
+                    userPassword: req.body.password
+                }
+            })
+
+            // response is an array where each record is a entry in the array. 
+            // dataValues is how you access the data on the record
+            // console.log(response[0].dataValues)
+            // res.send(response)
+            if(response.length > 0)
+            {
+                res.status(200).send('Access Granted')
+            }            
+            else
+            {
+                res.status(401).send('Access Denied')
+            }
+
+        }
+        catch(err)
+        {
+            console.log(err)
+            res.status(400).send('Bad Request')
+        }
     }
 }

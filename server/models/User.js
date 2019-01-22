@@ -4,12 +4,12 @@
 // Applicant, Employer tables references User.email
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('User', {
-        email: {
+        userEmail: {
             type: DataTypes.STRING,
             unique: true,
             primaryKey: true
         },
-        password: {
+        userPassword: {
             type: DataTypes.STRING,
             allowNull: false
         },
