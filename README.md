@@ -2,10 +2,10 @@
 CS 4513 / 4523 - Software Engineering Project
 
 # Tech Stack (VERP)
-1.) Vuejs
-2.) Nodejs
-3.) PostgresSQL (Transitioning from MySQL)
-4.) Express
+1. Vuejs
+2. Nodejs
+3. PostgresSQL (Transitioning from MySQL)
+4. Express
 
 # Installation
 ```
@@ -47,6 +47,6 @@ npm run dev # to run dev server
 ```
 
 # Potential Issues
-> axios package has 2 vulnerabilities. 
-> If you changed your database login credentials, you can either change it back to the default, or add them into the config.js in the server folder
-> Currently not setup to be deployed for hosting (to be changed)
+1. axios package has 2 vulnerabilities. 
+2. If you changed your database login credentials, you can either change it back to the default, or add them into the config.js in the server folder
+3. Currently not setup to be deployed for hosting (to be changed)
