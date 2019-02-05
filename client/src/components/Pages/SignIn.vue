@@ -6,11 +6,11 @@
           <form>
             <div class="form-group">
               <label for="InputEmail" class="float-left">Email address</label>
-              <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
+              <input v-model="email" type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
             <div class="form-group">
               <label for="InputPassword" class="float-left">Password</label>
-              <input type="password" class="form-control" id="userPassword" placeholder="Password">
+              <input v-model="password" type="password" class="form-control" id="userPassword" placeholder="Password">
             </div>
             <!-- <div class="form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
