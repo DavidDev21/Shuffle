@@ -1,6 +1,12 @@
 # Shuffle
 CS 4513 / 4523 - Software Engineering Project
 
+# Tech Stack (VERP)
+1.) Vuejs
+2.) Nodejs
+3.) PostgresSQL (Transitioning from MySQL)
+4.) Express
+
 # Installation
 ```
 1.) clone the repo into your desired directory using git
@@ -33,8 +39,14 @@ npm run dev # to run dev server
 
 # Running back-end (Go to server folder)
 npm run dev # to run dev server
+
+# Changing database config
+1.) Go to server folder
+2.) Go to config folder
+3.) Modify config.js file with your database login credentials if you changed it. Currently set to default credentials.
 ```
 
 # Potential Issues
 > axios package has 2 vulnerabilities. 
-> 
+> If you changed your database login credentials, you can either change it back to the default, or add them into the config.js in the server folder
+> Currently not setup to be deployed for hosting (to be changed)
