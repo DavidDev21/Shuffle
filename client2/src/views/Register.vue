@@ -10,7 +10,7 @@
           <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="shuffleLogo.png" to='register-employer'></SelectionButton>
       </div>
       <div class='row justify-content-center mt-3'>
-        <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
+        <button @click="loginRoute" class="test btn btn-primary">Return to Login</button>
       </div>
     </div>
 </template>
@@ -44,6 +44,7 @@ export default {
 {
   width: 70%;
 }
+
 /* Not sure why Vue is only loading one media query*/
 /* @media screen and (min-width: 500px) {
   .btn-sq-big{
@@ -58,28 +59,35 @@ export default {
       height: 300px !important;
   } */
 /* Small */
-@media (max-width : 540px) {
+/* @media screen and (max-width : 540px) {
   .btn-sq-big{
       padding: 0;
       width: 150px !important;
       height: 150px !important;
   }
-};
+  .test{
+    background:blue;
+  }
+}; */
 /* Desktops and laptops ----------- medium */
-@media (max-width : 800px) {
+@media screen and (min-width: 600px) {
   .btn-sq-big{
       padding: 0;
       width: 300px !important;
       height: 300px !important;
   }
+  .test
+  {
+    background: red;
+  }
 };
 
 /* Large screens ----------- large */
-@media (min-width : 1824px) {
+/* @media (min-width : 1824px) {
   .btn-sq-big{
       padding: 0;
       width: 450px !important;
       height: 450px !important;
   }
-};
+}; */
 </style>
