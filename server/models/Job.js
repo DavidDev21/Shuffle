@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) =>
         },
         requireCoverLetter: {
             type: DataTypes.BOOLEAN,
-            defaultValue: 0,
+            defaultValue: false,
             allowNull: false
         },
         createdAt: {

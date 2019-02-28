@@ -30,11 +30,37 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .icon
 {
     width:100px;
     height:100px;
 }
+
+/* Small */
+@media screen and (max-width : 540px) {
+  .btn-sq-big{
+      padding: 0;
+      width: 150px !important;
+      height: 150px !important;
+  }
+};
+/* Desktops and laptops ----------- medium */
+@media screen and (max-width : 800px) {
+  .btn-sq-big{
+      padding: 0;
+      width: 300px !important;
+      height: 300px !important;
+  }
+};
+
+/* Large screens ----------- large */
+@media screen and (min-width : 1824px) {
+  .btn-sq-big{
+      padding: 0;
+      width: 450px !important;
+      height: 450px !important;
+  }
+};
 
 </style>

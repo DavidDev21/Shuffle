@@ -6,10 +6,10 @@ module.exports = {
     port: process.env.PORT || 5000,
     db: {
         database: process.env.DB_NAME || 'shuffle',
-        user: process.env.DB_USER || 'root',
-        password: process.env.DB_PASSWORD || '',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'password',
         options: {
-            dialect: process.env.DIALECT || 'mysql',
+            dialect: process.env.DIALECT || 'postgres',
             host: process.env.HOST || 'localhost',
         }
     }

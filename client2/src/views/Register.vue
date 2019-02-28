@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
-import SelectionButton from '@/components/UI/SelectionButton'
+import AuthenticationService from '@/services/AuthenticationService.js';
+import SelectionButton from '@/components/UI/SelectionButton.vue';
 
 export default {
   name: 'register',
@@ -28,12 +28,12 @@ export default {
       loginRoute: function() {
           this.$router.push({
               path: '/'
-          })
+          });
       }
   },
   data () {
     return {
-    }
+    };
   }
 }
 </script>
@@ -52,13 +52,13 @@ export default {
     width: 300px !important;
   }
 } */
-  .btn-sq-big{
+  /* .btn-sq-big{
       padding: 0;
       width: 300px !important;
       height: 300px !important;
-  }
+  } */
 /* Small */
-@media screen and (max-width : 540px) {
+@media (max-width : 540px) {
   .btn-sq-big{
       padding: 0;
       width: 150px !important;
@@ -66,7 +66,7 @@ export default {
   }
 };
 /* Desktops and laptops ----------- medium */
-@media screen and (min-width : 550px) {
+@media (max-width : 800px) {
   .btn-sq-big{
       padding: 0;
       width: 300px !important;
@@ -75,7 +75,7 @@ export default {
 };
 
 /* Large screens ----------- large */
-@media screen and (min-width : 1824px) {
+@media (min-width : 1824px) {
   .btn-sq-big{
       padding: 0;
       width: 450px !important;
