@@ -1,12 +1,19 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
-
+const DocumentManagement = require('./controllers/DocumentController')
+const multer = require('multer');
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
 // to respond to the request from the client
+const upload = multer({
+    dest: './uploads/'
+})
 
 module.exports = (app) => {
-    app.post('/register', AuthenticationController.register)
+    app.post('/register', upload.single("file"), AuthenticationController.register)
     app.post('/login', AuthenticationController.login)
+
+    // test routes
+    app.post('/upload', upload.single("file"), DocumentManagement.upload)
     //     // get endpoints
     // app.get('/', (req, res) => {
     //     res.send('This is working');

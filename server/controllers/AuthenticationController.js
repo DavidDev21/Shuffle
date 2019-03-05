@@ -30,6 +30,8 @@ module.exports = {
                     year_found: req.body.yearFound
                 })
             }
+
+            res.json({file: req.file});
         }
         catch(err)
         {
