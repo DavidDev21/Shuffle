@@ -30,8 +30,14 @@ module.exports = {
                     year_found: req.body.yearFound
                 })
             }
-
-            res.json({file: req.file});
+            //res.json({file: req.file});
+            // req.file === undefined if file is not binary
+            if(req.file !== undefined)
+            {
+                
+            }
+            console.log(req.body);
+            console.log(req.file);
         }
         catch(err)
         {

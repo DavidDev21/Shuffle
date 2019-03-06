@@ -74,5 +74,11 @@ db.Applied.belongsTo(db.Job, {
 //     }
 // })
 
+db.Document.belongsTo(db.User, {
+    foreignKey: {
+        name: 'owner',
+        allowNull: false
+    }
+})
 
 module.exports = db;
