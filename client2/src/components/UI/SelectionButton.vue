@@ -1,4 +1,5 @@
 <template>
+    <!-- could v-bind mess up media queries?-->
     <button @click='goTo' v-bind:class="[styleClass]">
         <img class="icon" v-bind:src="require('@/assets/' + btnIcon)"/>
         <!--<font-awesome-icon class='fa-3x' v-bind:icon="btnIcon" /> -->
@@ -46,7 +47,7 @@ export default {
   }
 };
 /* Desktops and laptops ----------- medium */
-@media screen and (max-width : 800px) {
+@media screen and (min-width : 800px) {
   .btn-sq-big{
       padding: 0;
       width: 300px !important;
