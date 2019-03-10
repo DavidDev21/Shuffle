@@ -10,7 +10,7 @@
           <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="shuffleLogo.png" to='register-employer'></SelectionButton>
       </div>
       <div class='row justify-content-center mt-3'>
-        <button @click="loginRoute" class="test btn btn-primary">Return to Login</button>
+        <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
       </div>
     </div>
 </template>
@@ -75,10 +75,6 @@ export default {
       padding: 0;
       width: 300px !important;
       height: 300px !important;
-  }
-  .test
-  {
-    background: red;
   }
 };
 
