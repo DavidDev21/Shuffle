@@ -1,6 +1,7 @@
 const {User} = require('../models')
 const {Applicant} = require('../models')
 const {Employer} = require('../models')
+const {Document} = require('../models')
 
 module.exports = {
     async register (req, res) {
@@ -34,7 +35,11 @@ module.exports = {
             // req.file === undefined if file is not binary
             if(req.file !== undefined)
             {
-                
+                const doc = await Document.create({
+                    owner: req.body.email,
+                    documentType: req.body.documentType,
+                    filePath: req.file.path
+                })
             }
             console.log(req.body);
             console.log(req.file);

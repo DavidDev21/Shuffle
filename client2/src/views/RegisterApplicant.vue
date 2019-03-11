@@ -40,7 +40,7 @@
             <div class="form-row">
                 <label for="file-upload" class="float-left">Upload Resume (PDF, DOCX only)</label>
                 <div class="form-group col-12">
-                    <input class="float-left" type="file" ref="file" @change="selectFile"/>
+                    <input id="file-upload" class="float-left" type="file" ref="file" @change="selectFile"/>
                 </div>
             </div>
           </form>
@@ -55,95 +55,95 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from '@/services/AuthenticationService';
 
 export default {
   name: 'register-applicant',
   methods: {
-      loginRoute: function() {
-          this.$router.push({
-              path: '/'
-          })
-      },
-      validFileType: function(fileName, allowedExt)
-      {
-          let fileExt = fileName.slice(fileName.lastIndexOf("."));
-          console.log(fileExt);
+    loginRoute() {
+      this.$router.push({
+        path: '/',
+      });
+    },
+    validFileType(fileName, allowedExt) {
+      const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+      console.log(fileExt);
 
-          for(let i = 0; i < allowedExt.length; i++)
-          {
-              console.log(allowedExt[i]);
-              if(fileExt === allowedExt[i])
-              {
-                  return true;
-              }
-          }
-          return false;
-      },
-      selectFile: function(){
-          console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
-
-          this.file = this.$refs.file.files[0];
-          console.log(this.file);
-      },
-      formValidation: function(formObject)
-      {
-          let fieldValues = Object.values(formObject);
-          for(let i = 0; i < fieldValues.length; i++)
-          {
-              if(fieldValues[i] === '')
-              {
-                  return false;
-              }
-          }
+      for (let i = 0; i < allowedExt.length; i++) {
+        console.log(allowedExt[i]);
+        if (fileExt === allowedExt[i]) {
           return true;
-      },
-      registerUser: async function() {
-        const formData = new FormData();
-        const formFields = {
-                email: this.email,
-                password: this.password,
-                fName: this.fName,
-                lName: this.lName,
-                major: this.major,
-                gradYear: this.gradYear,
-                userType: 'applicant',
-                documentType: this.documentType
-            };
-        if(this.formValidation(formFields) === false)
-        {
-            alert("Please fill in the required fields");
         }
-        else
-        {
-            Object.entries(formFields).forEach(([key,value]) => {formData.append(key, value);});
-        
-            formData.append("file", this.file);
-            const response = await AuthenticationService.registerUser(formData);
-            // note to self: try to pass params to SignIn component to detect a newly created a account
-            this.$router.push({
-                path: '/',
-                props: {
-                    
-                }
-            })
-            console.log(response.data);    
+      }
+      return false;
+    },
+    selectFile() {
+      // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
+
+      const allowedExt = ['.pdf', '.doc', '.docx'];
+      const fileName = this.$refs.file.files[0].name;
+
+      if (this.validFileType(fileName, allowedExt) == true) {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+      } else {
+        document.getElementById('file-upload').value = '';
+        const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+        alert(`The file extension ${fileExt} is not allowed`);
+      }
+    },
+    formValidation(formObject) {
+      const fieldValues = Object.values(formObject);
+      for (let i = 0; i < fieldValues.length; i++) {
+        if (fieldValues[i] === '') {
+          return false;
         }
-      },
+      }
+      return true;
+    },
+    async registerUser() {
+      const formData = new FormData();
+      const formFields = {
+        email: this.email,
+        password: this.password,
+        fName: this.fName,
+        lName: this.lName,
+        major: this.major,
+        gradYear: this.gradYear,
+        userType: 'applicant',
+        documentType: this.documentType,
+      };
+      if (this.formValidation(formFields) === false) {
+        alert('Please fill in the required fields');
+      } else {
+        Object.entries(formFields).forEach(([key, value]) => { formData.append(key, value); });
+
+        formData.append('file', this.file);
+        const response = await AuthenticationService.registerUser(formData);
+        // note to self: try to pass params to SignIn component to detect a newly created a account
+        this.$router.push({
+          path: '/',
+          props: {
+
+          },
+        });
+        console.log(response.data);
+      }
+    },
   },
-  data () {
+  data() {
     return {
-        email: '',
-        password: '',
-        fName: '',
-        lName: '',
-        major: '',
-        gradYear: '',
-        file: 'N/A',
-        documentType: 'resume'
-    }
-  }
-}
+      email: '',
+      password: '',
+      fName: '',
+      lName: '',
+      major: '',
+      gradYear: '',
+      file: '',
+      documentType: 'resume',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -152,10 +152,12 @@ export default {
 {
   width: 70%;
 }
+
 .required::after
 {
     color: #e32;
     content: ' *';
     display:inline;
 }
+
 </style>
