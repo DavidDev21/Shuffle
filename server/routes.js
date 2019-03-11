@@ -1,19 +1,47 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
-const DocumentManagement = require('./controllers/DocumentController')
 const multer = require('multer');
+const crypto =  require('crypto');
+const path = require('path');
+
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
 // to respond to the request from the client
+const storage = multer.diskStorage({
+    //storage location
+    destination: function (req, file, cb) {
+        const fileExt = path.extname(file.originalname);
+        allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
+
+        if(!allowedExts.has(fileExt))
+        {
+            cb({error: 'Mime Type not supported'});
+        }
+        else if(fileExt === '.png' || fileExt === '.jpeg')
+        {
+            cb(null, path.join(__dirname, '/uploads/img'));
+        }
+        else
+        {
+            cb(null, path.join(__dirname, '/uploads/documents'));
+        }
+    },
+    //custom naming scheme for incoming file
+    filename: (req, file, cb) => {
+        // hash original filename
+        let customFileName = crypto.randomBytes(18).toString('hex');
+        fileExtension = path.extname(file.originalname);// get file extension from original file name
+        cb(null, customFileName + fileExtension);
+    }
+  })
+
 const upload = multer({
-    dest: './uploads/'
+    storage: storage
 })
 
 module.exports = (app) => {
     app.post('/register', upload.single("file"), AuthenticationController.register)
     app.post('/login', AuthenticationController.login)
 
-    // test routes
-    app.post('/upload', upload.single("file"), DocumentManagement.upload)
     //     // get endpoints
     // app.get('/', (req, res) => {
     //     res.send('This is working');

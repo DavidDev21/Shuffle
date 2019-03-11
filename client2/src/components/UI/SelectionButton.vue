@@ -11,23 +11,23 @@
 export default {
   name: 'SelectionButton',
   methods: {
-    goTo: function() {
-        this.$router.push({
-            path: this.to
-        })
-    }
+    goTo() {
+      this.$router.push({
+        path: this.to,
+      });
+    },
   },
   props: {
-      btnText: {default: 'default'}, 
-      btnIcon: {default: 'logo.png'}, 
-      styleClass: {default: ''},
-      to: {default: '/'}
+    btnText: { default: 'default' },
+    btnIcon: { default: 'logo.png' },
+    styleClass: { default: '' },
+    to: { default: '/' },
   },
-  data () {
+  data() {
     return {
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -12,26 +12,26 @@
 
 <script>
 // @ = src
-import NavigationBar from '@/components/UI/NavigationBar'
-import JobCard from '@/components/UI/JobCard'
+import NavigationBar from '@/components/UI/NavigationBar';
+import JobCard from '@/components/UI/JobCard';
 
 
 export default {
   name: 'apply-job',
   components: {
-      'JobCard': JobCard,
-      'NavigationBar': NavigationBar, 
+    JobCard,
+    NavigationBar,
   },
   methods: {
-      fetchJob: function() {
-          this.$refs.JobCard.getJob()
-      }
+    fetchJob() {
+      this.$refs.JobCard.getJob();
+    },
   },
-  data () {
+  data() {
     return {
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

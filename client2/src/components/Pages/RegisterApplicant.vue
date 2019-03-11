@@ -48,47 +48,47 @@
 </template>
 
 <script>
-import AuthenticationService from '../../services/AuthenticationService'
+import AuthenticationService from '../../services/AuthenticationService';
 
 export default {
   name: 'RegisterApplicant',
   methods: {
-      loginRoute: function() {
-          this.$router.push({
-              path: '/'
-          })
-      },
-      registerUser: async function() {
-          const response = await AuthenticationService.registerUser({
-            email: this.email,
-            password: this.password,
-            fName: this.fName,
-            lName: this.lName,
-            major: this.major,
-            gradYear: this.gradYear,
-            userType: 'applicant'
-          });
-          // note to self: try to pass params to SignIn component to detect a newly created a account
-          this.$router.push({
-              path: '/',
-              props: {
-                  
-              }
-          })
-          console.log(response.data);
-      }
+    loginRoute() {
+      this.$router.push({
+        path: '/',
+      });
+    },
+    async registerUser() {
+      const response = await AuthenticationService.registerUser({
+        email: this.email,
+        password: this.password,
+        fName: this.fName,
+        lName: this.lName,
+        major: this.major,
+        gradYear: this.gradYear,
+        userType: 'applicant',
+      });
+      // note to self: try to pass params to SignIn component to detect a newly created a account
+      this.$router.push({
+        path: '/',
+        props: {
+
+        },
+      });
+      console.log(response.data);
+    },
   },
-  data () {
+  data() {
     return {
-        email: '',
-        password: '',
-        fName: '',
-        lName: '',
-        major: '',
-        gradYear: ''
-    }
-  }
-}
+      email: '',
+      password: '',
+      fName: '',
+      lName: '',
+      major: '',
+      gradYear: '',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
