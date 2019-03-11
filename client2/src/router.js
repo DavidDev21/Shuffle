@@ -31,7 +31,7 @@ export default new Router({
       name: 'register',
       component: () => import(/* webpackChunkName: "about" */ './views/Register.vue'),
     },
-    {      
+    {
       path: '/register-applicant',
       name: 'register-applicant',
       component: () => import(/* webpackChunkName: "about" */ './views/RegisterApplicant.vue'),
@@ -45,7 +45,7 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: () => import(/* webpackChunkName: "about" */ './views/DashBoard.vue'),
-      props: true
+      props: true,
     },
     {
       path: '/apply-job',
@@ -60,6 +60,6 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: () => import('./views/Profile.vue'),
-    }
+    },
   ],
 });
