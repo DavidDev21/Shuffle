@@ -81,4 +81,11 @@ db.Document.belongsTo(db.User, {
     }
 })
 
+db.Applicant.belongsTo(db.Document, {
+    foreignKey: {
+        name: 'main_resume',
+        allowNull: false
+    }
+})
+
 module.exports = db;

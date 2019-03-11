@@ -1,6 +1,8 @@
 // a model in sequlize = a table in database
 // creates the Applicant Table
 // Table for applicants
+
+// main_resume = references Documents Table (documentID)
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('Applicant', {
         email: {
@@ -20,6 +22,11 @@ module.exports = (sequelize, DataTypes) =>
         },
         grad_year: {
             type: DataTypes.DATEONLY
+        },
+        main_resume:{
+            type: DataTypes.INTEGER,
+            defaultValue: -1,
+            allowNull: false
         }
     }, {
         timestamps: false

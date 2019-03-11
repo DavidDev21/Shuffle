@@ -1,4 +1,6 @@
 // Representing all documents on the site
+// Mainly Resumes and Cover Letters
+// Problem: what if user has multiple resumes?
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('Document', {
         documentID:
@@ -16,8 +18,7 @@ module.exports = (sequelize, DataTypes) =>
         {
             type: DataTypes.STRING,
             defaultValue: 'N/A'
-        }
-        ,
+        },
         filePath:
         {
             type: DataTypes.STRING,
