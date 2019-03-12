@@ -2,6 +2,7 @@
 // creates the User Table
 // Table for general user type
 // Applicant, Employer tables references User.email
+// The profileImg can be employer's logo,or applicant's picture
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('User', {
         userEmail: {
@@ -15,7 +16,7 @@ module.exports = (sequelize, DataTypes) =>
         },
         profileImg: {
             type: DataTypes.STRING,
-            defaultValue: 'SOME PATH ON SERVER'
+            defaultValue: 'N/A'
         },
         userType: {
             type: DataTypes.STRING,
