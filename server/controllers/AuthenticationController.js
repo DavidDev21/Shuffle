@@ -11,16 +11,35 @@ module.exports = {
                 userEmail: req.body.email,
                 userPassword: req.body.password,
                 userType: req.body.userType,
-                profileImg: path.dirname + '/server/assets/no_profile_icon.png'
+                profileImg: path.join(__dirname, '../', 'assets/no_profile_icon.png')
             })
             if(req.body.userType === 'applicant')
             {
+                //res.json({file: req.file});
+                // req.file === undefined if file is not binary
+                let doc = undefined;
+                if(req.file !== undefined)
+                {
+                    doc = await Document.create({
+                        owner: req.body.email,
+                        documentType: req.body.documentType,
+                        filePath: req.file.path
+                    })
+                }
+                console.log(req.body);
+                console.log(req.file);
+
+                // grab the documentID
+                console.log(doc.dataValues.documentID);
+
+                // create the Applicant entry
                 const applicant = await Applicant.create({
                     email: req.body.email,
                     f_name: req.body.fName,
                     l_name: req.body.lName,
                     major: req.body.major,
-                    grad_year: req.body.gradYear
+                    grad_year: req.body.gradYear,
+                    main_resume: doc.dataValues.documentID
                 })
             }
             else if(req.body.userType === 'employer')
@@ -32,18 +51,7 @@ module.exports = {
                     year_found: req.body.yearFound
                 })
             }
-            //res.json({file: req.file});
-            // req.file === undefined if file is not binary
-            if(req.file !== undefined)
-            {
-                const doc = await Document.create({
-                    owner: req.body.email,
-                    documentType: req.body.documentType,
-                    filePath: req.file.path
-                })
-            }
-            console.log(req.body);
-            console.log(req.file);
+
         }
         catch(err)
         {
