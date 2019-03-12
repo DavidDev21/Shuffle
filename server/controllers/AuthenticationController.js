@@ -2,7 +2,7 @@ const {User} = require('../models')
 const {Applicant} = require('../models')
 const {Employer} = require('../models')
 const {Document} = require('../models')
-
+const path = require('path');
 module.exports = {
     async register (req, res) {
         try 
@@ -10,7 +10,8 @@ module.exports = {
             const user = await User.create({
                 userEmail: req.body.email,
                 userPassword: req.body.password,
-                userType: req.body.userType
+                userType: req.body.userType,
+                profileImg: path.dirname + '/server/assets/no_profile_icon.png'
             })
             if(req.body.userType === 'applicant')
             {
