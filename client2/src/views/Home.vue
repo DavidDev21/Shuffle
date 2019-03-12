@@ -5,7 +5,7 @@
     <img src='/assets/no_profile_icon.png' alt='no'/>
     <button @click="getImg">GetImg</button>
     <!-- <button class='btn' @click="getFile">Get PDF</button> -->
-    <a @click="getFile" download>Download2</a>
+    <a @click="getFile">Download2</a>
   </div>
 </template>
 
@@ -26,11 +26,19 @@ export default {
       this.test = response.data;
     },
     async getFile() {
-      const response = await api().get('/uploads/documents/7e25164bb0b952c178f58f692341905239a1.pdf');
+      const response = await api().get('/uploads/documents/7e25164bb0b952c178f58f692341905239a1.pdf', {
+        responseType: 'blob'
+      });
       console.log(response);
       console.log(response.data)
-      const blob = new Blob([response.data], {type:response.headers["content-type"]});
-
+      const blob = new Blob([response.data],{type:response.headers["content-type"]});
+      console.log(blob);
+      // anchor gets garbaged collected eventually. (generally, unless browser is bad)
+      let anchor = document.createElement('a');
+      anchor.href = window.URL.createObjectURL(blob);
+      anchor.target = '_blank';
+      anchor.download = '7e25164bb0b952c178f58f692341905239a1'; // filename (doesn't matter if extension is included)
+      anchor.click();
     }
   },
   data() {
