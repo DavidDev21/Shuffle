@@ -19,15 +19,16 @@ const storage = multer.diskStorage({
         }
         else if(fileExt === '.png' || fileExt === '.jpeg')
         {
-            // cb(null, path.join(__dirname, '/uploads/img'));
+            // this is physical location? __dirname would give you the path to this folder we are in
+            cb(null, path.join(__dirname, '/uploads/img'));
             // don't actually need the full path since the GET request is already relative to the root directory
-            // 
-            cb(null, '/uploads/img');
+            
+            // cb(null, '/uploads/img');
         }
         else
         {
-            // cb(null, path.join(__dirname, '/uploads/documents'));
-            cb(null, '/uploads/documents');
+            cb(null, path.join(__dirname, '/uploads/documents'));
+            // cb(null, '/uploads/documents');
         }
     },
     //custom naming scheme for incoming file
@@ -50,18 +51,20 @@ module.exports = (app) => {
     
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute
-    app.get('/assets/no_profile_icon.png', (req,res) => {
-        res.sendFile(path.join(__dirname+'/assets/no_profile_icon.png'));
-    })
-    app.get('/assets/no_image_icon.png', (req,res) => {
-        res.sendFile(path.join(__dirname+'/assets/no_image_icon.png'));
-    })
+    // All filenames should come with the file extensions
+    app.get('/assets/:assetName', (req,res) => {
+        res.sendFile(path.join(__dirname, '/assets/', req.params.assetName));
+    });
 
     app.get('/uploads/documents/:fileName', (req,res) => {
-        let file = req.params.fileName
+        let file = req.params.fileName;
         res.sendFile(path.join(__dirname, '/uploads/documents/',file));
-    })
+    });
 
+    app.get('/uploads/img/:fileName', (req,res) =>{
+        let file = req.params.fileName;
+        res.sendFile(path.join(__dirname, '/uploads/img/', file));
+    });
     //     // get endpoints
     // app.get('/', (req, res) => {
     //     res.send('This is working');
