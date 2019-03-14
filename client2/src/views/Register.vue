@@ -6,8 +6,8 @@
             <font-awesome-icon class="fa-3x" icon="coffee" />
             <br>Testing
           </button> -->
-          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Applicant" btnIcon="shuffleIcon.png" to='register-applicant'></SelectionButton>
-          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="shuffleLogo.png" to='register-employer'></SelectionButton>
+          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Applicant" btnIcon="/assets/applicant_icon.png" to='register-applicant'></SelectionButton>
+          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="/assets/employer_icon.png" to='register-employer'></SelectionButton>
       </div>
       <div class='row justify-content-center mt-3'>
         <button @click="loginRoute" class="btn btn-primary">Return to Login</button>

@@ -2,8 +2,8 @@
     <div class='container'>
         <div class='row justify-content-center'>
             <div class='row job-card' id='draggable'>
-                <div class='card-image d-flex align-items-center justify-content-center col-4'>
-                    <img alt='Some Img' />
+                <div class='card-left d-flex align-items-center justify-content-center col-4'>
+                    <img class='job-image' v-bind:src="img_path" alt='Some Img' />
                 </div>
                 <div class='card-body col-8 text-left'>
                     <div class='job-header'>
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      img_path: '../../assets/shuffleLogo.png',
+      img_path: '/assets/no_image_icon.png',
       jobTitle: 'Software Engineer',
       jobLocation: 'New York, NY, 11355',
       jobDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
@@ -72,8 +72,13 @@ export default {
     border: black 1px solid;
     width: 75%;
 }
+.job-image
+{
+    width: 100%;
+    height: auto;
+}
 
-.card-image
+.card-left
 {
     border-right: black 1px solid;
 }
