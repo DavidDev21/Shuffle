@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false   
         },
         salary: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         location: {
