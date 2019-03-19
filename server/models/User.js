@@ -5,12 +5,17 @@
 // The profileImg can be employer's logo,or applicant's picture
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('User', {
-        userEmail: {
-            type: DataTypes.STRING,
+        id: {
+            type: DataTypes.INTEGER,
             unique: true,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
-        userPassword: {
+        email: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        password: {
             type: DataTypes.STRING,
             allowNull: false
         },

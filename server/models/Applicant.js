@@ -7,7 +7,12 @@ module.exports = (sequelize, DataTypes) =>
     sequelize.define('Applicant', {
         email: {
             type: DataTypes.STRING,
-            primaryKey: true
+            primaryKey: true,
+            foreignKey: true,
+            references: {
+                model: 'Users',
+                key: 'email'
+            }
         },
         f_name: {
             type: DataTypes.STRING,
@@ -22,11 +27,6 @@ module.exports = (sequelize, DataTypes) =>
         },
         grad_year: {
             type: DataTypes.DATEONLY
-        },
-        main_resume:{
-            type: DataTypes.INTEGER,
-            defaultValue: -1,
-            allowNull: false
         }
     }, {
         timestamps: false

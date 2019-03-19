@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) =>
         },
         employer: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            foreignKey: true,
+            references: {
+                model: 'Employers',
+                key: 'email'
+            }
         },
         title: {
             type: DataTypes.STRING,

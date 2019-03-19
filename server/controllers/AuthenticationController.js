@@ -2,6 +2,8 @@ const {User} = require('../models');
 const {Applicant} = require('../models');
 const {Employer} = require('../models');
 const {Document} = require('../models');
+const {ApplicantDoc} = require('../models');
+
 const path = require('path');
 module.exports = {
     async register (req, res) {
@@ -25,6 +27,7 @@ module.exports = {
                         documentType: req.body.documentType,
                         filePath: req.file.path
                     });
+
                     docID = doc.dataValues.documentID;
                 }
                 // console.log(req.body);
