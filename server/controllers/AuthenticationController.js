@@ -10,47 +10,65 @@ module.exports = {
         try 
         {
             const user = await User.create({
-                userEmail: req.body.email,
-                userPassword: req.body.password,
+                email: req.body.email,
+                password: req.body.password,
                 userType: req.body.userType,
                 profileImg: path.join('/assets/no_profile_icon.png')
             });
             if(req.body.userType === 'applicant')
             {
-                //res.json({file: req.file});
-                // req.file === undefined if file is not binary
-                let docID = undefined;
-                if(req.file !== undefined)
-                {
-                    const doc = await Document.create({
-                        owner: req.body.email,
-                        documentType: req.body.documentType,
-                        filePath: req.file.path
-                    });
-
-                    docID = doc.dataValues.documentID;
-                }
-                // console.log(req.body);
-                // console.log(req.file);
-
-                // grab the documentID
-                // console.log(doc.dataValues.documentID);
                 let entry = {
                     email: req.body.email,
                     f_name: req.body.fName,
                     l_name: req.body.lName,
                     major: req.body.major,
                     grad_year: req.body.gradYear,
-                    main_resume: docID
                 };
 
-                if(docID === undefined)
-                {
-                    delete entry["main_resume"];
-                }
-                console.log(entry);
                 // create the Applicant entry
                 const applicant = await Applicant.create(entry);
+
+                //res.json({file: req.file});
+                // req.file === undefined if file is not binary
+
+                if(req.file !== undefined)
+                {
+                    let docID = undefined;
+                    // console.log(path.resolve(__dirname,".."));
+
+                    // strips apart the server path from the full path of where the file is stored
+                    // the docPath should match what the GET route for the files are
+                    let serverPath = path.resolve(__dirname, "..");
+                    let docPath = req.file.path.substring(serverPath.length);
+                    
+                    //path.join(serverPath, "/uploads/documents", req.file.filename);
+                    //console.log(docPath);
+                    // console.log(req.file.path.substring(path.join("..",__dirname).length));
+                    const doc = await Document.create({
+                        owner: req.body.email,
+                        documentType: req.body.documentType,
+                        filePath: docPath
+                    });
+
+                    docID = doc.dataValues.documentID;
+
+                    if(docID !== undefined)
+                    {
+                        const appDoc = await ApplicantDoc.create({
+                            email: entry.email,
+                            documentID: docID,
+                            main_resume: true
+                        })
+                    }
+                }
+                // console.log(req.body);
+                // console.log(req.file);
+
+                // grab the documentID
+                // console.log(doc.dataValues.documentID);
+
+
+                
             }
             else if(req.body.userType === 'employer')
             {
