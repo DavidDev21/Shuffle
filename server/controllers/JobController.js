@@ -2,7 +2,14 @@ const {Job} = require('../models');
 
 module.exports = {
     async getJob(req, res) {
-        Job.findOne({order:"random()", limit: 1});
+        try
+        {
+            const response = await Job.findOne({order:"random()", limit: 1});
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
     },
     async postJob(req, res) {
         try 
@@ -25,4 +32,19 @@ module.exports = {
             console.log(err);
         }
     },
+    async removeJob(req, res) {
+        let jobID = req.params.jobID;
+        try
+        {
+            const response = await Job.destroy({
+                where: {
+                    job_id: jobID
+                }
+            })
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+    }
 };
