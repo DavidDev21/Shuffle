@@ -52,7 +52,17 @@ module.exports = (app) => {
 
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob);
-    
+    app.post('/remove-job/:jobID', JobController.removeJob);
+    app.post('/check-status', JobController.getStatus);
+
+    app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
+    app.post('/get-posted-jobs', JobController.getPostedJobs);
+
+    app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
+    app.post('/update-employer-profile', AccountController.updateEmployerProfile);
+
+    app.post('/change-password', AccountController.changePassword);
+
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute
     // All filenames should come with the file extensions

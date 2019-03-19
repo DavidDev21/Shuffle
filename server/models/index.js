@@ -84,8 +84,7 @@ db.Document.belongsTo(db.User, {
 db.Applicant.belongsTo(db.Document, {
     foreignKey: {
         name: 'main_resume',
-        allowNull: false,
-        defaultValue: -1
+        allowNull: false
     }
 })
 
