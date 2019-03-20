@@ -6,7 +6,7 @@
 
         <div class="navbar-nav justify-content-end">
             <router-link class="nav-item nav-link" to="settings">Settings</router-link>
-            <router-link class="nav-item nav-link" to="logout">Logout</router-link>
+            <router-link class="nav-item nav-link" to="/">Logout</router-link>
         </div>
     </nav>
 </template>
