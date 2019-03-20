@@ -6,12 +6,22 @@ module.exports = (sequelize, DataTypes) =>
         job_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false
+            allowNull: false,
+            foriegnKey: true,
+            references: {
+                model: 'Jobs',
+                key: 'job_id'
+            }
         },
         applicant: {
             type: DataTypes.STRING,
             primaryKey: true,
-            allowNull: false
+            allowNull: false,
+            foriegnKey: true,
+            references: {
+                model: 'Applicants',
+                key: 'email'
+            }
         },
         appliedOn: {
             type: DataTypes.DATE,

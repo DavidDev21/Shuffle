@@ -1,4 +1,5 @@
 const AuthenticationController = require('./controllers/AuthenticationController');
+const JobController = require('./controllers/JobController');
 const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
@@ -48,7 +49,20 @@ module.exports = (app) => {
     // POST Routes
     app.post('/register', upload.single("file"), AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
-    
+
+    app.post('/get-job', JobController.getJob);
+    app.post('/post-job', JobController.postJob);
+    // app.post('/remove-job/:jobID', JobController.removeJob);
+    // app.post('/check-status', JobController.getStatus);
+
+    // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
+    // app.post('/get-posted-jobs', JobController.getPostedJobs);
+
+    // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
+    // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
+
+    // app.post('/change-password', AccountController.changePassword);
+
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute
     // All filenames should come with the file extensions
@@ -65,36 +79,4 @@ module.exports = (app) => {
         let file = req.params.fileName;
         res.sendFile(path.join(__dirname, '/uploads/img/', file));
     });
-    //     // get endpoints
-    // app.get('/', (req, res) => {
-    //     res.send('This is working');
-    // });
-
-    // // post endpoints
-    // app.post('/register', (req,res) => {
-    //     console.log('Register Endpoint Reached VIA POST')
-    //     if(req.body.userType === 'applicant')
-    //     {
-    //         console.log('Received Applicant info')
-    //     }
-    //     else if(req.body.userType === 'employer')
-    //     {
-    //         console.log('Received Employer info')
-    //     }
-    //     console.log(req.body)
-    //     res.send(req.body);
-    // });
-
-    // app.post('/login', (req,res) => {
-    //     res.status(200).send({
-    //         userType: 'applicant'
-    //     })
-    // });
-
-    // app.post('/getJob', (req, res) => {
-    //     res.send({
-    //         img_path: '../../assets/ShuffleIcon.png',
-    //         jobTitle: 'This worked'
-    //     })
-    // })
 }

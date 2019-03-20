@@ -1,34 +1,28 @@
-// Representing all documents on the site
-// Mainly Resumes and Cover Letters
-// Problem: what if user has multiple resumes?
+// A table to keep track of the applicant's document, along with meta data about which is the main one
 module.exports = (sequelize, DataTypes) => 
-    sequelize.define('Document', {
-        documentID:
-        {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        owner:
-        {
+    sequelize.define('ApplicantDoc', {
+        email: {
             type: DataTypes.STRING,
             allowNull: false,
             foreignKey: true,
             references: {
-                model: 'Users',
+                model: 'Applicants',
                 key: 'email'
             }
         },
-        documentType:
-        {
-            type: DataTypes.STRING,
-            defaultValue: 'N/A'
+        documentID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            foreignKey: true,
+            references: {
+                model: 'Documents',
+                key: 'documentID'
+            }
         },
-        filePath:
-        {
-            type: DataTypes.STRING,
-            defaultValue: 'N/A'
-        },
+        main_resume: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },  
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,

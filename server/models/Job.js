@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) =>
         },
         employer: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            foreignKey: true,
+            references: {
+                model: 'Employers',
+                key: 'email'
+            }
         },
         title: {
             type: DataTypes.STRING,
@@ -23,7 +28,7 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false   
         },
         salary: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         location: {
