@@ -93,21 +93,38 @@ module.exports = {
     async login (req, res) {
         try
         {
-            const response = await User.findAll({
-                limit: 1,
+            const response = await User.findOne({
                 where: {
-                    userEmail: req.body.email,
-                    userPassword: req.body.password
+                    email: req.body.email,
+                    password: req.body.password
                 }
-            })
+            });
 
+            console.log(response);
             // response is an array where each record is a entry in the array. 
             // dataValues is how you access the data on the record
             // console.log(response[0].dataValues)
             // res.send(response)
-            if(response.length > 0)
+            if(response !== null)
             {
-                res.status(200).send('Access Granted')
+                let userData = undefined;
+                if(response.dataValues.userType === "applicant")
+                {
+                    userData = await Applicant.findOne({
+                        where: {
+                            email: response.dataValues.email
+                        }
+                    });
+                }
+                else if(response.dataValues.userType === "employer")
+                {
+                    userData = await Employer.findOne({
+                        where: {
+                            email: response.dataValues.email
+                        }
+                    });
+                }
+                res.status(200).send(userData.dataValues);
             }            
             else
             {
