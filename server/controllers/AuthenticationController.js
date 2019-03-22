@@ -18,6 +18,7 @@ module.exports = {
             if(req.body.userType === 'applicant')
             {
                 let entry = {
+                    id: user.dataValues.id,
                     email: req.body.email,
                     f_name: req.body.fName,
                     l_name: req.body.lName,
@@ -73,6 +74,7 @@ module.exports = {
             else if(req.body.userType === 'employer')
             {
                 const employer = await Employer.create({
+                    id: user.dataValues.id,
                     email: req.body.email,
                     company_name: req.body.companyName,
                     company_description: req.body.companyDescription,
@@ -124,6 +126,8 @@ module.exports = {
                         }
                     });
                 }
+                console.log(userData.dataValues);
+                userData.dataValues.userType = response.dataValues.userType;
                 res.status(200).send(userData.dataValues);
             }            
             else

@@ -1,10 +1,13 @@
 const {Job} = require('../models');
+const {Applied} = require('../models');
+const {Document} = require('../models');
 
 module.exports = {
     async getJob(req, res) {
         try
         {
             const response = await Job.findOne({order:"random()", limit: 1});
+            res.status(200).send(response);
         }
         catch(err)
         {
@@ -25,15 +28,16 @@ module.exports = {
             };
             const response = await Job.create(job);
             console.log(response);
-            res.status(200).send({message: "Job Created"});
+            res.status(200).send(response);
         }
         catch(err)
         {
             console.log(err);
+            res.status(400).send(err);
         }
     },
     async removeJob(req, res) {
-        let jobID = req.params.jobID;
+        const jobID = req.params.jobID;
         try
         {
             const response = await Job.destroy({
@@ -41,10 +45,44 @@ module.exports = {
                     job_id: jobID
                 }
             })
+            console.log(response);
         }
         catch(err)
         {
             console.log(err);
+            res.status(400).send(err);
         }
+    },
+    async updateJob(req, res) {
+        const jobID = req.params.jobID;
+        try
+        {
+            // ideally, req is basically a job posting form then we just shove everything in.
+            const response = await Job.update({
+                // the columns
+            }, {
+                where: {
+                    job_id: jobID
+                }
+            });
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    },
+    async applyJob(req, res) {
+        const jobID = req.params.jobID;
+        // req should be pass in the applicant's info like email
+        // Note: even if the email gets changed, it should be unique inside the database so we can use it as a key
+        if(req.coverLetter !== undefined)
+        {
+            
+        }
+        const response = await Applied.create({
+            job_id: jobID,
+            applicant: req.body.email
+        })
     }
 };
