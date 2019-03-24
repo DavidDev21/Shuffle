@@ -74,15 +74,17 @@ module.exports = {
     },
     async applyJob(req, res) {
         const jobID = req.params.jobID;
+        let application = {
+            job_id: jobID,
+            applicant: req.body.email
+        }
         // req should be pass in the applicant's info like email
         // Note: even if the email gets changed, it should be unique inside the database so we can use it as a key
         if(req.coverLetter !== undefined)
         {
-            
+            application.coverLetter = req.coverLetter;
         }
-        const response = await Applied.create({
-            job_id: jobID,
-            applicant: req.body.email
-        })
+        
+        const response = await Applied.create(application)
     }
 };
