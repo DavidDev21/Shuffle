@@ -3,21 +3,43 @@ const {Applicant} = require('../models');
 const {Employer} = require('../models');
 const {Document} = require('../models');
 const {ApplicantDoc} = require('../models');
-
 const path = require('path');
+const sgMail = require('@sendgrid/mail');
+const {verificationtoken} = require('../models');
+const crypto =  require('crypto');
+
 module.exports = {
     async register (req, res) {
         try 
         {
+            sgMail.setApiKey('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');
+
             const user = await User.create({
                 email: req.body.email,
                 password: req.body.password,
                 userType: req.body.userType,
                 profileImg: path.join('/assets/no_profile_icon.png')
             });
+
+            const token = await verificationtoken.create({ 
+                userID: user.id, 
+                token: crypto.randomBytes(16).toString('hex') 
+            });
+
+            const msg = {
+                to: user.email,					//receiver's email
+                from: 'no-reply@example.com',			//sender's email
+                subject: 'verify your email',				//Subject
+                text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
+                html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
+              };
+
+            sgMail.send(msg);
+            
             if(req.body.userType === 'applicant')
             {
                 let entry = {
+                    id: user.dataValues.id,
                     email: req.body.email,
                     f_name: req.body.fName,
                     l_name: req.body.lName,
@@ -27,7 +49,7 @@ module.exports = {
 
                 // create the Applicant entry
                 const applicant = await Applicant.create(entry);
-
+                
                 //res.json({file: req.file});
                 // req.file === undefined if file is not binary
 
@@ -61,7 +83,7 @@ module.exports = {
                         })
                     }
                 }
-                // console.log(req.body);
+                console.log(req.body);
                 // console.log(req.file);
 
                 // grab the documentID
@@ -73,13 +95,13 @@ module.exports = {
             else if(req.body.userType === 'employer')
             {
                 const employer = await Employer.create({
+                    id: user.dataValues.id,
                     email: req.body.email,
                     company_name: req.body.companyName,
                     company_description: req.body.companyDescription,
                     year_found: req.body.yearFound
                 });
             }
-
         }
         catch(err)
         {
@@ -103,8 +125,9 @@ module.exports = {
             console.log(response);
             // response is an array where each record is a entry in the array. 
             // dataValues is how you access the data on the record
-            // console.log(response[0].dataValues)
+            //console.log(response[0].dataValues)
             // res.send(response)
+
             if(response !== null)
             {
                 let userData = undefined;
@@ -124,6 +147,8 @@ module.exports = {
                         }
                     });
                 }
+                console.log(userData.dataValues);
+                userData.dataValues.userType = response.dataValues.userType;
                 res.status(200).send(userData.dataValues);
             }            
             else

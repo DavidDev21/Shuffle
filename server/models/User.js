@@ -3,7 +3,7 @@
 // Table for general user type
 // Applicant, Employer tables references User.email
 // The profileImg can be employer's logo,or applicant's picture
-module.exports = (sequelize, DataTypes) => 
+module.exports = (sequelize, DataTypes) =>
     sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) =>
         userType: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        isVerified: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         },
         createdAt: {
             type: DataTypes.DATE,

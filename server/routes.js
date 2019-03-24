@@ -1,5 +1,6 @@
 const AuthenticationController = require('./controllers/AuthenticationController');
 const JobController = require('./controllers/JobController');
+const verificationcontroller = require('./controllers/verificationcontroller');
 const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
@@ -49,19 +50,25 @@ module.exports = (app) => {
     // POST Routes
     app.post('/register', upload.single("file"), AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
-
+    app.get('/confirmation/:userToken',verificationcontroller.verify);
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob);
+    app.post('/update-job/:jobID', JobController.updateJob);
+
+    app.post('/apply-job/:jobID', upload.single("coverLetter"), JobController.applyJob);
     // app.post('/remove-job/:jobID', JobController.removeJob);
     // app.post('/check-status', JobController.getStatus);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
 
+    // app.post('/get-profile/:userID), AccountController.getProfile);
     // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
     // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
-    // app.post('/change-password', AccountController.changePassword);
+    // Assuming Server ever sent the userID when they login
+    // app.post('/change-email/:userID, AccountController.changeEmail);
+    // app.post('/change-password/:userID', AccountController.changePassword);
 
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute

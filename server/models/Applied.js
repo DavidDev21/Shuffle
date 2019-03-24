@@ -23,16 +23,14 @@ module.exports = (sequelize, DataTypes) =>
                 key: 'email'
             }
         },
-        appliedOn: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
         status: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 'under_review'
         },
         coverLetter: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            defaultValue: 'None'
         },
         createdAt: {
             type: DataTypes.DATE,

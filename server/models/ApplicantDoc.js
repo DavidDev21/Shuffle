@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) =>
             references: {
                 model: 'Applicants',
                 key: 'email'
-            }
+            },
+            primaryKey: true
         },
         documentID: {
             type: DataTypes.INTEGER,
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) =>
             references: {
                 model: 'Documents',
                 key: 'documentID'
-            }
+            },
+            primaryKey: true
         },
         main_resume: {
             type: DataTypes.BOOLEAN,
