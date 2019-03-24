@@ -4,7 +4,7 @@
         <h3>Welcome to your dashboard, {{userType}}</h3>
         <div class='row'>
             <div class='col-12'>
-                <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Apply To Job' to='/apply-job'></SelectionButton>
+                <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Apply To Job' to='/apply-job'></SelectionButton>
                 <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
             </div>
         </div>

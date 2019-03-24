@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/test1',
+      path: '/testFile',
       name: 'home',
       component: Home,
     },
@@ -53,13 +53,13 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/ApplyJob.vue'),
     },
     {
-      path: '*',
-      component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
-    },
-    {
       path: '/profile',
       name: 'profile',
       component: () => import('./views/Profile.vue'),
+    },
+    {
+      path: '*',
+      component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },
   ],
 });

@@ -1,11 +1,18 @@
 // a model in sequlize = a table in database
 // creates the Applicant Table
 // Table for applicants
+
+// main_resume = references Documents Table (documentID)
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('Applicant', {
         email: {
             type: DataTypes.STRING,
-            primaryKey: true
+            primaryKey: true,
+            foreignKey: true,
+            references: {
+                model: 'Users',
+                key: 'email'
+            }
         },
         f_name: {
             type: DataTypes.STRING,

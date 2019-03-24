@@ -52,6 +52,7 @@ export default {
       } catch (error) {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
+        alert(error.response.data + ": Invalid Username / Password");
       }
     },
   },

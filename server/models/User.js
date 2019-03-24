@@ -2,24 +2,34 @@
 // creates the User Table
 // Table for general user type
 // Applicant, Employer tables references User.email
-module.exports = (sequelize, DataTypes) => 
-    sequelize.define('User', {
-        userEmail: {
-            type: DataTypes.STRING,
+// The profileImg can be employer's logo,or applicant's picture
+module.exports = (sequelize, DataTypes) => {
+    const User =sequelize.define('User', {
+        id: {
+            type: DataTypes.INTEGER,
             unique: true,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
-        userPassword: {
+        email: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        password: {
             type: DataTypes.STRING,
             allowNull: false
         },
         profileImg: {
             type: DataTypes.STRING,
-            defaultValue: 'SOME PATH ON SERVER'
+            defaultValue: 'N/A'
         },
         userType: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        isVerified: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -34,3 +44,13 @@ module.exports = (sequelize, DataTypes) =>
     }, {
         timestamps: true
     });
+
+    User.associate = (models)=>{
+        User.hasOne(models.verificationtoken,{
+            as: 'verificationtoken',
+            foreignKey: 'userId',
+            foreignKeyConstraint: true,
+        });
+    };
+    return User;
+};

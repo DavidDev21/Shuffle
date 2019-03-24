@@ -5,7 +5,12 @@ module.exports = (sequelize, DataTypes) =>
     sequelize.define('Employer', {
         email: {
             type: DataTypes.STRING,
-            primaryKey: true
+            primaryKey: true,
+            foreignKey: true,
+            references: {
+                model: 'Users',
+                key: 'email'
+            }
         },
         company_name: {
             type: DataTypes.STRING,
