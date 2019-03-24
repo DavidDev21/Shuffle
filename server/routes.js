@@ -50,7 +50,7 @@ module.exports = (app) => {
     // POST Routes
     app.post('/register', upload.single("file"), AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
-    app.post('/confirmation',verificationcontroller.verify);
+    app.get('/confirmation/:userToken',verificationcontroller.verify);
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob);
     app.post('/update-job/:jobID', JobController.updateJob);

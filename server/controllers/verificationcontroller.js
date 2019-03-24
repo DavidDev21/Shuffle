@@ -1,28 +1,38 @@
 const {User} = require('../models');
+const {verificationtoken} = require('../models');
 module.exports = {
     async verify(req, res){
         try{
-            const user = User.findOne({
+            const foundToken = await verificationtoken.findOne({
                 where: { 
-                    email: req.body.email 
+                    token: req.params.userToken 
                 }
             });
-            if(user !== null){
-                if (user.isVerified) {
+            if(foundToken !== undefined)
+            {
+                console.log(foundToken.dataValues);
+                const userID = foundToken.dataValues.userId;
+                console.log(userID);
+                const user = await User.findOne({
+                    where: {
+                        id: userID
+                    }
+                });
+
+                if(user.dataValues.isVerified === true)
+                {
                     res.status(202).send('Email Already Verified');
-                } 
-                else {
-                    const foundToken= models.verificationtoken.findOne({
-                        where: { 
-                            token: req.query.verificationtoken 
+                }
+                else
+                {
+                    const response = User.update({
+                        isVerified: true
+                    }, {
+                        where: {
+                            id: userID
                         }
                     });
-                    if(foundToken){
-                        user.isVerified = true;
-                    } 
-                    else {
-                        res.status(404).send('Token expired');
-                    }
+                    res.status(200).send('Account is now verified');
                 }
             }
             else{

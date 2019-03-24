@@ -1,15 +1,17 @@
-module.exports = (sequelize, DataTypes)=> {
-    const verificationtoken = sequelize.define('verificationtoken', {
-            userId: DataTypes.STRING,
-            token: DataTypes.STRING
-        },);
-        
-    verificationtoken.associate=(models)=>{
-            verificationtoken.belongsTo(models.User, {
-                as: "user",
-                foreignKey: "userId",
-                foreignKeyConstraint: true,
-            });
-        }
-    return verificationtoken;
-};
+module.exports = (sequelize, DataTypes) => 
+    sequelize.define('verificationtoken', {
+            userId: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                foreignKey: true,
+                references:
+                {
+                    model: 'Users',
+                    key: 'id'
+                }
+            },
+            token: {
+                type: DataTypes.STRING,
+                unique: true
+            }
+        });

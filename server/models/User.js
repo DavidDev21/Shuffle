@@ -3,8 +3,8 @@
 // Table for general user type
 // Applicant, Employer tables references User.email
 // The profileImg can be employer's logo,or applicant's picture
-module.exports = (sequelize, DataTypes) => {
-    const User =sequelize.define('User', {
+module.exports = (sequelize, DataTypes) =>
+    sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
             unique: true,
@@ -44,13 +44,3 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         timestamps: true
     });
-
-    User.associate = (models)=>{
-        User.hasOne(models.verificationtoken,{
-            as: 'verificationtoken',
-            foreignKey: 'userId',
-            foreignKeyConstraint: true,
-        });
-    };
-    return User;
-};
