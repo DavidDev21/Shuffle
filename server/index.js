@@ -23,7 +23,11 @@ if(process.env.NODE_ENV === 'production')
     app.get(/.*/, (req,res) => res.sendFile(__dirname + '/public/index.html'));
 }
 
-sequelize.sync()
+<<<<<<< HEAD
+sequelize.sync({force: true})
+=======
+sequelize.sync({force:true})
+>>>>>>> 3a8d5fd19024bc6772fc175a2b5a11d99a8c88d3
     .then(() => {
         app.listen(config.port, () => console.log(`Server listening on port: ${config.port}`));
     })

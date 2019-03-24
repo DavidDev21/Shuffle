@@ -74,6 +74,14 @@ db.Sequelize = Sequelize // sequelize DataTypes
 //     }
 // })
 
+<<<<<<< HEAD
+db.Document.belongsTo(db.User, {
+    foreignKey: {
+        name: 'owner',
+        allowNull: false
+    }
+})
+=======
 // db.Document.belongsTo(db.User, {
 //     foreignKey: {
 //         name: 'owner',
@@ -87,5 +95,6 @@ db.Sequelize = Sequelize // sequelize DataTypes
 //         allowNull: false
 //     }
 // })
+>>>>>>> 3a8d5fd19024bc6772fc175a2b5a11d99a8c88d3
 
 module.exports = db;
