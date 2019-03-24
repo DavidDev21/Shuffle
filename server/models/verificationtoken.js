@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('verificationtoken', {
-            userId: {
+            userID: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 foreignKey: true,

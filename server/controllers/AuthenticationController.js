@@ -22,7 +22,7 @@ module.exports = {
             });
 
             const token = await verificationtoken.create({ 
-                userId: user.id, 
+                userID: user.id, 
                 token: crypto.randomBytes(16).toString('hex') 
             });
 
