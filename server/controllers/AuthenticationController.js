@@ -3,37 +3,29 @@ const {Applicant} = require('../models');
 const {Employer} = require('../models');
 const {Document} = require('../models');
 const {ApplicantDoc} = require('../models');
-const {check,validationResult} = require('express-validator/check');
-const express = require('express');
-const app = express();
 const path = require('path');
 const sgMail = require('@sendgrid/mail');
 const {verificationtoken} = require('../models');
 const crypto =  require('crypto');
-require('dotenv').config();
+
 module.exports = {
     async register (req, res) {
         try 
         {
-            // check(req.body.email).isEmail('Not a valid email address');
-            // check(req.body.password).isLength({min:5});
-            // const errors = validationResult(req);
-            // if(!errors.isEmpty()){
-            //     res.status(400).send(errors);
-            //     //console.log('invalid login!');
-            // }
-            const hostUrl = process.env.hostURL;
             sgMail.setApiKey('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');
+
             const user = await User.create({
                 email: req.body.email,
                 password: req.body.password,
                 userType: req.body.userType,
                 profileImg: path.join('/assets/no_profile_icon.png')
             });
+
             const token = await verificationtoken.create({ 
                 userId: user.id, 
                 token: crypto.randomBytes(16).toString('hex') 
             });
+
             const msg = {
                 to: user.email,					//receiver's email
                 from: 'no-reply@example.com',			//sender's email
@@ -41,7 +33,9 @@ module.exports = {
                 text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
               };
+
             sgMail.send(msg);
+            
             if(req.body.userType === 'applicant')
             {
                 let entry = {
