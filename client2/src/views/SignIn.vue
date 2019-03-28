@@ -43,6 +43,7 @@ export default {
         });
         console.log('No errors');
         console.log(response);
+        
         // response.data
         // if success, then push userType to dashboard component
         this.$router.push({

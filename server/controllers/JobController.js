@@ -14,6 +14,16 @@ module.exports = {
             console.log(err);
         }
     },
+    async getJobStatus(req, res) {
+        /*
+            Job ID
+            Job Title
+            Employer
+            Contact (Email)
+            Location
+            Status
+        */
+    },
     async postJob(req, res) {
         try 
         {

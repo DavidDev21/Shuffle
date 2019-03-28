@@ -57,7 +57,7 @@ module.exports = (app) => {
 
     app.post('/apply-job/:jobID', upload.single("coverLetter"), JobController.applyJob);
     // app.post('/remove-job/:jobID', JobController.removeJob);
-    // app.post('/check-status', JobController.getStatus);
+    app.post('/check-status', JobController.getJobStatus);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
