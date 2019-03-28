@@ -128,7 +128,7 @@ module.exports = {
             //console.log(response[0].dataValues)
             // res.send(response)
 
-            if(response !== null)
+            if(response !== null && response.dataValues.isVerified === true)
             {
                 let userData = undefined;
                 if(response.dataValues.userType === "applicant")
@@ -150,10 +150,14 @@ module.exports = {
                 console.log(userData.dataValues);
                 userData.dataValues.userType = response.dataValues.userType;
                 res.status(200).send(userData.dataValues);
-            }            
+            }          
+            else if(response.dataValues.isVerified === false)
+            {
+                res.status(402).send('Please verified');
+            }  
             else
             {
-                res.status(401).send('Access Denied')
+                res.status(401).send('Access Denied');
             }
 
         }

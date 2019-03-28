@@ -12,6 +12,9 @@ export default new Vuex.Store({
   getters: {
     userType(state) {
       return state.userType;
+    },
+    userData(state) {
+      return state.userData;
     }
   },
   // methods called to change the state within the store
@@ -23,7 +26,7 @@ export default new Vuex.Store({
       state.userType = payload.userType;
     },
     changeUserData(state, payload) {
-
+      state.userData = payload.userData;
     }
   },
   // actions help deal with async behavior with mutations
