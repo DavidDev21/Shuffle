@@ -58,6 +58,11 @@ export default new Router({
       component: () => import('./views/Profile.vue'),
     },
     {
+      path: '/application-status',
+      name: 'application-status',
+      component: () => import('./views/ApplicationStatus.vue'),
+    },
+    {
       path: '*',
       component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },
