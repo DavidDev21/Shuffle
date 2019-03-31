@@ -5,7 +5,7 @@
         </router-link>
 
         <div class="navbar-nav justify-content-end">
-            <router-link class="nav-item nav-link" to="settings">Settings</router-link>
+            <router-link class="nav-item nav-link" to="/profile">Profile</router-link>
             <router-link class="nav-item nav-link" to="/">Logout</router-link>
         </div>
     </nav>
@@ -27,7 +27,6 @@ export default {
           route: 'home',
           accessLevel: 'all',
         },
-
       ],
     };
   },
