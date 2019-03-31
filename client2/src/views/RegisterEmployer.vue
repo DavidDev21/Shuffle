@@ -66,10 +66,7 @@ export default {
         });
         // note to self: try to pass params to SignIn component to detect a newly created a account
         this.$router.push({
-          path: '/',
-          props: {
-
-          },
+          path: '/'
         });
         console.log(response.data);
       }

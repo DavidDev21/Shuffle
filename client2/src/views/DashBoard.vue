@@ -1,18 +1,35 @@
 <template>
     <div class='container'>
         <NavigationBar></NavigationBar>
-        <h3>Welcome to your dashboard, {{userType}}</h3>
-        <div class='row'>
-            <div class='col-12'>
-                <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Apply To Job' to='/apply-job'></SelectionButton>
-                <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
-            </div>
+        <h3>Welcome to your dashboard, {{name}}</h3>
+        <h4>Account Type: {{userType}}</h4>
+        <div v-if="userType === 'applicant'">
+          <div class='row'>
+              <div class='col-12'>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Apply To Job' to='/apply-job'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+              </div>
+          </div>
+          <div class='row mt-2'>
+              <div class='col-12'>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+              </div>
+          </div>
         </div>
-        <div class='row mt-2'>
-            <div class='col-12'>
-                <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
-                <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
-            </div>
+        <div v-if="userType === 'employer'">
+          <div class='row'>
+              <div class='col-12'>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Post Job' to='/apply-job'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Check Applicants'></SelectionButton>
+              </div>
+          </div>
+          <div class='row mt-2'>
+              <div class='col-12'>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+              </div>
+          </div>
         </div>
     </div>
 </template>
@@ -30,11 +47,23 @@ export default {
   mounted() {
       //   // console.log("I am mounted")
   //   // console.log(this.$store.getters.userType);
-    this.userType = this.$store.getters.userType
+    this.userType = this.$store.getters.userType;
+    this.userData = this.$store.getters.userData;
+
+    if(this.userType === 'applicant')
+    {
+      this.name = this.userData.f_name;
+    }
+    else if(this.userType === 'employer')
+    {
+      this.name = this.userData.company_name;
+    }
   },
   data() {
     return {
-      userType: null
+      userType: null,
+      userData: null,
+      name: null
     };
   },
 };
