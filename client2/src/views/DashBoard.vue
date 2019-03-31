@@ -27,9 +27,14 @@ export default {
     NavigationBar,
     SelectionButton,
   },
-  props: ['userType'],
+  mounted() {
+      //   // console.log("I am mounted")
+  //   // console.log(this.$store.getters.userType);
+    this.userType = this.$store.getters.userType
+  },
   data() {
     return {
+      userType: null
     };
   },
 };

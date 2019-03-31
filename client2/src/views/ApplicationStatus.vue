@@ -9,7 +9,7 @@
         <table>
           <tr>
             <th>Job</th>
-            <th>Employer</th> 
+            <th>Employer</th>
             <th>Contacts</th>
             <th>Location</th>
             <th>Status</th>

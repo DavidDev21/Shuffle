@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            sgMail.setApiKey('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');
+            sgMail.setApiKey('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');
 
             const user = await User.create({
                 email: req.body.email,
@@ -105,11 +105,13 @@ module.exports = {
         }
         catch(err)
         {
-            console.log(err);
+            // Uniqueness Errors
+            console.log(err.errors[0].message);
+            res.status(400).send(err.errors[0].message);
         }
-        res.send(
-            req.body
-        )
+        // res.send(
+        //     req.body
+        // )
     },
 
     async login (req, res) {
@@ -151,7 +153,7 @@ module.exports = {
                 userData.dataValues.userType = response.dataValues.userType;
                 res.status(200).send(userData.dataValues);
             }          
-            else if(response.dataValues.isVerified === false)
+            else if(response !== null && response.dataValues.isVerified === false)
             {
                 res.status(402).send('Please verified');
             }  
@@ -163,8 +165,8 @@ module.exports = {
         }
         catch(err)
         {
-            console.log(err)
-            res.status(400).send('Bad Request')
+            console.log(err);
+            res.status(400).send('Bad Request');
         }
     }
 }

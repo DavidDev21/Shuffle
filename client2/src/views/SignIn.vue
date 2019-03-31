@@ -41,14 +41,19 @@ export default {
           email: this.email,
           password: this.password,
         });
+        let userData = {...response.data};
+        delete userData.userType;
+        console.log(userData);
+        console.log(response.data);
+        this.$store.dispatch('changeUserData', userData);
+        this.$store.dispatch('changeUserType', response.data.userType);
         console.log('No errors');
         console.log(response);
         
         // response.data
         // if success, then push userType to dashboard component
         this.$router.push({
-          name: 'dashboard',
-          params: { userType: response.data.userType },
+          name: 'dashboard'
         });
       } catch (error) {
         // error.response.data = accessing data that was passed by the backend as part of the error object
