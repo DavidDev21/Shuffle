@@ -27,6 +27,10 @@ export default new Vuex.Store({
     },
     changeUserData(state, payload) {
       state.userData = {...payload}
+    },
+    resetState(state) {
+      state.userData = {};
+      state.userType = undefined;
     }
   },
   // actions help deal with async behavior, indirectly uses mutations
@@ -40,6 +44,9 @@ export default new Vuex.Store({
     },
     changeUserData(context, payload){
       context.commit('changeUserData', payload);
+    },
+    resetState(context){
+      context.commit('resetState');
     }
   },
 });

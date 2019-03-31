@@ -7,11 +7,12 @@ module.exports = {
         try
         {
             const response = await Job.findOne({order:"random()", limit: 1});
-            res.status(200).send(response);
+            res.status(200).send(response.dataValues);
         }
         catch(err)
         {
             console.log(err);
+            res.status(400).send(err);
         }
     },
     async getJobStatus(req, res) {

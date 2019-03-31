@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            sgMail.setApiKey('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');
+            //sgMail.setApiKey('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');
 
             const user = await User.create({
                 email: req.body.email,
@@ -155,11 +155,11 @@ module.exports = {
             }          
             else if(response !== null && response.dataValues.isVerified === false)
             {
-                res.status(402).send('Please verified');
+                res.status(402).send('Please verified your email');
             }  
             else
             {
-                res.status(401).send('Access Denied');
+                res.status(401).send('Access Denied: Invalid Username or Password');
             }
 
         }

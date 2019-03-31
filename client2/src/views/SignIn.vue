@@ -29,6 +29,10 @@ import AuthenticationService from '@/services/AuthenticationService';
 
 export default {
   name: 'sign-in',
+  mounted() {
+    // Clear out state
+    this.$store.dispatch('resetState');
+  },
   methods: {
     registerRoute() {
       this.$router.push({
@@ -58,7 +62,7 @@ export default {
       } catch (error) {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
-        alert(error.response.data + ": Invalid Username / Password");
+        alert(error.response.data);
       }
     },
   },
