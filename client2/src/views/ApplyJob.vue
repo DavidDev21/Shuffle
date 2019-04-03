@@ -2,7 +2,40 @@
     <div class='container'>
         <NavigationBar></NavigationBar>
 
-        <JobCard ref='JobCard'></JobCard>
+        <!-- Job Card -->
+        <div class='container'>
+            <div class='row justify-content-center'>
+                <div class='row job-card' id='draggable'>
+                    <div class='card-left d-flex align-items-center justify-content-center col-4'>
+                        <img class='job-image' v-bind:src="img_path" alt='Some Img' />
+                    </div>
+                    <div class='card-body col-8 text-left'>
+                        <div class='job-header'>
+                            <h3>{{company_name}} - {{title}}</h3>
+                            <div class='text-uppercase header-tagline'>
+                                <p>Location: {{location}}</p>
+                            </div>
+                            <div class='header-tagline'>
+                                <p>Posted On: {{postedAt}}</p>
+                            </div>
+                        </div>
+                        <div class='mt-3 job-description'>
+                            <p>{{description}}</p>
+                        </div>
+                        <div class='mt-3 header-tagline'>
+                            <p>Compensation: ${{salary}}</p>
+                        </div>
+                        <div class='mt-3 job-footer'>
+                            <p>Requires Cover Letter: 
+                                <strong v-if="requireCoverLetter === true">Yes</strong>
+                                <strong v-if="requireCoverLetter === false">No</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        <!-- End of Job Card-->
         <form class='mt-3'>
           <div class='form-row justify-content-center'>
             <label for="file-upload" class="mr-3">Upload Cover Letter (PDF, DOCX only) </label>
@@ -21,29 +54,61 @@
 <script>
 // @ = src
 import NavigationBar from '@/components/UI/NavigationBar';
-import JobCard from '@/components/UI/JobCard';
-
+// import JobCard from '@/components/UI/JobCard';
+import JobService from '@/services/JobService';
 
 export default {
   name: 'apply-job',
   components: {
-    JobCard,
+    // JobCard,
     NavigationBar,
   },
   methods: {
-    fetchJob() {
-      this.$refs.JobCard.getJob();
+    async getJob() {
+      try {
+
+        // Backend sends a 404 if there are no jobs on database  
+        const response = await JobService.getJob();
+
+        this.job_id = response.data.job_id;
+        this.title = response.data.title;
+        this.description = response.data.description;
+        this.salary = response.data.salary;
+        this.location = response.data.location;
+        this.requireCoverLetter = response.data.requireCoverLetter;
+        this.img_path = response.data.profileImg;
+        this.company_name = response.data.company_name;
+        this.postedAt = response.data.postedat;
+      } catch (error) {
+        // error.response.data = accessing data that was passed by the backend as part of the error object
+        console.log(error.response);
+        alert(error.response);
+        this.$router.push({
+          name: 'dashboard',
+        });
+      }
     },
-    applyJob() {
-      this.$refs.JobCard.applyJob();
-    }
+    async applyJob() {
+      if (this.requireCoverLetter === true) {
+
+      }
+    },
   },
   mounted() {
     console.log('hello');
-    this.$refs.JobCard.getJob();
+    this.getJob();
   },
   data() {
     return {
+      img_path: '',
+      job_id: 0,
+      title: '',
+      salary: 0,
+      location: '',
+      requireCoverLetter: false,
+      description: '',
+      company_name: '',
+      postedAt: '',
     };
   },
 };
@@ -51,4 +116,39 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.job-card
+{
+    border: black 1px solid;
+    width: 75%;
+}
+.job-image
+{
+    width: 100%;
+    height: auto;
+}
+
+.card-left
+{
+    border-right: black 1px solid;
+}
+
+.card-body
+{
+    font-size: small;
+}
+
+.job-header
+{
+    border-bottom: grey .5px solid;
+}
+
+.job-qualification
+{
+}
+
+.header-tagline
+{
+    color: grey;
+    font-size: small;
+}
 </style>

@@ -112,6 +112,7 @@ export default {
         gradYear: this.gradYear,
         userType: 'applicant',
         documentType: this.documentType,
+        profileImg: '/assets/applicant_icon.png'
       };
       if (this.formValidation(formFields) === false) {
         alert('Please fill in the required fields');

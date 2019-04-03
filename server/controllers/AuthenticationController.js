@@ -18,7 +18,7 @@ module.exports = {
                 email: req.body.email,
                 password: req.body.password,
                 userType: req.body.userType,
-                profileImg: path.join('/assets/no_profile_icon.png')
+                profileImg: req.body.profileImg
             });
 
             const token = await verificationtoken.create({ 
