@@ -63,7 +63,35 @@ export default {
     // JobCard,
     NavigationBar,
   },
+  // Future: put file upload related methods into another file
   methods: {
+    validFileType(fileName, allowedExt) {
+      const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+      console.log(fileExt);
+
+      for (let i = 0; i < allowedExt.length; i++) {
+        console.log(allowedExt[i]);
+        if (fileExt === allowedExt[i]) {
+          return true;
+        }
+      }
+      return false;
+    },
+    selectFile() {
+      // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
+
+      const allowedExt = ['.pdf', '.doc', '.docx'];
+      const fileName = this.$refs.file.files[0].name;
+
+      if (this.validFileType(fileName, allowedExt) == true) {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+      } else {
+        document.getElementById('file-upload').value = '';
+        const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+        alert(`The file extension ${fileExt} is not allowed`);
+      }
+    },
     async getJob() {
       try {
 
@@ -89,8 +117,24 @@ export default {
       }
     },
     async applyJob() {
-      if (this.requireCoverLetter === true) {
+      if (this.requireCoverLetter === true && this.file === undefined) {
+        alert("Please upload your cover letter before applying");
+        return;
+      }
 
+      try {
+        const userData = this.$store.getters.userData;
+
+        const formData = new FormData();
+
+        Object.entries(userData).forEach(([key, value]) => { formData.append(key, value); });
+
+        formData.append('coverLetter', this.file);
+        
+        const response = await JobService.applyJob(formData);
+      }
+      catch(err) {
+        console.log(err);
       }
     },
   },
@@ -109,6 +153,7 @@ export default {
       description: '',
       company_name: '',
       postedAt: '',
+      file: undefined,
     };
   },
 };

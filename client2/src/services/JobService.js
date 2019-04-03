@@ -8,4 +8,7 @@ export default {
     // with data of credentials
     return api().post('get-job');
   },
+  applyJob(userInfo) {
+    return api().post('apply-job', userInfo);
+  }
 };
