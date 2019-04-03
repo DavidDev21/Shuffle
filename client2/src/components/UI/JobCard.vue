@@ -43,9 +43,10 @@ export default {
   methods: {
     async getJob() {
       try {
+
+        // Backend sends a 404 if there are no jobs on database  
         const response = await JobService.getJob();
-        console.log(response);
-        console.log(this);
+
         this.job_id = response.data.job_id;
         this.title = response.data.title;
         this.description = response.data.description;
@@ -55,13 +56,22 @@ export default {
         this.img_path = response.data.profileImg;
         this.company_name = response.data.company_name;
         this.postedAt = response.data.postedat;
-        console.log(this.postedAt);
 
       } catch (error) {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
+        alert(error.response);
+        this.$router.push({
+            name: 'dashboard'
+        });
       }
     },
+    async applyJob() {
+        if(this.requireCoverLetter === true)
+        {
+
+        }
+    }
   },
   data() {
     return {

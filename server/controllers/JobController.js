@@ -8,7 +8,7 @@ job.\"salary\", job.\"location\", job.\"requireCoverLetter\", DATE(job.\"created
 FROM (\"Employers\" NATURAL JOIN \"Jobs\" as job) JOIN \"Users\" ON job.employer = \"Users\".email AND 
 \"Employers\".email = job.employer
 ORDER BY random()
-LIMIT 1`
+LIMIT 1`;
 
 module.exports = {
     async getJob(req, res) {
