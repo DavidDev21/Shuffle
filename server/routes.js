@@ -52,7 +52,7 @@ module.exports = (app) => {
     app.post('/login', AuthenticationController.login);
     app.get('/confirmation/:userToken',verificationcontroller.verify);
     app.post('/get-job', JobController.getJob);
-    app.post('/post-job', JobController.postJob);
+    app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
     app.post('/update-job/:jobID', JobController.updateJob);
 
     app.post('/apply-job/:jobID', upload.single("coverLetter"), JobController.applyJob);

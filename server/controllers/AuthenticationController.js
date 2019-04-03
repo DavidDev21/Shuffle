@@ -151,6 +151,7 @@ module.exports = {
                 }
                 console.log(userData.dataValues);
                 userData.dataValues.userType = response.dataValues.userType;
+                userData.dataValues.profileImg = response.dataValues.profileImg;
                 res.status(200).send(userData.dataValues);
             }          
             else if(response !== null && response.dataValues.isVerified === false)
