@@ -60,6 +60,17 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: () => import('./views/Profile.vue'),
+    },
+    {
+      path: '/ApplicationStatus',
+      name: 'ApplicationStatus',
+      component: () => import(/* webpackChunkName: "about" */ './views/ApplicationStatus.vue'),
+      props: true
+    },
+    {
+      path: '/post-job',
+      name: 'post-job',
+      component: () => import(/* webpackChunkName: "about" */ './views/PostJob.vue'),
     }
   ],
 });
