@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            //sgMail.setApiKey('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');
+            // sgMail.setApiKey('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');
 
             const user = await User.create({
                 email: req.body.email,
@@ -34,7 +34,7 @@ module.exports = {
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
               };
 
-            sgMail.send(msg);
+            // sgMail.send(msg);
             
             if(req.body.userType === 'applicant')
             {
@@ -88,9 +88,6 @@ module.exports = {
 
                 // grab the documentID
                 // console.log(doc.dataValues.documentID);
-
-
-                
             }
             else if(req.body.userType === 'employer')
             {
@@ -109,9 +106,9 @@ module.exports = {
             console.log(err.errors[0].message);
             res.status(400).send(err.errors[0].message);
         }
-        // res.send(
-        //     req.body
-        // )
+        res.status(200).send(
+            req.body
+        )
     },
 
     async login (req, res) {
