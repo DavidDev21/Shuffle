@@ -5,6 +5,7 @@ const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
 const {Document} = require('./models');
+const AccountController = require('./controllers/AccountController');
 
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
@@ -62,13 +63,15 @@ module.exports = (app) => {
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
 
-    // app.post('/get-profile/:userID), AccountController.getProfile);
+    app.post('/get-profile', AccountController.getProfile);
     // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
     // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
     // Assuming Server ever sent the userID when they login
     // app.post('/change-email/:userID, AccountController.changeEmail);
-    // app.post('/change-password/:userID', AccountController.changePassword);
+    app.get('/change-password/:email', AccountController.redirectToNewPass);
+    app.post('/change-password', AccountController.changePassword);
+    app.post('/sendResetEmail',AccountController.sendResetEmail);
 
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute

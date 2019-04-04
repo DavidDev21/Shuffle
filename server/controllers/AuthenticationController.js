@@ -7,12 +7,14 @@ const path = require('path');
 const sgMail = require('@sendgrid/mail');
 const {verificationtoken} = require('../models');
 const crypto =  require('crypto');
-
+const assert = require('assert');
+const { check, validationResult } = require('express-validator/check');
 module.exports = {
     async register (req, res) {
         try 
         {
-            sgMail.setApiKey('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');
+
+            sgMail.setApiKey('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');
 
             const user = await User.create({
                 email: req.body.email,
@@ -20,7 +22,7 @@ module.exports = {
                 userType: req.body.userType,
                 profileImg: path.join('/assets/no_profile_icon.png')
             });
-
+            //req.assert(user.dataValues.email,'email is not valid').isEmail();
             const token = await verificationtoken.create({ 
                 userID: user.id, 
                 token: crypto.randomBytes(16).toString('hex') 
@@ -31,7 +33,7 @@ module.exports = {
                 from: 'no-reply@example.com',			//sender's email
                 subject: 'verify your email',				//Subject
                 text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
-                html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
+                html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'\n',			//HTML content
               };
 
             sgMail.send(msg);
@@ -128,7 +130,7 @@ module.exports = {
             //console.log(response[0].dataValues)
             // res.send(response)
 
-            if(response !== null)
+            if(response !== null && response.dataValues.isVerified ===true)
             {
                 let userData = undefined;
                 if(response.dataValues.userType === "applicant")
