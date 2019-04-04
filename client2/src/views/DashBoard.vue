@@ -21,12 +21,12 @@
           <div class='row'>
               <div class='col-12'>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Post Job' to='/apply-job'></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Check Applicants'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Manage Applicants'></SelectionButton>
               </div>
           </div>
           <div class='row mt-2'>
               <div class='col-12'>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_manage_icon.png' btnText='Manage Jobs' to='/manage-job'></SelectionButton>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
               </div>
           </div>

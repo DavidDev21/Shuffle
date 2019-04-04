@@ -96,8 +96,12 @@ export default {
     async getJob() {
       try {
 
+        const email = this.$store.getters.userData.email;
+        console.log(email)
         // Backend sends a 404 if there are no jobs on database  
-        const response = await JobService.getJob();
+        const response = await JobService.getJob({
+          email: email
+        });
 
         this.job_id = response.data.job_id;
         this.title = response.data.title;
@@ -111,7 +115,7 @@ export default {
       } catch (error) {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
-        alert(error.response);
+        alert(error.response.data);
         this.$router.push({
           name: 'dashboard',
         });
@@ -142,6 +146,7 @@ export default {
 
       this.file = undefined
       this.getJob();
+      return;
     },
   },
   mounted() {
