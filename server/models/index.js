@@ -39,34 +39,34 @@ db.Sequelize = Sequelize // sequelize DataTypes
 // Remember: FK has to be unique
 
 // Applicant and Employer referencing User
-db.User.hasOne(db.Applicant, {
-    foreignKey: {
-        name: 'email',
-        allowNull: false
-    }})
+// db.User.hasOne(db.Applicant, {
+//     foreignKey: {
+//         name: 'email',
+//         allowNull: false
+//     }})
 
-db.User.hasOne(db.Employer, {
-    foreignKey: {
-        name: 'email',
-        allowNull: false
-    }})
+// db.User.hasOne(db.Employer, {
+//     foreignKey: {
+//         name: 'email',
+//         allowNull: false
+//     }})
 
 
 // Job Table
-db.Job.belongsTo(db.Employer, {
-    foreignKey: {
-        name: 'employer',
-        allowNull: false
-    }
-})
+// db.Job.belongsTo(db.Employer, {
+//     foreignKey: {
+//         name: 'employer',
+//         allowNull: false
+//     }
+// })
 
-// Applied table 
-db.Applied.belongsTo(db.Job, {
-    foreignKey: {
-        name: 'job_id',
-        allowNull: false
-    }
-})
+// // Applied table 
+// db.Applied.belongsTo(db.Job, {
+//     foreignKey: {
+//         name: 'job_id',
+//         allowNull: false
+//     }
+// })
 // db.Applied.belongsTo(db.Applicant, {
 //     foreignKey: {
 //         name: 'email',
@@ -74,5 +74,18 @@ db.Applied.belongsTo(db.Job, {
 //     }
 // })
 
+// db.Document.belongsTo(db.User, {
+//     foreignKey: {
+//         name: 'owner',
+//         allowNull: false
+//     }
+// })
+
+// db.Applicant.belongsTo(db.Document, {
+//     foreignKey: {
+//         name: 'main_resume',
+//         allowNull: false
+//     }
+// })
 
 module.exports = db;

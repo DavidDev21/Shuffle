@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/test1',
+      path: '/testFile',
       name: 'home',
       component: Home,
     },
@@ -31,7 +31,7 @@ export default new Router({
       name: 'register',
       component: () => import(/* webpackChunkName: "about" */ './views/Register.vue'),
     },
-    {      
+    {
       path: '/register-applicant',
       name: 'register-applicant',
       component: () => import(/* webpackChunkName: "about" */ './views/RegisterApplicant.vue'),
@@ -45,7 +45,7 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: () => import(/* webpackChunkName: "about" */ './views/DashBoard.vue'),
-      props: true
+      props: true,
     },
     {
       path: '/apply-job',
@@ -53,24 +53,18 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/ApplyJob.vue'),
     },
     {
-      path: '*',
-      component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
-    },
-    {
       path: '/profile',
       name: 'profile',
       component: () => import('./views/Profile.vue'),
     },
     {
-      path: '/ApplicationStatus',
-      name: 'ApplicationStatus',
-      component: () => import(/* webpackChunkName: "about" */ './views/ApplicationStatus.vue'),
-      props: true
+      path: '/application-status',
+      name: 'application-status',
+      component: () => import('./views/ApplicationStatus.vue'),
     },
     {
-      path: '/post-job',
-      name: 'post-job',
-      component: () => import(/* webpackChunkName: "about" */ './views/PostJob.vue'),
-    }
+      path: '*',
+      component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
+    },
   ],
 });

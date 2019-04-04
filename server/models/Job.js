@@ -1,6 +1,8 @@
 // a model in sequlize = a table in database
 // creates the Jobs Table
 // Table for jobs
+
+// Note: Employer Logo can be found by querying the User table
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('Job', {
         job_id: {
@@ -10,11 +12,12 @@ module.exports = (sequelize, DataTypes) =>
         },
         employer: {
             type: DataTypes.STRING,
-            allowNull: false
-        },
-        employerLogo: {
-            type: DataTypes.STRING,
-            defaultValue: 'SOME PATH'
+            allowNull: false,
+            foreignKey: true,
+            references: {
+                model: 'Employers',
+                key: 'email'
+            }
         },
         title: {
             type: DataTypes.STRING,
@@ -25,7 +28,7 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false   
         },
         salary: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         location: {

@@ -16,30 +16,27 @@
 export default {
   name: 'ProfileHeader',
   props: {
-      profileImg: {default:''},
-      name: {default: 'Test Name'},
-      tagline: {default: 'This is a tagline'}
+    profileImg: { default: '' },
+    name: { default: 'Test Name' },
+    tagline: { default: 'This is a tagline' },
   },
   methods: {
-      getJob: async function() {
-          try 
-          {
-            const response = await JobService.getJob()
-            this.img_path = response.data.img_path
-            this.jobTitle = response.data.jobTitle
-          }
-          catch(error)
-          {
-            // error.response.data = accessing data that was passed by the backend as part of the error object
-            console.log(error.response);
-          }
+    async getJob() {
+      try {
+        const response = await JobService.getJob();
+        this.img_path = response.data.img_path;
+        this.jobTitle = response.data.jobTitle;
+      } catch (error) {
+        // error.response.data = accessing data that was passed by the backend as part of the error object
+        console.log(error.response);
       }
+    },
   },
-  data () {
+  data() {
     return {
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -35,38 +35,35 @@
 </template>
 
 <script>
-import JobService from '@/services/JobService'
+import JobService from '@/services/JobService';
 
 export default {
   name: 'ApplicantCard',
-  props: { 
+  props: {
   },
   methods: {
-      getJob: async function() {
-          try 
-          {
-            const response = await JobService.getJob()
-            this.img_path = response.data.img_path
-            this.jobTitle = response.data.jobTitle
-          }
-          catch(error)
-          {
-            // error.response.data = accessing data that was passed by the backend as part of the error object
-            console.log(error.response);
-          }
+    async getJob() {
+      try {
+        const response = await JobService.getJob();
+        this.img_path = response.data.img_path;
+        this.jobTitle = response.data.jobTitle;
+      } catch (error) {
+        // error.response.data = accessing data that was passed by the backend as part of the error object
+        console.log(error.response);
       }
+    },
   },
-  data () {
+  data() {
     return {
-        img_path: '../../assets/shuffleLogo.png',
-        applicantName: 'Software Engineer',
-        applicantTag: 'New York, NY, 11355',
-        applicantDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
-        skills: [{trait:'Git'},{trait:'60 years of experience'}],
-        applicantFooter: 'So apply or call 1800-I-Am-Broke'
-    }
-  }
-}
+      img_path: '../../assets/shuffleLogo.png',
+      applicantName: 'Software Engineer',
+      applicantTag: 'New York, NY, 11355',
+      applicantDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
+      skills: [{ trait: 'Git' }, { trait: '60 years of experience' }],
+      applicantFooter: 'So apply or call 1800-I-Am-Broke',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
