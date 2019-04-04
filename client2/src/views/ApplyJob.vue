@@ -36,7 +36,7 @@
             </div>
           </div>
         <!-- End of Job Card-->
-        <form class='mt-3'>
+        <form class='mt-3' v-if="requireCoverLetter === true">
           <div class='form-row justify-content-center'>
             <label for="file-upload" class="mr-3">Upload Cover Letter (PDF, DOCX only) </label>
             <div class="form-group">
@@ -44,9 +44,10 @@
             </div>
           </div>
         </form>
+
         <div class='row mt-3 justify-content-center'>
-            <button class='btn btn-primary mr-3' @click='fetchJob'>&#60;&#60;&#60; View Next Job</button>
-            <button class='btn btn-primary' @click='fetchJob'>Apply To Job &#62;&#62;&#62;</button>
+            <button class='btn btn-primary mr-3' @click='getJob'>&#60;&#60;&#60; View Next Job</button>
+            <button class='btn btn-primary' @click='applyJob'>Apply To Job &#62;&#62;&#62;</button>
         </div>
     </div>
 </template>
@@ -124,10 +125,12 @@ export default {
 
       try {
         const userData = this.$store.getters.userData;
-
         const formData = new FormData();
 
         Object.entries(userData).forEach(([key, value]) => { formData.append(key, value); });
+
+        formData.append('job_id', this.job_id);
+        formData.append('documentType', 'coverLetter');
 
         formData.append('coverLetter', this.file);
         
@@ -136,6 +139,9 @@ export default {
       catch(err) {
         console.log(err);
       }
+
+      this.file = undefined
+      this.getJob();
     },
   },
   mounted() {

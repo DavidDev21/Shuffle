@@ -2,6 +2,7 @@ const {Job} = require('../models');
 const {Applied} = require('../models');
 const {Document} = require('../models');
 const {sequelize} = require('../models');
+const path = require('path');
 
 const getJobQuery = `SELECT  job.\"job_id\", job.\"title\", job.\"description\", company_name, \"Users\".\"profileImg\", 
 job.\"salary\", job.\"location\", job.\"requireCoverLetter\", DATE(job.\"createdAt\") as postedAt
@@ -9,6 +10,20 @@ FROM (\"Employers\" NATURAL JOIN \"Jobs\" as job) JOIN \"Users\" ON job.employer
 \"Employers\".email = job.employer
 ORDER BY random()
 LIMIT 1`;
+
+/* POSTGRES VERSION (Filters out jobs that the applicant already applied to)
+SELECT  job."job_id", job."title", job."description", company_name, "Users"."profileImg", 
+job."salary", job."location", job."requireCoverLetter", DATE(job."createdAt") as postedAt
+FROM ("Employers" NATURAL JOIN "Jobs" as job) JOIN "Users" ON job.employer = "Users".email AND 
+"Employers".email = job.employer
+WHERE job."job_id" in ((SELECT job_id
+	  FROM "Jobs")
+	EXCEPT (SELECT job_id 
+	  FROM "Applied"
+	  WHERE applicant = 'davidzheng54@gmail.com'))
+ORDER BY random()
+LIMIT 1;
+*/
 
 module.exports = {
     async getJob(req, res) {
@@ -101,18 +116,50 @@ module.exports = {
         }
     },
     async applyJob(req, res) {
-        const jobID = req.params.jobID;
+        console.log(req.body)
         let application = {
-            job_id: jobID,
+            job_id: req.body.job_id,
             applicant: req.body.email
         }
+        console.log(req.coverLetter);
+        console.log(req.file);
+
+        const hasApplied = Applied.findOne({
+            where: {
+                job_id: req.body.job_id,
+                applicant: req.body.email
+            }
+        })
+
+        if(hasApplied !== null)
+        {
+            res.status(400).send({error: "User Has already applied to " + req.body.job_id});
+        }
+
         // req should be pass in the applicant's info like email
         // Note: even if the email gets changed, it should be unique inside the database so we can use it as a key
-        if(req.coverLetter !== undefined)
+        if(req.file !== undefined)
         {
-            application.coverLetter = req.coverLetter;
+            // console.log(path.resolve(__dirname,".."));
+
+            // strips apart the server path from the full path of where the file is stored
+            // the docPath should match what the GET route for the files are
+            let serverPath = path.resolve(__dirname, "..");
+            let docPath = req.file.path.substring(serverPath.length);
+            
+            //path.join(serverPath, "/uploads/documents", req.file.filename);
+            //console.log(docPath);
+            // console.log(req.file.path.substring(path.join("..",__dirname).length));
+            const doc = await Document.create({
+                owner: req.body.email,
+                documentType: req.body.documentType,
+                filePath: docPath
+            });
+
+            application.coverLetterID = doc.dataValues.documentID;
         }
         
-        const response = await Applied.create(application)
+        const response = await Applied.create(application);
+        res.status(200).send(response);
     }
 };
