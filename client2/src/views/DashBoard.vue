@@ -45,7 +45,7 @@ export default {
     SelectionButton,
   },
   mounted() {
-      //   // console.log("I am mounted")
+    console.log("Dashboard: mounted")
   //   // console.log(this.$store.getters.userType);
     this.userType = this.$store.getters.userType;
     this.userData = this.$store.getters.userData;

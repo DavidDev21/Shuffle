@@ -63,6 +63,7 @@ export default {
           companyDescription: this.companyDescription,
           yearFound: this.yearFound,
           userType: 'employer',
+          profileImg: '/assets/employer_icon.png'
         });
         // note to self: try to pass params to SignIn component to detect a newly created a account
         this.$router.push({

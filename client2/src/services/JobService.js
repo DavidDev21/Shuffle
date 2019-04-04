@@ -6,6 +6,9 @@ export default {
     // api() = creates an axios object
     // executes a post method to endpoint 'register'
     // with data of credentials
-    return api().post('getJob');
+    return api().post('get-job');
   },
+  applyJob(userInfo) {
+    return api().post('apply-job', userInfo);
+  }
 };

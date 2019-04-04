@@ -18,7 +18,7 @@ module.exports = {
                 email: req.body.email,
                 password: req.body.password,
                 userType: req.body.userType,
-                profileImg: path.join('/assets/no_profile_icon.png')
+                profileImg: req.body.profileImg
             });
 
             const token = await verificationtoken.create({ 
@@ -151,6 +151,7 @@ module.exports = {
                 }
                 console.log(userData.dataValues);
                 userData.dataValues.userType = response.dataValues.userType;
+                userData.dataValues.profileImg = response.dataValues.profileImg;
                 res.status(200).send(userData.dataValues);
             }          
             else if(response !== null && response.dataValues.isVerified === false)

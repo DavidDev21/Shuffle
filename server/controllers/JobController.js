@@ -3,12 +3,19 @@ const {Applied} = require('../models');
 const {Document} = require('../models');
 const {sequelize} = require('../models');
 
+const getJobQuery = `SELECT  job.\"job_id\", job.\"title\", job.\"description\", company_name, \"Users\".\"profileImg\", 
+job.\"salary\", job.\"location\", job.\"requireCoverLetter\", DATE(job.\"createdAt\") as postedAt
+FROM (\"Employers\" NATURAL JOIN \"Jobs\" as job) JOIN \"Users\" ON job.employer = \"Users\".email AND 
+\"Employers\".email = job.employer
+ORDER BY random()
+LIMIT 1`;
+
 module.exports = {
     async getJob(req, res) {
         try
         {
             // To be changed to utilize sequelize function calls (current issues with doing joins via sequelize)
-            const response = await sequelize.query("SELECT * FROM \"Employers\" NATURAL JOIN \"Jobs\" ORDER BY random() LIMIT 1");
+            const response = await sequelize.query(getJobQuery);
             // console.log(response) // responses is an array. response[0] == array of entries
             if(response[0].length === 0)
             {
