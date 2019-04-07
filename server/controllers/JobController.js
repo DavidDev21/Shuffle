@@ -25,7 +25,7 @@ module.exports = {
             job.\"salary\", job.\"location\", job.\"requireCoverLetter\", DATE(job.\"createdAt\") as postedAt
             FROM (\"Employers\" NATURAL JOIN \"Jobs\" as job) JOIN \"Users\" ON job.employer = \"Users\".email AND 
             "Employers".email = job.employer
-            WHERE job.\"job_id\" in ((SELECT job_id
+            WHERE job.\"status\" = \'open\' AND job.\"job_id\" in ((SELECT job_id
                 FROM \"Jobs\")
                 EXCEPT (SELECT job_id 
                 FROM \"Applied\"
@@ -52,16 +52,6 @@ module.exports = {
             res.status(400).send(err);
         }
     },
-    async getJobStatus(req, res) {
-        /*
-            Job ID
-            Job Title
-            Employer
-            Contact (Email)
-            Location
-            Status
-        */
-    },
     async postJob(req, res) {
         try 
         {
@@ -85,14 +75,16 @@ module.exports = {
         }
     },
     async removeJob(req, res) {
-        const jobID = req.params.jobID;
         try
         {
+            // Remove Job Posting
             const response = await Job.destroy({
                 where: {
-                    job_id: jobID
+                    job_id: req.body.job_id
                 }
-            })
+            });
+
+            // Updated Status for any applicants that had removed
             console.log(response);
         }
         catch(err)
@@ -101,16 +93,19 @@ module.exports = {
             res.status(400).send(err);
         }
     },
+
+    // You can only change a few things about a job.
     async updateJob(req, res) {
-        const jobID = req.params.jobID;
         try
         {
             // ideally, req is basically a job posting form then we just shove everything in.
             const response = await Job.update({
                 // the columns
+                requireCoverLetter: req.body.requireCoverLetter,
+                status: req.body.status
             }, {
                 where: {
-                    job_id: jobID
+                    job_id: req.body.job_id
                 }
             });
         }
@@ -132,7 +127,7 @@ module.exports = {
                 job_id: req.body.job_id,
                 applicant: req.body.email
             }
-        })
+        });
         console.log("err")
         if(hasApplied !== null)
         {
