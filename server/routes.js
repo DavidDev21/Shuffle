@@ -1,6 +1,7 @@
 const AuthenticationController = require('./controllers/AuthenticationController');
 const JobController = require('./controllers/JobController');
 const verificationcontroller = require('./controllers/verificationcontroller');
+const ApplicantController = require('./controllers/ApplicantController');
 const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
@@ -51,14 +52,16 @@ module.exports = (app) => {
     app.post('/register', upload.single("file"), AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
     app.get('/confirmation/:userToken',verificationcontroller.verify);
+
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
-    app.post('/update-job/:jobID', JobController.updateJob);
-
+    app.post('/update-job', JobController.updateJob);
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
-    // app.post('/remove-job/:jobID', JobController.removeJob);
+    app.post('/remove-job', JobController.removeJob);
+
+    // app.post('/get-joblist', )
     // app.post('/update-status', JobController.updateJobStatus);
-    app.post('/check-status', JobController.getJobStatus);
+    app.post('/check-app-status', ApplicantController.getApplicationStatus);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);

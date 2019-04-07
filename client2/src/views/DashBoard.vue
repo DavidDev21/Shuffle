@@ -7,7 +7,7 @@
           <div class='row'>
               <div class='col-12'>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Apply To Job' to='/apply-job'></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Check App Status' to='/application-status'></SelectionButton>
               </div>
           </div>
           <div class='row mt-2'>
