@@ -10,6 +10,7 @@ SELECT "Jobs"."job_id", "Jobs"."title","Jobs"."location", "Jobs"."salary",
 FROM ("Jobs" JOIN "Applied" ON "Jobs"."job_id" = "Applied"."job_id") JOIN 
 		"Employers" ON "Employers"."email" = "Jobs"."employer"
 WHERE "Applied"."applicant" = 'davidzheng54@gmail.com'
+ORDER BY "Jobs"."job_id"
 */
 module.exports = {
 
@@ -20,7 +21,8 @@ module.exports = {
 		"Employers"."company_name", "Employers"."email", "Applied"."status"
 FROM ("Jobs" JOIN "Applied" ON "Jobs"."job_id" = "Applied"."job_id") JOIN 
         "Employers" ON "Employers"."email" = "Jobs"."employer"
-        WHERE "Applied"."applicant" = '${userEmail}'`;
+        WHERE "Applied"."applicant" = '${userEmail}'
+        ORDER BY "Jobs"."job_id"`;
 
         /*
             Job ID
