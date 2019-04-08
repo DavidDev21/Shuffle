@@ -6,7 +6,24 @@ const path = require('path');
 module.exports = {
     async getApplicant(req, res) 
     {
+        try
+        {
+            // might need to do a raw SQL query to get all info regarding the applicant
+            const response = await Applied.findOne({
+                where: {
+                    job_id: req.body.job_id,
+                    status: 'under_review'
+                },
+                order: sequelize.random()
+            });
 
+            res.status(200).send(response);
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).send(err);
+        }
     },
     async getJobPostings(req, res)
     {
