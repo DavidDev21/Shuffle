@@ -6,6 +6,8 @@
     <button @click="getImg">GetImg</button>
     <!-- <button class='btn' @click="getFile">Get PDF</button> -->
     <a @click="getFile">Download2</a>
+
+    <embed width="900px" height="540px" src="/uploads/documents/3d6f5807b89adee68c10585c1d5e9b725e71.pdf" />
   </div>
 </template>
 

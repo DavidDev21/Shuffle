@@ -44,6 +44,7 @@
             </tr> -->
           </tbody>
         </table>
+        <h5 v-if="this.applications.length === 0">No active applications</h5>
     </div>
 </template>
 
@@ -67,6 +68,7 @@ export default {
 
         // response gives back an array of app statuses 
         this.applications = response.data;
+
       }
       catch(err)
       {
