@@ -137,13 +137,38 @@ module.exports = {
             // ideally, req is basically a job posting form then we just shove everything in.
             const response = await Job.update({
                 // the columns
+                employer: req.body.employer,
+                title: req.body.title,
+                description: req.body.description,
+                salary: req.body.salary,
+                location: req.body.location,
                 requireCoverLetter: req.body.requireCoverLetter,
-                status: req.body.status
             }, {
                 where: {
                     job_id: req.body.job_id
                 }
             });
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    },
+    async changeJobStatus(req, res)
+    {
+        try
+        {
+            await Job.update({
+                // columns
+                status: req.body.status
+                },
+                {
+                    where: {
+                        job_id: req.body.job_id
+                    }
+                });
+            res.status(200).send("JobID: " + req.body.job_id + " is now " + req.body.status);
         }
         catch(err)
         {
