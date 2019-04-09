@@ -36,6 +36,13 @@
                     <input v-model="gradYear" type="date" class="form-control" id="userGraduation" required>
                 </div>
             </div>
+            
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <label for="userBio" class="float-left required">Short Bio</label>
+                    <textarea v-model="bio" class="form-control" id="userBio" placeholder="Enter a short bio about yourself" maxlength="250" required></textarea>
+                </div>
+            </div>
 
             <div class="form-row">
                 <label for="file-upload" class="float-left">Upload Resume (PDF, DOCX only)</label>
@@ -110,6 +117,7 @@ export default {
         lName: this.lName,
         major: this.major,
         gradYear: this.gradYear,
+        bio: this.bio,
         userType: 'applicant',
         documentType: this.documentType,
         profileImg: '/assets/applicant_icon.png'
@@ -138,6 +146,7 @@ export default {
       major: '',
       gradYear: '',
       file: '',
+      bio: '',
       documentType: 'resume',
     };
   },
