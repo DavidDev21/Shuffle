@@ -19,6 +19,15 @@ module.exports = (sequelize, DataTypes) =>
                 key: 'email'
             }
         },
+        job_id: {
+            type: DataTypes.INTEGER,
+            defaultValue: null,
+            foreignKey: true,
+            references: {
+                model: 'Jobs',
+                key: 'job_id'
+            }
+        },
         documentType:
         {
             type: DataTypes.STRING,

@@ -81,6 +81,7 @@ module.exports = (app) => {
     // The Frontend just needs to indicate the GET request path in the "src" attribute
     // All filenames should come with the file extensions
     app.get('/assets/:assetName', (req,res) => {
+        console.log('get assests');
         res.sendFile(path.join(__dirname, '/assets/', req.params.assetName));
     });
 

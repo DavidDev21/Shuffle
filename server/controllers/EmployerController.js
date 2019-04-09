@@ -15,7 +15,7 @@ module.exports = {
         {
             const job_id = req.body.job_id;
             // Query to get general info about the applicant
-            const getApplicantQuery = `SELECT "Applied"."job_id", "Applied"."applicant", "Applied"."status", "Applied"."coverLetterID",
+            const getApplicantQuery = `SELECT "Applied"."job_id", "Applied"."applicant", "Applied"."status",
                                         "Applicants"."f_name", "Applicants"."l_name", "Applicants"."major", "Applicants"."grad_year",
                                         "Applicants"."bio", "Users"."profileImg",
                                         DATE("Applied"."createdAt") as "AppliedOn"
@@ -27,29 +27,49 @@ module.exports = {
 
             const applicantInfo = await sequelize.query(getApplicantQuery);
 
+            applicantInfo[0][0].coverLetter = null;
+            applicantInfo[0][0].resume = null;
+    
             if(applicantInfo[0].length === 0)
             {
                 res.status(404).send("No More Applicants");
             }
 
-            let coverLetterInfo = undefined;
-            const coverLetterID = applicantInfo[0][0].coverLetterID;
-
-            // If the job required a cover letter, coverLetterID would be defined
-            if(coverLetterID !== undefined)
-            {
-                coverLetterInfo = await Document.findOne({
+            const coverLetterInfo =  await Document.findOne({
                     where: {
                         owner: applicantInfo[0][0].applicant,
-                        documentID: coverLetterID,
+                        job_id: job_id,
                         documentType: 'coverLetter'
                     }
                 });
-            }
+            
+            /*
+                Test Query
+                SELECT "ApplicantDocs"."email", "ApplicantDocs"."documentID", "ApplicantDocs"."main_resume",
+		"Documents"."documentType", "Documents"."filePath", DATE("Documents"."createdAt") as "uploaded_on"
+FROM "ApplicantDocs" JOIN "Documents" ON "ApplicantDocs"."documentID" = "Documents"."documentID"
+WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = 'david.zheng@nyu.edu'
+            */
+            const getResumeQuery = `SELECT "ApplicantDocs"."email", "ApplicantDocs"."documentID", "ApplicantDocs"."main_resume",
+            "Documents"."documentType", "Documents"."filePath", DATE("Documents"."createdAt") as "uploaded_on"
+            FROM "ApplicantDocs" JOIN "Documents" ON "ApplicantDocs"."documentID" = "Documents"."documentID"
+            WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = '${applicantInfo[0][0].applicant}'`;
+
+            const resume = await sequelize.query(getResumeQuery);
+
+            console.log(resume);
             console.log(coverLetterInfo);
 
-            // filePath to the cover letter
-            applicantInfo[0][0].coverLetter = coverLetterInfo.dataValues.filePath;
+            if(resume[0].length > 0)
+            {
+                // filePath to resume
+                applicantInfo[0][0].resume = resume[0][0].filePath;
+            }
+            if(coverLetterInfo !== null)
+            {
+                // filePath to the cover letter
+                applicantInfo[0][0].coverLetter = coverLetterInfo.dataValues.filePath;
+            }
 
             // applicantInfo[0] gives the array of results, but we know we only get one entry back
             // due to "LIMIT 1"
