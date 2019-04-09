@@ -1,6 +1,8 @@
 const {Job} = require('../models');
 const {Applied} = require('../models');
 const {sequelize} = require('../models');
+const {Document} = require('../models');
+const {ApplicantDoc} = require('../models');
 const path = require('path');
 
 module.exports = {
@@ -15,22 +17,39 @@ module.exports = {
             // Query to get general info about the applicant
             const getApplicantQuery = `SELECT "Applied"."job_id", "Applied"."applicant", "Applied"."status", "Applied"."coverLetterID",
                                         "Applicants"."f_name", "Applicants"."l_name", "Applicants"."major", "Applicants"."grad_year",
-                                        "Applicants"."bio",
+                                        "Applicants"."bio", "Users"."profileImg",
                                         DATE("Applied"."createdAt") as "AppliedOn"
                                 FROM ("Applied" JOIN "Applicants" ON "Applied"."applicant" = "Applicants"."email")
+                                        JOIN "Users" ON "Applicants"."id" = "Users"."id"
                                 WHERE "Applied"."job_id" = ${job_id} AND status='under_review'
                                 ORDER BY random()
                                 LIMIT 1`;
 
             const applicantInfo = await sequelize.query(getApplicantQuery);
-            // // might need to do a raw SQL query to get all info regarding the applicant
-            // const response = await Applied.findOne({
-            //     where: {
-            //         job_id: req.body.job_id,
-            //         status: 'under_review'
-            //     },
-            //     order: sequelize.random()
-            // });
+
+            if(applicantInfo[0].length === 0)
+            {
+                res.status(404).send("No More Applicants");
+            }
+
+            let coverLetterInfo = undefined;
+            const coverLetterID = applicantInfo[0][0].coverLetterID;
+
+            // If the job required a cover letter, coverLetterID would be defined
+            if(coverLetterID !== undefined)
+            {
+                coverLetterInfo = await Document.findOne({
+                    where: {
+                        owner: applicantInfo[0][0].applicant,
+                        documentID: coverLetterID,
+                        documentType: 'coverLetter'
+                    }
+                });
+            }
+            console.log(coverLetterInfo);
+
+            // filePath to the cover letter
+            applicantInfo[0][0].coverLetter = coverLetterInfo.dataValues.filePath;
 
             // applicantInfo[0] gives the array of results, but we know we only get one entry back
             // due to "LIMIT 1"

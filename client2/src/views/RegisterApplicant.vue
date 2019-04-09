@@ -45,7 +45,7 @@
             </div>
 
             <div class="form-row">
-                <label for="file-upload" class="float-left">Upload Resume (PDF, DOCX only)</label>
+                <label for="file-upload" class="float-left">Upload Resume (PDF only)</label>
                 <div class="form-group col-12">
                     <input id="file-upload" class="float-left" type="file" ref="file" @change="selectFile"/>
                 </div>
@@ -87,7 +87,7 @@ export default {
     selectFile() {
       // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
 
-      const allowedExt = ['.pdf', '.doc', '.docx'];
+      const allowedExt = ['.pdf'];
       const fileName = this.$refs.file.files[0].name;
 
       if (this.validFileType(fileName, allowedExt) == true) {

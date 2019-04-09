@@ -38,7 +38,7 @@
         <!-- End of Job Card-->
         <form class='mt-3' v-if="requireCoverLetter === true">
           <div class='form-row justify-content-center'>
-            <label for="file-upload" class="mr-3">Upload Cover Letter (PDF, DOCX only) </label>
+            <label for="file-upload" class="mr-3">Upload Cover Letter (PDF only) </label>
             <div class="form-group">
                 <input id="file-upload" class="" type="file" ref="file" @change="selectFile"/>
             </div>
@@ -81,7 +81,7 @@ export default {
     selectFile() {
       // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
 
-      const allowedExt = ['.pdf', '.doc', '.docx'];
+      const allowedExt = ['.pdf'];
       const fileName = this.$refs.file.files[0].name;
 
       if (this.validFileType(fileName, allowedExt) == true) {
