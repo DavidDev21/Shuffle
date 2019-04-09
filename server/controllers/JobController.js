@@ -3,6 +3,7 @@ const {Applied} = require('../models');
 const {Document} = require('../models');
 const {sequelize} = require('../models');
 const path = require('path');
+const fs = require('fs');
 
 /* POSTGRES VERSION (Filters out jobs that the applicant already applied to)
 SELECT  job."job_id", job."title", job."description", company_name, "Users"."profileImg", 
@@ -77,6 +78,33 @@ module.exports = {
     async removeJob(req, res) {
         try
         {
+            const filesToDelete = await Document.findAll({
+                where: {
+                    job_id: req.body.job_id,
+                    documentType: 'coverLetter'
+                }
+            });
+
+            for(let i = 0; i < filesToDelete.length; i++)
+            {
+                // absolute path to the file
+                let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
+                console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
+                // Delete the file
+                fs.unlink(absPath, (err) => {
+                    if(err) throw err
+                    console.log('File Deleted');
+                });
+            }            
+            console.log(filesToDelete);
+
+            // Delete all the cover letters that were sent
+            await Document.destroy({
+                where: {
+                    job_id: req.body.job_id,
+                    documentType: 'coverLetter'
+                }
+            })
             // Remove all applicants for the job
             await Applied.destroy({
                 where: {
@@ -84,14 +112,16 @@ module.exports = {
                 }
             });
             // Remove Job Posting
-            const response = await Job.destroy({
+            await Job.destroy({
                 where: {
                     job_id: req.body.job_id
                 }
             });
 
             // Updated Status for any applicants that had removed
-            console.log(response);
+            // console.log(response);
+            const message = "All related applications and documents to JobID: " + req.body.job_id + " have been deleted"
+            res.status(200).send(message);
         }
         catch(err)
         {
@@ -160,10 +190,9 @@ module.exports = {
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,
-                    filePath: docPath
+                    filePath: docPath,
+                    job_id: req.body.job_id
                 });
-
-                application.coverLetterID = doc.dataValues.documentID;
             }
             
             const response = await Applied.create(application);

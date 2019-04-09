@@ -15,7 +15,7 @@ module.exports = {
         {
             const job_id = req.body.job_id;
             // Query to get general info about the applicant
-            const getApplicantQuery = `SELECT "Applied"."job_id", "Applied"."applicant", "Applied"."status", "Applied"."coverLetterID",
+            const getApplicantQuery = `SELECT "Applied"."job_id", "Applied"."applicant", "Applied"."status",
                                         "Applicants"."f_name", "Applicants"."l_name", "Applicants"."major", "Applicants"."grad_year",
                                         "Applicants"."bio", "Users"."profileImg",
                                         DATE("Applied"."createdAt") as "AppliedOn"
@@ -35,20 +35,13 @@ module.exports = {
                 res.status(404).send("No More Applicants");
             }
 
-            let coverLetterInfo = undefined;
-            const coverLetterID = applicantInfo[0][0].coverLetterID;
-
-            // If the job required a cover letter, coverLetterID would be defined
-            if(coverLetterID !== undefined)
-            {
-                coverLetterInfo = await Document.findOne({
+            const coverLetterInfo =  await Document.findOne({
                     where: {
                         owner: applicantInfo[0][0].applicant,
-                        documentID: coverLetterID,
+                        job_id: job_id,
                         documentType: 'coverLetter'
                     }
                 });
-            }
             
             /*
                 Test Query
