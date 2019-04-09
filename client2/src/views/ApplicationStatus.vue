@@ -26,7 +26,7 @@
               <td>{{app.location}}</td>
               <td>{{app.status}}</td>
             </tr>
-            <tr scope="row">
+            <!-- <tr scope="row">
               <td>Software Engineer</td>
               <td>Some Company</td> 
               <td>555-555-5555</td>
@@ -41,9 +41,10 @@
               <td>Elsewhere</td>
               <td>Accepted</td>
               <td>asd</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
+        <h5 v-if="this.applications.length === 0">No active applications</h5>
     </div>
 </template>
 
@@ -67,6 +68,7 @@ export default {
 
         // response gives back an array of app statuses 
         this.applications = response.data;
+
       }
       catch(err)
       {

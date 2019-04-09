@@ -2,6 +2,8 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const JobController = require('./controllers/JobController');
 const verificationcontroller = require('./controllers/verificationcontroller');
 const ApplicantController = require('./controllers/ApplicantController');
+const EmployerController = require('./controllers/EmployerController');
+
 const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
@@ -59,9 +61,10 @@ module.exports = (app) => {
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
     app.post('/remove-job', JobController.removeJob);
 
-    // app.post('/get-joblist', )
-    // app.post('/update-status', JobController.updateJobStatus);
     app.post('/check-app-status', ApplicantController.getApplicationStatus);
+
+    app.post('/get-job-postings', EmployerController.getJobPostings);
+    app.post('/getApplicant', EmployerController.getApplicant);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);

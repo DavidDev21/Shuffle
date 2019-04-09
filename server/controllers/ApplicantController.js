@@ -42,5 +42,5 @@ FROM ("Jobs" JOIN "Applied" ON "Jobs"."job_id" = "Applied"."job_id") JOIN
         {
             res.status(400).send(err);
         }
-    },
+    }
 };

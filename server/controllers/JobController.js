@@ -77,6 +77,12 @@ module.exports = {
     async removeJob(req, res) {
         try
         {
+            // Remove all applicants for the job
+            await Applied.destroy({
+                where: {
+                    job_id: req.body.job_id
+                }
+            });
             // Remove Job Posting
             const response = await Job.destroy({
                 where: {

@@ -45,6 +45,7 @@ module.exports = {
                     l_name: req.body.lName,
                     major: req.body.major,
                     grad_year: req.body.gradYear,
+                    bio: req.body.bio
                 };
 
                 // create the Applicant entry
