@@ -27,6 +27,9 @@ module.exports = {
 
             const applicantInfo = await sequelize.query(getApplicantQuery);
 
+            applicantInfo[0][0].coverLetter = null;
+            applicantInfo[0][0].resume = null;
+    
             if(applicantInfo[0].length === 0)
             {
                 res.status(404).send("No More Applicants");
@@ -46,10 +49,34 @@ module.exports = {
                     }
                 });
             }
+            
+            /*
+                Test Query
+                SELECT "ApplicantDocs"."email", "ApplicantDocs"."documentID", "ApplicantDocs"."main_resume",
+		"Documents"."documentType", "Documents"."filePath", DATE("Documents"."createdAt") as "uploaded_on"
+FROM "ApplicantDocs" JOIN "Documents" ON "ApplicantDocs"."documentID" = "Documents"."documentID"
+WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = 'david.zheng@nyu.edu'
+            */
+            const getResumeQuery = `SELECT "ApplicantDocs"."email", "ApplicantDocs"."documentID", "ApplicantDocs"."main_resume",
+            "Documents"."documentType", "Documents"."filePath", DATE("Documents"."createdAt") as "uploaded_on"
+            FROM "ApplicantDocs" JOIN "Documents" ON "ApplicantDocs"."documentID" = "Documents"."documentID"
+            WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = '${applicantInfo[0][0].applicant}'`;
+
+            const resume = await sequelize.query(getResumeQuery);
+
+            console.log(resume);
             console.log(coverLetterInfo);
 
-            // filePath to the cover letter
-            applicantInfo[0][0].coverLetter = coverLetterInfo.dataValues.filePath;
+            if(resume[0].length > 0)
+            {
+                // filePath to resume
+                applicantInfo[0][0].resume = resume[0][0].filePath;
+            }
+            if(coverLetterInfo !== null)
+            {
+                // filePath to the cover letter
+                applicantInfo[0][0].coverLetter = coverLetterInfo.dataValues.filePath;
+            }
 
             // applicantInfo[0] gives the array of results, but we know we only get one entry back
             // due to "LIMIT 1"
