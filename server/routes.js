@@ -60,7 +60,7 @@ module.exports = (app) => {
     app.post('/update-job', JobController.updateJob);
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
     app.post('/remove-job', JobController.removeJob);
-
+    app.post('/change-job-status', JobController.changeJobStatus);
     app.post('/check-app-status', ApplicantController.getApplicationStatus);
 
     app.post('/get-job-postings', EmployerController.getJobPostings);
