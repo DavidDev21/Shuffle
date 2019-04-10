@@ -5,12 +5,12 @@
           <!-- <button class='btn btn-sq-lg btn-primary'>
             <font-awesome-icon class="fa-3x" icon="coffee" />
             <br>Testing
-          </button> -->
-          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Applicant" btnIcon="/assets/applicant_icon.png" to='register-applicant'></SelectionButton>
-          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="/assets/employer_icon.png" to='register-employer'></SelectionButton>
+          </button> --> 
+          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Applicant" btnIcon="ShuffleIcon.png" to='register-applicant'></SelectionButton>
+          <SelectionButton styleClass='btn-sq-big btn-light btn ml-3' btnText="Employer" btnIcon="shuffleLogo.png" to='register-employer'></SelectionButton>
       </div>
       <div class='row justify-content-center mt-3'>
-        <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
+        <button @click="loginRoute" class="test btn btn-primary">Return to Login</button>
       </div>
     </div>
 </template>
@@ -22,20 +22,20 @@ import SelectionButton from '@/components/UI/SelectionButton.vue';
 export default {
   name: 'register',
   components: {
-    SelectionButton,
+    'SelectionButton': SelectionButton
   },
   methods: {
-    loginRoute() {
-      this.$router.push({
-        path: '/',
-      });
-    },
+      loginRoute: function() {
+          this.$router.push({
+              path: '/'
+          });
+      }
   },
-  data() {
+  data () {
     return {
     };
-  },
-};
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -75,6 +75,10 @@ export default {
       padding: 0;
       width: 300px !important;
       height: 300px !important;
+  }
+  .test
+  {
+    background: red;
   }
 };
 

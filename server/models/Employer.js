@@ -3,24 +3,9 @@
 // Table for Employers
 module.exports = (sequelize, DataTypes) => 
     sequelize.define('Employer', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            foreignKey: true,
-            references:
-            {
-                model: 'Users',
-                key: 'id'
-            }
-        },
         email: {
             type: DataTypes.STRING,
-            unique: true,
-            foreignKey: true,
-            references: {
-                model: 'Users',
-                key: 'email'
-            }
+            primaryKey: true
         },
         company_name: {
             type: DataTypes.STRING,

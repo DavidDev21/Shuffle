@@ -18,21 +18,21 @@
 </template>
 
 <script>
-import NavigationBar from '../UI/NavigationBar';
-import SelectionButton from '../UI/SelectionButton';
+import NavigationBar from '../UI/NavigationBar'
+import SelectionButton from '../UI/SelectionButton'
 
 export default {
   name: 'DashBoard',
   components: {
-    NavigationBar,
-    SelectionButton,
+    'NavigationBar': NavigationBar, 
+    'SelectionButton': SelectionButton
   },
   props: ['userType'],
-  data() {
+  data () {
     return {
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

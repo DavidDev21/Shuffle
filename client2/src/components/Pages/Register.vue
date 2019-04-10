@@ -5,7 +5,7 @@
           <!-- <button class='btn btn-sq-lg btn-primary'>
             <font-awesome-icon class="fa-3x" icon="coffee" />
             <br>Testing
-          </button> -->
+          </button> --> 
           <SelectionButton btnText="Applicant" btnIcon="ShuffleIcon.png" to='RegisterApplicant'></SelectionButton>
           <SelectionButton btnText="Employer" btnIcon="shuffleLogo.png" to='RegisterEmployer'></SelectionButton>
       </div>
@@ -16,26 +16,26 @@
 </template>
 
 <script>
-import AuthenticationService from '../../services/AuthenticationService';
-import SelectionButton from '../UI/SelectionButton';
+import AuthenticationService from '../../services/AuthenticationService'
+import SelectionButton from '../UI/SelectionButton'
 
 export default {
   name: 'Register',
   components: {
-    SelectionButton,
+    'SelectionButton': SelectionButton
   },
   methods: {
-    loginRoute() {
-      this.$router.push({
-        path: '/',
-      });
-    },
+      loginRoute: function() {
+          this.$router.push({
+              path: '/'
+          })
+      }
   },
-  data() {
+  data () {
     return {
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

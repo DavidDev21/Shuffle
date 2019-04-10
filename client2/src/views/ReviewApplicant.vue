@@ -12,34 +12,37 @@
 </template>
 
 <script>
-import NavigationBar from '@/components/UI/NavigationBar';
-import ApplicantCard from '@/components/UI/ApplicantCard';
+import NavigationBar from '@/components/UI/NavigationBar'
+import ApplicantCard from '@/components/UI/ApplicantCard'
 
 
 export default {
   name: 'review-applicant',
   components: {
-    ApplicantCard,
-    NavigationBar,
+      'ApplicantCard': ApplicantCard,
+      'NavigationBar': NavigationBar, 
   },
   methods: {
-    async fetchApplicant() {
-      try {
-        const response = await this.$refs.ApplicantCard.getApplicant();
-        this.position = response.data.position;
-        this.jobID = response.data.jobID;
-      } catch (err) {
-        console.log(err);
+      fetchApplicant: async function() {
+          try
+          {
+            const response = await this.$refs.ApplicantCard.getApplicant()
+            this.position = response.data.position
+            this.jobID = response.data.jobID
+          }
+          catch(err)
+          {
+              console.log(err)
+          }
       }
-    },
   },
-  data() {
+  data () {
     return {
-      position: '',
-      jobID: '',
-    };
-  },
-};
+        position: '',
+        jobID: ''
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
