@@ -27,13 +27,14 @@ module.exports = {
 
             const applicantInfo = await sequelize.query(getApplicantQuery);
 
-            applicantInfo[0][0].coverLetter = null;
-            applicantInfo[0][0].resume = null;
-    
             if(applicantInfo[0].length === 0)
             {
                 res.status(404).send("No More Applicants");
+                return;
             }
+
+            applicantInfo[0][0].coverLetter = null;
+            applicantInfo[0][0].resume = null;
 
             const coverLetterInfo =  await Document.findOne({
                     where: {
@@ -127,4 +128,25 @@ WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = 'david.
             res.status(400).send(err);
         }
     },
+    async changeApplicationStatus(req, res)
+    {
+        try
+        {
+            await Applied.update({
+                status: req.body.status
+            }, {
+                where: {
+                    job_id: req.body.job_id,
+                    applicant: req.body.applicant
+                }
+            });
+
+            res.status(200).send(req.body.applicant + " has been " + req.body.status);
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    }
 };

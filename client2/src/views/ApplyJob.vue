@@ -2,8 +2,17 @@
     <div class='container'>
         <NavigationBar></NavigationBar>
 
-        <!-- Job Card -->
         <div class='container'>
+            <h3>Search Filter</h3>
+            <div class='row justify-content-center'>
+              <div class='col-6'>
+                <label class='mr-1' for="searchLocation">By Location:</label>
+                <input type='text' placeholder="enter location">
+              </div>
+            </div>
+        </div>
+        <!-- Job Card -->
+        <div class='container mt-2'>
             <div class='row justify-content-center'>
                 <div class='row job-card' id='draggable'>
                     <div class='card-left d-flex align-items-center justify-content-center col-4'>
