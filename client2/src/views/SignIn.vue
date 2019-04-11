@@ -56,12 +56,7 @@ export default {
         // response.data
         // if success, then push userType to dashboard component
         this.$router.push({
-<<<<<<< HEAD
-          name: 'dashboard',
-          params: {userType: response.data.userType}
-=======
           name: 'dashboard'
->>>>>>> e75383022b63759a872028ee7ae182e0c3d1f534
         });
       }
       catch(error)
