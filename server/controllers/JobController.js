@@ -157,6 +157,8 @@ module.exports = {
     },
     async changeJobStatus(req, res)
     {
+        console.log("changeJobStatus");
+        console.log(req.body);
         try
         {
             await Job.update({

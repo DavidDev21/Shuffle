@@ -12,7 +12,7 @@ module.exports = {
             }, {
                 where:{
                     id: userID
-                }})
+                }});
         }
         catch(err)
         {
@@ -31,7 +31,7 @@ module.exports = {
             where: {
                 id: user_id
             }
-        })
+        });
     },
     async getProfile(req, res)
     {

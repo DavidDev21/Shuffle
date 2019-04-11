@@ -57,14 +57,14 @@ module.exports = (app) => {
 
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
-    app.post('/update-job', JobController.updateJob);
+    app.post('/update-job', JobController.updateJob); // change job posting info
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
     app.post('/remove-job', JobController.removeJob);
-    app.post('/change-job-status', JobController.changeJobStatus);
+    app.post('/change-job-status', JobController.changeJobStatus); // close the job opening
     app.post('/check-app-status', ApplicantController.getApplicationStatus);
-
+    app.post('/change-app-status', EmployerController.changeApplicationStatus);
     app.post('/get-job-postings', EmployerController.getJobPostings);
-    app.post('/getApplicant', EmployerController.getApplicant);
+    app.post('/get-applicant', EmployerController.getApplicant);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
