@@ -63,6 +63,11 @@ export default new Router({
       component: () => import('./views/ApplicationStatus.vue'),
     },
     {
+      path:'/get-applicant',
+      name: 'get-applicant',
+      component: () => import('./views/ViewApplicant.vue'),
+    },
+    {
       path: '*',
       component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },

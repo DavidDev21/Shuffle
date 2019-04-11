@@ -3,6 +3,7 @@ const {Applied} = require('../models');
 const {Document} = require('../models');
 const {sequelize} = require('../models');
 const path = require('path');
+const fs = require('fs');
 
 /* POSTGRES VERSION (Filters out jobs that the applicant already applied to)
 SELECT  job."job_id", job."title", job."description", company_name, "Users"."profileImg", 
@@ -25,7 +26,7 @@ module.exports = {
             job.\"salary\", job.\"location\", job.\"requireCoverLetter\", DATE(job.\"createdAt\") as postedAt
             FROM (\"Employers\" NATURAL JOIN \"Jobs\" as job) JOIN \"Users\" ON job.employer = \"Users\".email AND 
             "Employers".email = job.employer
-            WHERE job.\"job_id\" in ((SELECT job_id
+            WHERE job.\"status\" = \'open\' AND job.\"job_id\" in ((SELECT job_id
                 FROM \"Jobs\")
                 EXCEPT (SELECT job_id 
                 FROM \"Applied\"
@@ -52,16 +53,6 @@ module.exports = {
             res.status(400).send(err);
         }
     },
-    async getJobStatus(req, res) {
-        /*
-            Job ID
-            Job Title
-            Employer
-            Contact (Email)
-            Location
-            Status
-        */
-    },
     async postJob(req, res) {
         try 
         {
@@ -85,15 +76,52 @@ module.exports = {
         }
     },
     async removeJob(req, res) {
-        const jobID = req.params.jobID;
         try
         {
-            const response = await Job.destroy({
+            const filesToDelete = await Document.findAll({
                 where: {
-                    job_id: jobID
+                    job_id: req.body.job_id,
+                    documentType: 'coverLetter'
+                }
+            });
+
+            for(let i = 0; i < filesToDelete.length; i++)
+            {
+                // absolute path to the file
+                let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
+                console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
+                // Delete the file
+                fs.unlink(absPath, (err) => {
+                    if(err) throw err
+                    console.log('File Deleted');
+                });
+            }            
+            console.log(filesToDelete);
+
+            // Delete all the cover letters that were sent
+            await Document.destroy({
+                where: {
+                    job_id: req.body.job_id,
+                    documentType: 'coverLetter'
                 }
             })
-            console.log(response);
+            // Remove all applicants for the job
+            await Applied.destroy({
+                where: {
+                    job_id: req.body.job_id
+                }
+            });
+            // Remove Job Posting
+            await Job.destroy({
+                where: {
+                    job_id: req.body.job_id
+                }
+            });
+
+            // Updated Status for any applicants that had removed
+            // console.log(response);
+            const message = "All related applications and documents to JobID: " + req.body.job_id + " have been deleted"
+            res.status(200).send(message);
         }
         catch(err)
         {
@@ -101,18 +129,48 @@ module.exports = {
             res.status(400).send(err);
         }
     },
+
+    // You can only change a few things about a job.
     async updateJob(req, res) {
-        const jobID = req.params.jobID;
         try
         {
             // ideally, req is basically a job posting form then we just shove everything in.
             const response = await Job.update({
                 // the columns
+                employer: req.body.employer,
+                title: req.body.title,
+                description: req.body.description,
+                salary: req.body.salary,
+                location: req.body.location,
+                requireCoverLetter: req.body.requireCoverLetter,
             }, {
                 where: {
-                    job_id: jobID
+                    job_id: req.body.job_id
                 }
             });
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    },
+    async changeJobStatus(req, res)
+    {
+        console.log("changeJobStatus");
+        console.log(req.body);
+        try
+        {
+            await Job.update({
+                // columns
+                status: req.body.status
+                },
+                {
+                    where: {
+                        job_id: req.body.job_id
+                    }
+                });
+            res.status(200).send("JobID: " + req.body.job_id + " is now " + req.body.status);
         }
         catch(err)
         {
@@ -132,7 +190,7 @@ module.exports = {
                 job_id: req.body.job_id,
                 applicant: req.body.email
             }
-        })
+        });
         console.log("err")
         if(hasApplied !== null)
         {
@@ -159,10 +217,9 @@ module.exports = {
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,
-                    filePath: docPath
+                    filePath: docPath,
+                    job_id: req.body.job_id
                 });
-
-                application.coverLetterID = doc.dataValues.documentID;
             }
             
             const response = await Applied.create(application);

@@ -14,7 +14,7 @@ module.exports = {
             }, {
                 where:{
                     id: userID
-                }})
+                }});
         }
         catch(err)
         {

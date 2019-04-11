@@ -2,8 +2,17 @@
     <div class='container'>
         <NavigationBar></NavigationBar>
 
-        <!-- Job Card -->
         <div class='container'>
+            <h3>Search Filter</h3>
+            <div class='row justify-content-center'>
+              <div class='col-6'>
+                <label class='mr-1' for="searchLocation">By Location:</label>
+                <input type='text' placeholder="enter location">
+              </div>
+            </div>
+        </div>
+        <!-- Job Card -->
+        <div class='container mt-2'>
             <div class='row justify-content-center'>
                 <div class='row job-card' id='draggable'>
                     <div class='card-left d-flex align-items-center justify-content-center col-4'>
@@ -38,7 +47,7 @@
         <!-- End of Job Card-->
         <form class='mt-3' v-if="requireCoverLetter === true">
           <div class='form-row justify-content-center'>
-            <label for="file-upload" class="mr-3">Upload Cover Letter (PDF, DOCX only) </label>
+            <label for="file-upload" class="mr-3">Upload Cover Letter (PDF only) </label>
             <div class="form-group">
                 <input id="file-upload" class="" type="file" ref="file" @change="selectFile"/>
             </div>
@@ -81,7 +90,7 @@ export default {
     selectFile() {
       // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
 
-      const allowedExt = ['.pdf', '.doc', '.docx'];
+      const allowedExt = ['.pdf'];
       const fileName = this.$refs.file.files[0].name;
 
       if (this.validFileType(fileName, allowedExt) == true) {

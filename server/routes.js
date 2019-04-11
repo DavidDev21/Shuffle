@@ -1,6 +1,9 @@
 const AuthenticationController = require('./controllers/AuthenticationController');
 const JobController = require('./controllers/JobController');
 const verificationcontroller = require('./controllers/verificationcontroller');
+const ApplicantController = require('./controllers/ApplicantController');
+const EmployerController = require('./controllers/EmployerController');
+
 const multer = require('multer');
 const crypto =  require('crypto');
 const path = require('path');
@@ -52,14 +55,17 @@ module.exports = (app) => {
     app.post('/register', upload.single("file"), AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
     app.get('/confirmation/:userToken',verificationcontroller.verify);
+
     app.post('/get-job', JobController.getJob);
     app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
-    app.post('/update-job/:jobID', JobController.updateJob);
-
+    app.post('/update-job', JobController.updateJob); // change job posting info
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
-    // app.post('/remove-job/:jobID', JobController.removeJob);
-    // app.post('/update-status', JobController.updateJobStatus);
-    app.post('/check-status', JobController.getJobStatus);
+    app.post('/remove-job', JobController.removeJob);
+    app.post('/change-job-status', JobController.changeJobStatus); // close the job opening
+    app.post('/check-app-status', ApplicantController.getApplicationStatus);
+    app.post('/change-app-status', EmployerController.changeApplicationStatus);
+    app.post('/get-job-postings', EmployerController.getJobPostings);
+    app.post('/get-applicant', EmployerController.getApplicant);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
@@ -78,6 +84,7 @@ module.exports = (app) => {
     // The Frontend just needs to indicate the GET request path in the "src" attribute
     // All filenames should come with the file extensions
     app.get('/assets/:assetName', (req,res) => {
+        console.log('get assests');
         res.sendFile(path.join(__dirname, '/assets/', req.params.assetName));
     });
 

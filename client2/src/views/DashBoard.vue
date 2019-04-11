@@ -7,13 +7,13 @@
           <div class='row'>
               <div class='col-12'>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Apply To Job' to='/apply-job'></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/check-circle-icon.jpg' btnText='Check App Status' to='/application-status'></SelectionButton>
               </div>
           </div>
           <div class='row mt-2'>
               <div class='col-12'>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Events'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Coming Soon'></SelectionButton>
               </div>
           </div>
         </div>
@@ -21,13 +21,13 @@
           <div class='row'>
               <div class='col-12'>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Post Job' to='/apply-job'></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='Manage Applicants'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='View Applicants' to='/get-applicant'></SelectionButton>
               </div>
           </div>
           <div class='row mt-2'>
               <div class='col-12'>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_manage_icon.png' btnText='Manage Jobs' to='/manage-job'></SelectionButton>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3"></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='Manage Events'></SelectionButton>
               </div>
           </div>
         </div>
