@@ -15,27 +15,27 @@
 </template>
 
 <script>
-import NavigationBar from '@/components/UI/NavigationBar.vue';
-import ProfileHeader from '@/components/UI/ProfileHeader.vue';
+import NavigationBar from '@/components/UI/NavigationBar.vue'
+import ProfileHeader from '@/components/UI/ProfileHeader.vue'
 
 export default {
   name: 'profile',
   components: {
-    ProfileHeader,
-    NavigationBar,
+    'ProfileHeader': ProfileHeader,
+    'NavigationBar': NavigationBar
   },
   methods: {
-    loginRoute() {
-      this.$router.push({
-        path: '/',
-      });
-    },
+      loginRoute: function() {
+          this.$router.push({
+              path: '/'
+          });
+      }
   },
-  data() {
+  data () {
     return {
     };
-  },
-};
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -25,46 +25,47 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService';
+import AuthenticationService from '@/services/AuthenticationService'
 
 export default {
   name: 'sign-in',
   methods: {
-    registerRoute() {
+    registerRoute: function() {
       this.$router.push({
-        path: 'register',
-      });
+        path: 'register'
+      })
     },
-    async authenticateUser() {
+    authenticateUser: async function(){
       try {
         const response = await AuthenticationService.loginUser({
           email: this.email,
-          password: this.password,
+          password: this.password
         });
         console.log('No errors');
         console.log(response);
-        
         // response.data
         // if success, then push userType to dashboard component
         this.$router.push({
           name: 'dashboard',
-          params: { userType: response.data.userType },
+          params: {userType: response.data.userType}
         });
-      } catch (error) {
+      }
+      catch(error)
+      {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
-        alert(error.response.data + ": Invalid Username / Password");
       }
-    },
+
+    }
   },
-  data() {
+  data () {
     return {
       email: '',
       password: '',
-      newUser: false,
-    };
-  },
-};
+      newUser: false
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

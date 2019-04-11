@@ -20,17 +20,17 @@
 export default {
   name: 'not-found',
   methods: {
-    redirect() {
-      this.$router.push({
-        path: '/',
-      });
-    },
+      redirect: function() {
+          this.$router.push({
+              path: '/'
+          })
+      }
   },
-  data() {
+  data () {
     return {
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

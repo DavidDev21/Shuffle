@@ -1,10 +1,9 @@
 <template>
     <!-- could v-bind mess up media queries?-->
     <button @click='goTo' v-bind:class="[styleClass]">
-        <!-- <img class="icon" v-bind:src="require('@/assets/' + btnIcon)"/> -->
-        <img class="icon" v-bind:src="btnIcon"/>
+        <img class="icon" v-bind:src="require('@/assets/' + btnIcon)"/>
         <!--<font-awesome-icon class='fa-3x' v-bind:icon="btnIcon" /> -->
-        <br><h3 class="mt-3">{{btnText}}</h3>
+        <br><h3>{{btnText}}</h3>
     </button>
 </template>
 
@@ -12,23 +11,23 @@
 export default {
   name: 'SelectionButton',
   methods: {
-    goTo() {
-      this.$router.push({
-        path: this.to,
-      });
-    },
+    goTo: function() {
+        this.$router.push({
+            path: this.to
+        })
+    }
   },
   props: {
-    btnText: { default: 'default' },
-    btnIcon: { default: '/assets/no_image_icon.png' },
-    styleClass: { default: '' },
-    to: { default: '/' },
+      btnText: {default: 'default'}, 
+      btnIcon: {default: 'logo.png'}, 
+      styleClass: {default: ''},
+      to: {default: '/'}
   },
-  data() {
+  data () {
     return {
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
