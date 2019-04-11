@@ -63,10 +63,7 @@ export default {
       {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
-<<<<<<< HEAD
-=======
         alert(error.response.data);
->>>>>>> e75383022b63759a872028ee7ae182e0c3d1f534
       }
 
     }

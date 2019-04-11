@@ -133,6 +133,7 @@ export default {
         this.$router.push({
           path: '/'
         });
+        }
         console.log(response.data);
       },
       validFileType: function(fileName, allowedExt)

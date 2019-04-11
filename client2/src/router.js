@@ -85,6 +85,11 @@ export default new Router({
       path: '/password-change',
       name: 'password-change',
       component: () => import(/* webpackChunkName: "about" */ './views/PasswordChange.vue'),
+    },
+    {
+      path: '/post-job',
+      name: 'post-job',
+      component: () => import(/* webpackChunkName: "about" */ './views/PostJob.vue'),
     }
   ],
 });
