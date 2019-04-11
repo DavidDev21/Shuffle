@@ -15,6 +15,7 @@
               <th scope="col">Employer Contact</th>
               <th scope="col">Location</th>
               <th scope="col">Status</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -25,6 +26,7 @@
               <td>{{app.email}}</td>
               <td>{{app.location}}</td>
               <td>{{app.status}}</td>
+              <td><button v-if="app.status !== 'withdraw'" class="btn btn-danger" @click='withdrawApplication(app.job_id)'>Withdraw</button></td>
             </tr>
             <!-- <tr scope="row">
               <td>Software Engineer</td>
@@ -69,6 +71,23 @@ export default {
         // response gives back an array of app statuses 
         this.applications = response.data;
 
+      }
+      catch(err)
+      {
+        console.log(err);
+      }
+    },
+    async withdrawApplication(job_id)
+    {
+      console.log(job_id);
+      try
+      {
+        const response = await ApplicantService.withdrawApplication({
+          job_id: job_id,
+          applicant: this.user.email
+        });
+
+        this.getAppStatus();
       }
       catch(err)
       {

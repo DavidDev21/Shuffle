@@ -7,4 +7,7 @@ export default {
     // with data of credentials
     return api().post('check-app-status', email);
   },
+  withdrawApplication(user) {
+    return api().post('withdraw-application', user);
+  }
 };

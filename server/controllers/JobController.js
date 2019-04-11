@@ -213,7 +213,7 @@ module.exports = {
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
-                // console.log(req.file.path.substring(path.join("..",__dirname).length));
+                //console.log(req.file.path.substring(path.join("..",__dirname).length));
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,

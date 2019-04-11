@@ -61,10 +61,13 @@ module.exports = (app) => {
     app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
     app.post('/remove-job', JobController.removeJob);
     app.post('/change-job-status', JobController.changeJobStatus); // close the job opening
+
     app.post('/check-app-status', ApplicantController.getApplicationStatus);
     app.post('/change-app-status', EmployerController.changeApplicationStatus);
     app.post('/get-job-postings', EmployerController.getJobPostings);
     app.post('/get-applicant', EmployerController.getApplicant);
+
+    app.post('/withdraw-application', ApplicantController.withdrawApplication);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
