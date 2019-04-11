@@ -28,9 +28,12 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false,
             defaultValue: 'under_review'
         },
-        coverLetter: {
-            type: DataTypes.STRING,
-            defaultValue: 'None'
+        coverLetterID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Documents',
+                key: 'documentID'
+            }
         },
         createdAt: {
             type: DataTypes.DATE,

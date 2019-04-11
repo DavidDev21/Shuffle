@@ -53,12 +53,13 @@ module.exports = (app) => {
     app.post('/login', AuthenticationController.login);
     app.get('/confirmation/:userToken',verificationcontroller.verify);
     app.post('/get-job', JobController.getJob);
-    app.post('/post-job', JobController.postJob);
+    app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
     app.post('/update-job/:jobID', JobController.updateJob);
 
-    app.post('/apply-job/:jobID', upload.single("coverLetter"), JobController.applyJob);
+    app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
     // app.post('/remove-job/:jobID', JobController.removeJob);
-    // app.post('/check-status', JobController.getStatus);
+    // app.post('/update-status', JobController.updateJobStatus);
+    app.post('/check-status', JobController.getJobStatus);
 
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);

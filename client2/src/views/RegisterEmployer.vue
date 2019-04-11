@@ -54,22 +54,28 @@ export default {
       });
     },
     async registerUser() {
-      const response = await AuthenticationService.registerUser({
-        email: this.email,
-        password: this.password,
-        companyName: this.companyName,
-        companyDescription: this.companyDescription,
-        yearFound: this.yearFound,
-        userType: 'employer',
-      });
-      // note to self: try to pass params to SignIn component to detect a newly created a account
-      this.$router.push({
-        path: '/',
-        props: {
-
-        },
-      });
-      console.log(response.data);
+      try
+      {
+        const response = await AuthenticationService.registerUser({
+          email: this.email,
+          password: this.password,
+          companyName: this.companyName,
+          companyDescription: this.companyDescription,
+          yearFound: this.yearFound,
+          userType: 'employer',
+          profileImg: '/assets/employer_icon.png'
+        });
+        // note to self: try to pass params to SignIn component to detect a newly created a account
+        this.$router.push({
+          path: '/'
+        });
+        console.log(response.data);
+      }
+      catch(error)
+      {
+        console.log(error.response);
+        alert(error.response.data);
+      }
     },
   },
   data() {

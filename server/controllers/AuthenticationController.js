@@ -20,7 +20,7 @@ module.exports = {
                 email: req.body.email,
                 password: req.body.password,
                 userType: req.body.userType,
-                profileImg: path.join('/assets/no_profile_icon.png')
+                profileImg: req.body.profileImg
             });
             //req.assert(user.dataValues.email,'email is not valid').isEmail();
             const token = await verificationtoken.create({ 
@@ -36,7 +36,7 @@ module.exports = {
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'\n',			//HTML content
               };
 
-            sgMail.send(msg);
+            // sgMail.send(msg);
             
             if(req.body.userType === 'applicant')
             {
@@ -90,9 +90,6 @@ module.exports = {
 
                 // grab the documentID
                 // console.log(doc.dataValues.documentID);
-
-
-                
             }
             else if(req.body.userType === 'employer')
             {
@@ -107,9 +104,11 @@ module.exports = {
         }
         catch(err)
         {
-            console.log(err);
+            // Uniqueness Errors
+            console.log(err.errors[0].message);
+            res.status(400).send(err.errors[0].message);
         }
-        res.send(
+        res.status(200).send(
             req.body
         )
     },
@@ -151,18 +150,23 @@ module.exports = {
                 }
                 console.log(userData.dataValues);
                 userData.dataValues.userType = response.dataValues.userType;
+                userData.dataValues.profileImg = response.dataValues.profileImg;
                 res.status(200).send(userData.dataValues);
-            }            
+            }          
+            else if(response !== null && response.dataValues.isVerified === false)
+            {
+                res.status(402).send('Please verified your email');
+            }  
             else
             {
-                res.status(401).send('Access Denied')
+                res.status(401).send('Access Denied: Invalid Username or Password');
             }
 
         }
         catch(err)
         {
-            console.log(err)
-            res.status(400).send('Bad Request')
+            console.log(err);
+            res.status(400).send('Bad Request');
         }
     }
 }

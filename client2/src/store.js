@@ -12,27 +12,41 @@ export default new Vuex.Store({
   getters: {
     userType(state) {
       return state.userType;
+    },
+    userData(state) {
+      return state.userData;
     }
   },
-  // methods called to change the state within the store
+  // methods called to change the state within the store (synchronous)
   // Better than physically touching the state properties
   mutations: {
     // payload == the aruguments you pass into the mutation
     // <function name> (state, payload)
     changeUserType(state, payload) {
-      state.userType = payload.userType;
+      state.userType = payload
     },
     changeUserData(state, payload) {
-
+      state.userData = {...payload}
+    },
+    resetState(state) {
+      state.userData = {};
+      state.userType = undefined;
     }
   },
-  // actions help deal with async behavior with mutations
+  // actions help deal with async behavior, indirectly uses mutations
   // all mutations to the state have to be committed to the store
   // actions help shorten the code where you dont have commit manually when you call a mutation
   actions: {
-    changeUserType(context, payload){
+    changeUserType(context, userType){
+      console.log(userType)
       // commit( <mutation name>, payload)
-      context.commit('changeUserType', payload);
+      context.commit('changeUserType', userType);
+    },
+    changeUserData(context, payload){
+      context.commit('changeUserData', payload);
+    },
+    resetState(context){
+      context.commit('resetState');
     }
   },
 });

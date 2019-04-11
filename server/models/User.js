@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) =>
         },
         isVerified: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValue: true
         },
         createdAt: {
             type: DataTypes.DATE,

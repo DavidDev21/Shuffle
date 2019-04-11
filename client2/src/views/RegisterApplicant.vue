@@ -112,6 +112,7 @@ export default {
         gradYear: this.gradYear,
         userType: 'applicant',
         documentType: this.documentType,
+        profileImg: '/assets/applicant_icon.png'
       };
       if (this.formValidation(formFields) === false) {
         alert('Please fill in the required fields');
@@ -122,10 +123,7 @@ export default {
         const response = await AuthenticationService.registerUser(formData);
         // note to self: try to pass params to SignIn component to detect a newly created a account
         this.$router.push({
-          path: '/',
-          props: {
-
-          },
+          path: '/'
         });
         console.log(response.data);
       }
