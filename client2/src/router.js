@@ -68,9 +68,13 @@ export default new Router({
       props: true
     },
     {
-      path: '/post-job',
-      name: 'post-job',
-      component: () => import(/* webpackChunkName: "about" */ './views/PostJob.vue'),
+      path:'/get-applicant',
+      name: 'get-applicant',
+      component: () => import('./views/ViewApplicant.vue'),
+    },
+    {
+      path: '*',
+      component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },
     {
       path: '/password-change-verify',

@@ -7,25 +7,25 @@
                 </div>
                 <div class='card-body col-8 text-left'>
                     <div class='job-header'>
-                        <h3>{{jobTitle}}</h3>
+                        <h3>{{company_name}} - {{title}}</h3>
                         <div class='text-uppercase header-tagline'>
-                            <p>{{jobLocation}}</p>
+                            <p>Location: {{location}}</p>
+                        </div>
+                        <div class='header-tagline'>
+                            <p>Posted On: {{postedAt}}</p>
                         </div>
                     </div>
                     <div class='mt-3 job-description'>
-                        <p>{{jobDescription}}</p>
-
-                        <div class='job-qualification'>
-                            <h6 v-if="skills.length > 0">Qualifications</h6>
-                            <ul>
-                                <li v-for="skill in skills">
-                                    {{skill.trait}}
-                                </li>
-                            </ul>
-                        </div>
+                        <p>{{description}}</p>
+                    </div>
+                    <div class='mt-3 header-tagline'>
+                        <p>Compensation: ${{salary}}</p>
                     </div>
                     <div class='mt-3 job-footer'>
-                        <p>{{jobFooter}}</p>
+                        <p>Requires Cover Letter: 
+                            <strong v-if="requireCoverLetter === true">Yes</strong>
+                            <strong v-if="requireCoverLetter === false">No</strong>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -41,31 +41,52 @@ export default {
   props: { 
   },
   methods: {
-      getJob: async function() {
-          try 
-          {
-            const response = await JobService.getJob()
-            this.img_path = response.data.img_path
-            this.jobTitle = response.data.jobTitle
-          }
-          catch(error)
-          {
-            // error.response.data = accessing data that was passed by the backend as part of the error object
-            console.log(error.response);
-          }
+    async getJob() {
+      try {
+
+        // Backend sends a 404 if there are no jobs on database  
+        const response = await JobService.getJob();
+
+        this.job_id = response.data.job_id;
+        this.title = response.data.title;
+        this.description = response.data.description;
+        this.salary = response.data.salary;
+        this.location = response.data.location;
+        this.requireCoverLetter = response.data.requireCoverLetter;
+        this.img_path = response.data.profileImg;
+        this.company_name = response.data.company_name;
+        this.postedAt = response.data.postedat;
+
+      } catch (error) {
+        // error.response.data = accessing data that was passed by the backend as part of the error object
+        console.log(error.response);
+        alert(error.response);
+        this.$router.push({
+            name: 'dashboard'
+        });
       }
+    },
+    async applyJob() {
+        if(this.requireCoverLetter === true)
+        {
+
+        }
+    }
   },
   data () {
     return {
-        img_path: '../../assets/shuffleLogo.png',
-        jobTitle: 'Software Engineer',
-        jobLocation: 'New York, NY, 11355',
-        jobDescription: 'This is a very fun job in the middle of NYC. Please Hire me for 200k',
-        skills: [{trait:'Git'},{trait:'60 years of experience'}],
-        jobFooter: 'So apply or call 1800-I-Am-Broke'
-    }
-  }
-}
+      img_path: '',
+      job_id: 0,
+      title: '',
+      salary: 0,
+      location: '',
+      requireCoverLetter: false,
+      description: '',
+      company_name: '',
+      postedAt: '',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

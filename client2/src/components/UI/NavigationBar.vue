@@ -5,8 +5,8 @@
         </router-link>
 
         <div class="navbar-nav justify-content-end">
-            <router-link class="nav-item nav-link" to="settings">Settings</router-link>
-            <router-link class="nav-item nav-link" to="logout">Logout</router-link>
+            <router-link class="nav-item nav-link" to="/profile">Profile</router-link>
+            <router-link class="nav-item nav-link" to="/">Logout</router-link>
         </div>
     </nav>
 </template>
@@ -21,17 +21,16 @@ export default {
   name: 'NavigationBar',
   data () {
     return {
-        links: [
-            {
-                id: 0,
-                route: 'home',
-                accessLevel: 'all'
-            },
-
-        ]
-    }
-  }
-}
+      links: [
+        {
+          id: 0,
+          route: 'home',
+          accessLevel: 'all',
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

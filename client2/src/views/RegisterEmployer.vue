@@ -48,29 +48,35 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
   name: 'register-employer',
   methods: {
-      loginRoute: function() {
-          this.$router.push({
-              path: '/'
-          })
-      },
-      registerUser: async function() {
-          const response = await AuthenticationService.registerUser({
-            email: this.email,
-            password: this.password,
-            companyName: this.companyName,
-            companyDescription: this.companyDescription,
-            yearFound: this.yearFound,
-            userType: 'employer'
-          });
-          // note to self: try to pass params to SignIn component to detect a newly created a account
-          this.$router.push({
-              path: '/',
-              props: {
-                  
-              }
-          })
-          console.log(response.data);
+    loginRoute() {
+      this.$router.push({
+        path: '/',
+      });
+    },
+    async registerUser() {
+      try
+      {
+        const response = await AuthenticationService.registerUser({
+          email: this.email,
+          password: this.password,
+          companyName: this.companyName,
+          companyDescription: this.companyDescription,
+          yearFound: this.yearFound,
+          userType: 'employer',
+          profileImg: '/assets/employer_icon.png'
+        });
+        // note to self: try to pass params to SignIn component to detect a newly created a account
+        this.$router.push({
+          path: '/'
+        });
+        console.log(response.data);
       }
+      catch(error)
+      {
+        console.log(error.response);
+        alert(error.response.data);
+      }
+    },
   },
   data () {
     return {

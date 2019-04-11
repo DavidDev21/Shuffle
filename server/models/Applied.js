@@ -21,9 +21,6 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false
         },
-        coverLetter: {
-            type: DataTypes.STRING
-        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,

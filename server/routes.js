@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 const AuthenticationController = require('./controllers/AuthenticationController')
 const DocumentManagement = require('./controllers/DocumentController')
+=======
+const AuthenticationController = require('./controllers/AuthenticationController');
+const JobController = require('./controllers/JobController');
+const verificationcontroller = require('./controllers/verificationcontroller');
+const ApplicantController = require('./controllers/ApplicantController');
+const EmployerController = require('./controllers/EmployerController');
+
+>>>>>>> e75383022b63759a872028ee7ae182e0c3d1f534
 const multer = require('multer');
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
@@ -9,41 +18,48 @@ const upload = multer({
 })
 
 module.exports = (app) => {
-    app.post('/register', upload.single("file"), AuthenticationController.register)
-    app.post('/login', AuthenticationController.login)
+    // POST Routes
+    app.post('/register', upload.single("file"), AuthenticationController.register);
+    app.post('/login', AuthenticationController.login);
+    app.get('/confirmation/:userToken',verificationcontroller.verify);
 
-    // test routes
-    app.post('/upload', upload.single("file"), DocumentManagement.upload)
-    //     // get endpoints
-    // app.get('/', (req, res) => {
-    //     res.send('This is working');
-    // });
+    app.post('/get-job', JobController.getJob);
+    app.post('/post-job', JobController.postJob); // profile img of employer should already be in database
+    app.post('/update-job', JobController.updateJob); // change job posting info
+    app.post('/apply-job', upload.single("coverLetter"), JobController.applyJob);
+    app.post('/remove-job', JobController.removeJob);
+    app.post('/change-job-status', JobController.changeJobStatus); // close the job opening
+    app.post('/check-app-status', ApplicantController.getApplicationStatus);
+    app.post('/change-app-status', EmployerController.changeApplicationStatus);
+    app.post('/get-job-postings', EmployerController.getJobPostings);
+    app.post('/get-applicant', EmployerController.getApplicant);
 
-    // // post endpoints
-    // app.post('/register', (req,res) => {
-    //     console.log('Register Endpoint Reached VIA POST')
-    //     if(req.body.userType === 'applicant')
-    //     {
-    //         console.log('Received Applicant info')
-    //     }
-    //     else if(req.body.userType === 'employer')
-    //     {
-    //         console.log('Received Employer info')
-    //     }
-    //     console.log(req.body)
-    //     res.send(req.body);
-    // });
+    // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
+    // app.post('/get-posted-jobs', JobController.getPostedJobs);
 
-    // app.post('/login', (req,res) => {
-    //     res.status(200).send({
-    //         userType: 'applicant'
-    //     })
-    // });
+    // app.post('/get-profile/:userID), AccountController.getProfile);
+    // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
+    // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
-    // app.post('/getJob', (req, res) => {
-    //     res.send({
-    //         img_path: '../../assets/ShuffleIcon.png',
-    //         jobTitle: 'This worked'
-    //     })
-    // })
+    // Assuming Server ever sent the userID when they login
+    // app.post('/change-email/:userID, AccountController.changeEmail);
+    // app.post('/change-password/:userID', AccountController.changePassword);
+
+    // GET Routes
+    // The Frontend just needs to indicate the GET request path in the "src" attribute
+    // All filenames should come with the file extensions
+    app.get('/assets/:assetName', (req,res) => {
+        console.log('get assests');
+        res.sendFile(path.join(__dirname, '/assets/', req.params.assetName));
+    });
+
+    app.get('/uploads/documents/:fileName', (req,res) => {
+        let file = req.params.fileName;
+        res.sendFile(path.join(__dirname, '/uploads/documents/',file));
+    });
+
+    app.get('/uploads/img/:fileName', (req,res) =>{
+        let file = req.params.fileName;
+        res.sendFile(path.join(__dirname, '/uploads/img/', file));
+    });
 }

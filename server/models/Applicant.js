@@ -16,10 +16,16 @@ module.exports = (sequelize, DataTypes) =>
             allowNull: false   
         },
         major: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         grad_year: {
-            type: DataTypes.DATEONLY
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        bio: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
         timestamps: false

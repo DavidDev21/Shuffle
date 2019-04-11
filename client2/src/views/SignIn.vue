@@ -29,6 +29,10 @@ import AuthenticationService from '@/services/AuthenticationService'
 
 export default {
   name: 'sign-in',
+  mounted() {
+    // Clear out state
+    this.$store.dispatch('resetState');
+  },
   methods: {
     registerRoute: function() {
       this.$router.push({
@@ -41,19 +45,33 @@ export default {
           email: this.email,
           password: this.password
         });
+        let userData = {...response.data};
+        delete userData.userType;
+        console.log(userData);
+        console.log(response.data);
+        this.$store.dispatch('changeUserData', userData);
+        this.$store.dispatch('changeUserType', response.data.userType);
         console.log('No errors');
         console.log(response);
         // response.data
         // if success, then push userType to dashboard component
         this.$router.push({
+<<<<<<< HEAD
           name: 'dashboard',
           params: {userType: response.data.userType}
+=======
+          name: 'dashboard'
+>>>>>>> e75383022b63759a872028ee7ae182e0c3d1f534
         });
       }
       catch(error)
       {
         // error.response.data = accessing data that was passed by the backend as part of the error object
         console.log(error.response);
+<<<<<<< HEAD
+=======
+        alert(error.response.data);
+>>>>>>> e75383022b63759a872028ee7ae182e0c3d1f534
       }
 
     }

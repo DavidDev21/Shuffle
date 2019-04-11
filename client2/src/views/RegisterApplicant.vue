@@ -36,9 +36,16 @@
                     <input v-model="gradYear" type="date" class="form-control" id="userGraduation" required>
                 </div>
             </div>
+            
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <label for="userBio" class="float-left required">Short Bio</label>
+                    <textarea v-model="bio" class="form-control" id="userBio" placeholder="Enter a short bio about yourself" maxlength="250" required></textarea>
+                </div>
+            </div>
 
             <div class="form-row">
-                <label for="file-upload" class="float-left">Upload Resume (PDF, DOCX only) </label>
+                <label for="file-upload" class="float-left">Upload Resume (PDF only)</label>
                 <div class="form-group col-12">
                     <input class="float-left" type="file" ref="file" @change="selectFile"/>
                 </div>
@@ -60,35 +67,72 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
   name: 'register-applicant',
   methods: {
-      loginRoute: function() {
-          this.$router.push({
-              path: '/'
-          })
-      },
-      registerUser: async function() {
-        const formData = new FormData();
-        const formFields = {
-                email: this.email,
-                password: this.password,
-                fName: this.fName,
-                lName: this.lName,
-                major: this.major,
-                gradYear: this.gradYear,
-                userType: 'applicant',
-                documentType: this.documentType
-            };
-        
-        Object.entries(formFields).forEach(([key,value]) => {formData.append(key, value);});
-        
-        formData.append("file", this.file);
+    loginRoute() {
+      this.$router.push({
+        path: '/',
+      });
+    },
+    validFileType(fileName, allowedExt) {
+      const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+      console.log(fileExt);
+
+      for (let i = 0; i < allowedExt.length; i++) {
+        console.log(allowedExt[i]);
+        if (fileExt === allowedExt[i]) {
+          return true;
+        }
+      }
+      return false;
+    },
+    selectFile() {
+      // console.log(this.validFileType(this.$refs.file.files[0].name, [".pdf", ".doc", ".docx"]));
+
+      const allowedExt = ['.pdf'];
+      const fileName = this.$refs.file.files[0].name;
+
+      if (this.validFileType(fileName, allowedExt) == true) {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+      } else {
+        document.getElementById('file-upload').value = '';
+        const fileExt = fileName.slice(fileName.lastIndexOf('.'));
+        alert(`The file extension ${fileExt} is not allowed`);
+      }
+    },
+    formValidation(formObject) {
+      const fieldValues = Object.values(formObject);
+      for (let i = 0; i < fieldValues.length; i++) {
+        if (fieldValues[i] === '') {
+          return false;
+        }
+      }
+      return true;
+    },
+    async registerUser() {
+      const formData = new FormData();
+      const formFields = {
+        email: this.email,
+        password: this.password,
+        fName: this.fName,
+        lName: this.lName,
+        major: this.major,
+        gradYear: this.gradYear,
+        bio: this.bio,
+        userType: 'applicant',
+        documentType: this.documentType,
+        profileImg: '/assets/applicant_icon.png'
+      };
+      if (this.formValidation(formFields) === false) {
+        alert('Please fill in the required fields');
+      } else {
+        Object.entries(formFields).forEach(([key, value]) => { formData.append(key, value); });
+
+        formData.append('file', this.file);
         const response = await AuthenticationService.registerUser(formData);
         // note to self: try to pass params to SignIn component to detect a newly created a account
         this.$router.push({
-            path: '/',
-            props: {
-                
-            }
-        })
+          path: '/'
+        });
         console.log(response.data);
       },
       validFileType: function(fileName, allowedExt)
@@ -116,17 +160,18 @@ export default {
   },
   data () {
     return {
-        email: '',
-        password: '',
-        fName: '',
-        lName: '',
-        major: '',
-        gradYear: '',
-        file: 'N/A',
-        documentType: ''
-    }
-  }
-}
+      email: '',
+      password: '',
+      fName: '',
+      lName: '',
+      major: '',
+      gradYear: '',
+      file: '',
+      bio: '',
+      documentType: 'resume',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
