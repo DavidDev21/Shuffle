@@ -20,7 +20,7 @@
         <div v-if="userType === 'employer'">
           <div class='row'>
               <div class='col-12'>
-                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Post Job' to='/apply-job'></SelectionButton>
+                  <SelectionButton class="btn-sq-big btn-light btn ml-3" btnIcon='/assets/job_search_icon.png' btnText='Post Job' to='/post-job'></SelectionButton>
                   <SelectionButton class="btn-sq-big btn-light btn ml-3" btnText='View Applicants' to='/get-applicant'></SelectionButton>
               </div>
           </div>
