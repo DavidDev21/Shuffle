@@ -10,5 +10,9 @@ export default {
   updateApplicationStatus(status)
   {
     return api().post('change-app-status', status);
+  },
+  getJobPostings(employer)
+  {
+    return api().post('get-job-postings', employer);
   }
 };

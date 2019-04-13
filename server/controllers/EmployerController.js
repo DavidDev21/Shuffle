@@ -103,16 +103,24 @@ WHERE "ApplicantDocs"."main_resume" = true AND "ApplicantDocs"."email" = 'david.
             // calculates the num of applicants for a job
             for(let i = 0; i < response.length; i++)
             {
-                const aggregatedCount = await Applied.findOne({
+                const totalCount = await Applied.findOne({
                     where: {
                         job_id: response[i].dataValues.job_id
                     },
-                    attributes: [[sequelize.fn('COUNT', sequelize.col('applicant')), 'numApplicants']]
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('applicant')), 'numTotalApplicants']]
                 });
                 
-                // add the numApplicants as part of the response to each job object
-                response[i].dataValues.numApplicants = aggregatedCount.dataValues.numApplicants;
+                const activeCount = await Applied.findOne({
+                    where: {
+                        job_id: response[i].dataValues.job_id,
+                        status: 'under_review'
+                    },
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('applicant')), 'numActiveApplicants']]
+                });
 
+                // add the numApplicants as part of the response to each job object
+                response[i].dataValues.numTotalApplicants = totalCount.dataValues.numTotalApplicants;
+                response[i].dataValues.numActiveApplicants = activeCount.dataValues.numActiveApplicants;
                 // numApplicants.push({
                 //     job_id: response[i].dataValues.job_id,
                 //     numApplicants: aggregatedCount.dataValues.numApplicants
