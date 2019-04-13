@@ -73,6 +73,11 @@ export default new Router({
       component: () => import('./views/PostJob.vue'),
     },
     {
+      path: '/manage-job',
+      name: 'mange-job',
+      component: () => import('./views/ViewJobPosts.vue'),
+    },
+    {
       path: '*',
       component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },

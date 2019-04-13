@@ -14,5 +14,9 @@ export default {
   getJobPostings(employer)
   {
     return api().post('get-job-postings', employer);
+  },
+  changeJobStatus(job)
+  {
+    return api().post('change-job-status', job);
   }
 };
