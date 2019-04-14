@@ -12,7 +12,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="salary" class="float-left required">Salary</label>
-                            <input v-model="salary" type="number" class="form-control" id="salary" placeholder="Enter Salary" required>
+                            <input v-model="salary" min="0" type="number" class="form-control" id="salary" placeholder="Enter Salary" required>
                         </div>
                     </div>
                     <div class="form-row">
@@ -68,7 +68,7 @@ export default {
 
         for(let i = 0; i< entries.length; i++)
         {
-            if(entries[i] === null)
+            if(entries[i] === null || entries[i].length === 0)
             {
                 return false;
             }
@@ -85,6 +85,11 @@ export default {
         if(this.checkRequiredFields() === false)
         {
             alert('All required fields must be filled');
+            return;
+        }
+        else if(this.salary < 0 || this.salary.length === 0)
+        {
+            alert("Salary can not be negative");
             return;
         }
         try

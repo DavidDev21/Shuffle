@@ -15,7 +15,7 @@
               <th scope="col">Employer Contact</th>
               <th scope="col">Location</th>
               <th scope="col">Status</th>
-              <th scope="col"></th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +26,10 @@
               <td>{{app.email}}</td>
               <td>{{app.location}}</td>
               <td>{{app.status}}</td>
-              <td><button v-if="app.status !== 'withdraw'" class="btn btn-danger" @click='withdrawApplication(app.job_id)'>Withdraw</button></td>
+              <td>
+                <button v-if="app.status === 'under_review'" class="btn btn-danger" @click='withdrawApplication(app.job_id)'>Withdraw</button>
+                <button v-if="app.status !== 'under_review'" class="btn btn-secondary" disabled>Withdraw</button>
+              </td>
             </tr>
             <!-- <tr scope="row">
               <td>Software Engineer</td>

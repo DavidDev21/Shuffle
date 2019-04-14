@@ -23,7 +23,7 @@
                     <tbody>
                         <tr scope="row" v-for="job in this.jobs" v-bind:key="job.job_id">
                         <td>{{job.job_id}}</td>
-                        <td><a href='javascript:;' @click='setJobID(job.job_id)'>{{job.title}}</a></td>
+                        <td><a href='javascript:;' @click='setJobID(job.job_id, job.numActiveApplicants)'>{{job.title}}</a></td>
                         <td>{{job.location}}</td>
                         <td v-if='job.requireCoverLetter === true'>Yes</td>
                         <td v-if='job.requireCoverLetter === false'>No</td>
@@ -32,6 +32,7 @@
                         </tr>
                     </tbody>
                 </table>
+                 <h5 v-if="this.jobs.length === 0">No jobs have been posted</h5>
             </div>
         </div>
 
@@ -111,8 +112,13 @@ export default {
   },
   // Future: put file upload related methods into another file
   methods: {
-      async setJobID(jobID)
+      async setJobID(jobID, numActiveApplicants)
       {
+          if(numActiveApplicants <= 0)
+          {
+              alert('There are no active applications for this job');
+              return;
+          }
           this.job_id = jobID;
           this.showApplicant = true;
           this.getApplicant();
@@ -149,7 +155,7 @@ export default {
             console.log(err.response);
             alert(err.response.data);
             this.$router.push({
-            name: 'dashboard',
+                name: 'dashboard',
             });
           }
       },

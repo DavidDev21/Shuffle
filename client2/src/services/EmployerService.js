@@ -18,5 +18,9 @@ export default {
   changeJobStatus(job)
   {
     return api().post('change-job-status', job);
+  },
+  updateJobPost(job)
+  {
+    return api().post('update-job', job);
   }
 };
