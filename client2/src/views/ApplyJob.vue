@@ -111,7 +111,6 @@ export default {
         const response = await JobService.getJob({
           email: email
         });
-
         this.job_id = response.data.job_id;
         this.title = response.data.title;
         this.description = response.data.description;

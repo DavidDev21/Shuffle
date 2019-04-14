@@ -137,17 +137,17 @@ module.exports = {
             // ideally, req is basically a job posting form then we just shove everything in.
             const response = await Job.update({
                 // the columns
-                employer: req.body.employer,
-                title: req.body.title,
                 description: req.body.description,
                 salary: req.body.salary,
                 location: req.body.location,
                 requireCoverLetter: req.body.requireCoverLetter,
             }, {
                 where: {
-                    job_id: req.body.job_id
+                    job_id: req.body.job_id,
+                    employer: req.body.employer
                 }
             });
+            res.status(200).send(response);
         }
         catch(err)
         {
@@ -213,7 +213,7 @@ module.exports = {
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
-                // console.log(req.file.path.substring(path.join("..",__dirname).length));
+                //console.log(req.file.path.substring(path.join("..",__dirname).length));
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,
