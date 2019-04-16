@@ -5,9 +5,10 @@
         <div class='container'>
             <h3>Search Filter</h3>
             <div class='row justify-content-center'>
-              <div class='col-6'>
+              <div class='col-12'>
                 <label class='mr-1' for="searchLocation">By Location:</label>
                 <input type='text' placeholder="enter location">
+                <button class="btn btn-primary" @click="applyFilter">Apply Filter</button>
               </div>
             </div>
         </div>
@@ -75,6 +76,9 @@ export default {
   },
   // Future: put file upload related methods into another file
   methods: {
+    applyFilter() {
+
+    },
     validFileType(fileName, allowedExt) {
       const fileExt = fileName.slice(fileName.lastIndexOf('.'));
       console.log(fileExt);

@@ -32,7 +32,7 @@
                         </tr>
                     </tbody>
                 </table>
-                 <h5 v-if="this.jobs.length === 0">No jobs have been posted</h5>
+                 <h5 v-if="this.jobs === undefined || this.jobs.length === 0">No jobs have been posted</h5>
             </div>
         </div>
 
@@ -84,7 +84,7 @@
                     <div class='row justify-content-center mt-3'>
                         <label class='col-12' v-if='resume'><strong>Resume</strong></label>
                         <div class='container col-12' id='resume' v-if='resume'>
-                            <embed width="80%" height="540px" v-bind:src="resume" />
+                            <embed width="900px" height="540px" v-bind:src="resume" />
                         </div>
                     </div>
                 </div>

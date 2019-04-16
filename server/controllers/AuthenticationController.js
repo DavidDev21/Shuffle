@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            // sgMail.setApiKey('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');
+            // sgMail.setApiKey('to be filled');
 
             const user = await User.create({
                 email: req.body.email,
@@ -29,7 +29,7 @@ module.exports = {
             const msg = {
                 to: user.email,					//receiver's email
                 from: 'no-reply@example.com',			//sender's email
-                subject: 'verify your email',				//Subject
+                subject: 'Shuffle.com: verify your email',				//Subject
                 text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
               };
