@@ -39,6 +39,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <h5 v-if="this.jobs === undefined || this.jobs.length === 0">No jobs have been posted</h5>
             </div>
         </div>
         
@@ -49,7 +50,7 @@
             <div class='row justify-content-center'>
                 <h3>Title: {{selectJob.title}}</h3>
             </div>
-            <div class='row mt-3'>
+            <div class='row justify-content-center mt-3'>
                 <form autocomplete="off" enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -94,7 +95,7 @@ import NavigationBar from '@/components/UI/NavigationBar';
 import EmployerService from '@/services/EmployerService';
 
 export default {
-  name: 'view-applicant',
+  name: 'view-job-posts',
   components: {
     // JobCard,
     NavigationBar,
