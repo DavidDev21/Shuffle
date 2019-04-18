@@ -71,8 +71,8 @@ module.exports = (app) => {
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
 
     app.post('/get-profile', AccountController.getProfile);
-    // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
-    // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
+    app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
+    app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
     // Assuming Server ever sent the userID when they login
     // app.post('/change-email/:userID, AccountController.changeEmail);

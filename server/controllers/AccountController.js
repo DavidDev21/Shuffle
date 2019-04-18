@@ -96,7 +96,7 @@ module.exports = {
         res.send(userProfile);
     },
     async updateApplicantProfile(req, res){
-
+        
     },
     async updateEmployerProfile(req, res){
         
