@@ -63,7 +63,7 @@ module.exports = {
                 description: req.body.description,
                 salary: req.body.salary,
                 location: req.body.location,
-                requireCoverLetter: req.body.requireCoverLetter,
+                requireCoverLetter: req.body.coverLetter,
             };
             const response = await Job.create(job);
             console.log(response);
