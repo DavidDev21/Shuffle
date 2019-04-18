@@ -23,7 +23,7 @@ module.exports = {
 
             const token = await verificationtoken.create({ 
                 userID: user.id, 
-                token: crypto.randomBytes(16).toString('hex') 
+                token: crypto.randomBytes(18).toString('hex') 
             });
 
             const msg = {
@@ -58,7 +58,7 @@ module.exports = {
                 {
                     let docID = undefined;
                     // console.log(path.resolve(__dirname,".."));
-
+                    console.log(req.file);
                     // strips apart the server path from the full path of where the file is stored
                     // the docPath should match what the GET route for the files are
                     let serverPath = path.resolve(__dirname, "..");

@@ -4,7 +4,9 @@ const verificationcontroller = require('./controllers/verificationcontroller');
 const ApplicantController = require('./controllers/ApplicantController');
 const EmployerController = require('./controllers/EmployerController');
 
+const aws = require('aws-sdk');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
 const crypto =  require('crypto');
 const path = require('path');
 const {Document} = require('./models');
@@ -12,32 +14,58 @@ const {Document} = require('./models');
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
 // to respond to the request from the client
-const storage = multer.diskStorage({
-    //storage location
-    destination: function (req, file, cb) {
-        const fileExt = path.extname(file.originalname);
-        allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
 
-        if(!allowedExts.has(fileExt))
-        {
-            cb({error: 'Mime Type not supported'});
-        }
-        else if(fileExt === '.png' || fileExt === '.jpeg')
-        {
-            // this is physical location? __dirname would give you the path to this folder we are in
-            cb(null, path.join(__dirname, '/uploads/img'));
-            // don't actually need the full path since the GET request is already relative to the root directory
+// {
+//     //storage location
+//     destination: function (req, file, cb) {
+//         const fileExt = path.extname(file.originalname);
+//         allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
+
+//         if(!allowedExts.has(fileExt))
+//         {
+//             cb({error: 'Mime Type not supported'});
+//         }
+//         else if(fileExt === '.png' || fileExt === '.jpeg')
+//         {
+//             // this is physical location? __dirname would give you the path to this folder we are in
+//             cb(null, path.join(__dirname, '/uploads/img'));
+//             // don't actually need the full path since the GET request is already relative to the root directory
             
-            // cb(null, '/uploads/img');
-        }
-        else
-        {
-            cb(null, path.join(__dirname, '/uploads/documents'));
-            // cb(null, '/uploads/documents');
-        }
+//             // cb(null, '/uploads/img');
+//         }
+//         else
+//         {
+//             cb(null, path.join(__dirname, '/uploads/documents'));
+//             // cb(null, '/uploads/documents');
+//         }
+//     },
+//     //custom naming scheme for incoming file
+//     filename: (req, file, cb) => {
+//         // hash original filename
+//         let customFileName = crypto.randomBytes(18).toString('hex');
+//         fileExtension = path.extname(file.originalname);// get file extension from original file name
+//         cb(null, customFileName + fileExtension);
+//     }
+//   }
+
+
+// const storage = multer.diskStorage();
+
+aws.config.update({
+    accessKeyId: "ASIAZ2SCCNQ4P2A5PVM2",
+    secretAccessKey: "JEf2WRUR+DnkdRf3DGT/+ow6Rv0gODCURn5+BSej"
+  });
+
+const s3 = new aws.S3();
+
+
+const storage = multerS3({
+    s3: s3,
+    bucket: 'shuffleproject',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
     },
-    //custom naming scheme for incoming file
-    filename: (req, file, cb) => {
+    key: function (req, file, cb) {
         // hash original filename
         let customFileName = crypto.randomBytes(18).toString('hex');
         fileExtension = path.extname(file.originalname);// get file extension from original file name
