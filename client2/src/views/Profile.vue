@@ -1,28 +1,21 @@
 <template>
     <div class='container'>
       <NavigationBar></NavigationBar>
-      <div class='row justify-content-center'>
-        <!-- Profile Header (left sidebar)-->
-        <div class='col-4 profile-border'>
-          <ProfileHeader></ProfileHeader>
-        </div>
-
-        <!-- Profile Body (right sidebar)-->
-        <div class='col-8'>
-        </div>
-      </div>
+      <ProfileHeader></ProfileHeader>
     </div>
 </template>
 
 <script>
 import NavigationBar from '@/components/UI/NavigationBar.vue';
 import ProfileHeader from '@/components/UI/ProfileHeader.vue';
+import Assets from '@/assets/logo.png';
 
 export default {
   name: 'profile',
   components: {
     ProfileHeader,
     NavigationBar,
+    Assets
   },
   methods: {
     loginRoute() {
@@ -43,7 +36,7 @@ export default {
 .profile-border
 {
   border: 1px solid black;
-  width: 75%;
+  width: 100%;
 }
 
 </style>
