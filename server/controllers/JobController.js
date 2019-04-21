@@ -4,6 +4,15 @@ const {Document} = require('../models');
 const {sequelize} = require('../models');
 const path = require('path');
 const fs = require('fs');
+const aws = require('aws-sdk');
+
+aws.config.update({ 
+    accessKeyId: "ASIAZ2SCCNQ4BSAR6FIY", 
+    secretAccessKey: "+04wrbeKg03zo+UwK/K97qBgEdoel+UKPjXL27oD", 
+    sessionToken: "FQoGZXIvYXdzEM7//////////wEaDMYGqY8zRxtCWvIlsyL5AgtSD9FkSk1uppSOO+CHZEmkXDqHEzrzVY3puFPHxzug21Z1r9L+NpiRGqvHoj3E52MvmgrGiiuaaCRr1sQYZotLsaMErSODTXeIGNvLDZ4VaPsPK6g9yhW6sjy4lmqKLxumH2JAf58jhUErSuVEHkoGcruTDWxMx1Kai/xm/BUaR2DLvMD5eYJQT/weffI/p6bkZLRO+3SHyY/B1jgt4wQxV3MymXfsr3GCr5juF7UebuQbJYLQJkW94LlkEkLPGEgkzVsCPHWUu9W70vtHi9t+4cP/CxurhYK/AttHANVKjXp9Oy1qMGBq9bngQZ4JXYAO7sQ/ILu3sRi7MyVDiv5ktLG2sK4ERbVCJPcb+oxeZ3Ivw3gOd2s4m8RWZ8sxkzRIX7c9FmkRugWk4hp6GZVo92JxFelKzkJYV/Zpo5doN3DTBdZ40tYhFgs4Qn9WtFzVPjFNLQOBAmkZe4HoG9Ty3EN8bVmMvffJn51BZLbpnjQ5UU4/635VKJie8+UF" });
+
+const s3 = new aws.S3({});
+
 
 /* POSTGRES VERSION (Filters out jobs that the applicant already applied to)
 SELECT  job."job_id", job."title", job."description", company_name, "Users"."profileImg", 
@@ -88,12 +97,23 @@ module.exports = {
             for(let i = 0; i < filesToDelete.length; i++)
             {
                 // absolute path to the file
-                let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
-                console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
-                // Delete the file
-                fs.unlink(absPath, (err) => {
-                    if(err) throw err
-                    console.log('File Deleted');
+                // let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
+                // console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
+                // Delete the file (To be modified for S3)
+                // fs.unlink(absPath, (err) => {
+                //     if(err) throw err
+                //     console.log('File Deleted');
+                // });
+                console.log(filesToDelete[i].dataValues.filePath);
+                s3.deleteObject({
+                    Bucket: 'shuffleproject',
+                    Key: filesToDelete[i].dataValues.filePath
+                }, function(error, data) {
+                    if(error)
+                    {
+                        console.log(error);
+                    }
+                    console.log(data);
                 });
             }            
             console.log(filesToDelete);
