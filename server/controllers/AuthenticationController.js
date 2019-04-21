@@ -61,8 +61,8 @@ module.exports = {
                     console.log(req.file);
                     // strips apart the server path from the full path of where the file is stored
                     // the docPath should match what the GET route for the files are
-                    let serverPath = path.resolve(__dirname, "..");
-                    let docPath = req.file.path.substring(serverPath.length);
+                    // let serverPath = path.resolve(__dirname, "..");
+                    // let docPath = req.file.path.substring(serverPath.length);
                     
                     //path.join(serverPath, "/uploads/documents", req.file.filename);
                     //console.log(docPath);
@@ -70,7 +70,7 @@ module.exports = {
                     const doc = await Document.create({
                         owner: req.body.email,
                         documentType: req.body.documentType,
-                        filePath: docPath
+                        filePath: req.file.key
                     });
 
                     docID = doc.dataValues.documentID;
@@ -103,9 +103,14 @@ module.exports = {
         }
         catch(err)
         {
-            // Uniqueness Errors
-            console.log(err.errors[0].message);
-            res.status(400).send(err.errors[0].message);
+            if(err.errors !== undefined)
+            {
+                // Uniqueness Errors
+                console.log(err.errors[0].message);
+                res.status(400).send(err.errors[0].message);
+            }
+            console.log(err);
+            res.status(400).send(err);
         }
         res.status(200).send(
             req.body

@@ -63,7 +63,7 @@ module.exports = {
                 description: req.body.description,
                 salary: req.body.salary,
                 location: req.body.location,
-                requireCoverLetter: req.body.requireCoverLetter,
+                requireCoverLetter: req.body.coverLetter,
             };
             const response = await Job.create(job);
             console.log(response);
@@ -208,8 +208,8 @@ module.exports = {
 
                 // strips apart the server path from the full path of where the file is stored
                 // the docPath should match what the GET route for the files are
-                let serverPath = path.resolve(__dirname, "..");
-                let docPath = req.file.path.substring(serverPath.length);
+                // let serverPath = path.resolve(__dirname, "..");
+                // let docPath = req.file.path.substring(serverPath.length);
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
@@ -217,7 +217,7 @@ module.exports = {
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,
-                    filePath: docPath,
+                    filePath: req.file.key,
                     job_id: req.body.job_id
                 });
             }
