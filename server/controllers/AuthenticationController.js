@@ -100,6 +100,10 @@ module.exports = {
                     year_found: req.body.yearFound
                 });
             }
+
+            res.status(200).send(
+                req.body
+            );
         }
         catch(err)
         {
@@ -112,9 +116,9 @@ module.exports = {
             console.log(err);
             res.status(400).send(err);
         }
-        res.status(200).send(
-            req.body
-        )
+        // res.status(200).send(
+        //     req.body
+        // )
     },
 
     async login (req, res) {

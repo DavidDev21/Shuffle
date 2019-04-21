@@ -3,6 +3,7 @@ const JobController = require('./controllers/JobController');
 const verificationcontroller = require('./controllers/verificationcontroller');
 const ApplicantController = require('./controllers/ApplicantController');
 const EmployerController = require('./controllers/EmployerController');
+const AccountController = require('./controllers/AccountController');
 
 const aws = require('aws-sdk');
 const multer = require('multer');
@@ -121,9 +122,9 @@ module.exports = (app) => {
     // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
     // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
-    // Assuming Server ever sent the userID when they login
-    // app.post('/change-email/:userID, AccountController.changeEmail);
-    // app.post('/change-password/:userID', AccountController.changePassword);
+    app.get('/change-password/:email', AccountController.redirectToNewPass);
+    app.post('/change-password', AccountController.changePassword);
+    app.post('/sendResetEmail',AccountController.sendResetEmail);
 
     // GET Routes
     // The Frontend just needs to indicate the GET request path in the "src" attribute
