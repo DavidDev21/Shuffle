@@ -6,7 +6,7 @@
         <label style="margin-top:30px" for="userPassword">Email: </label>
         <input class='required' style="width: 300px;" v-model="email" type="email" id="userEmail" required>
         <div class='container' style="margin-top:30px">
-          <button @click="returnHome" class="btn btn-primary">Return Home</button>
+          <button @click="returnHome" class="btn btn-primary mr-3">Return Home</button>
           <button @click="resetPassword" class="btn btn-primary">Reset Password</button>
         </div>
     </div>
@@ -23,7 +23,7 @@ export default {
   methods: {
     returnHome: function() {
       this.$router.push({
-        path: '/dashboard'
+        path: '/'
       })
     },
     resetPassword: async function() {
@@ -34,13 +34,13 @@ export default {
 
           alert('Reset link sent to email');
         this.$router.push({
-            path: '/dashboard'
+            path: '/'
         });
       }
       catch(error)
       {
-          console.log(error.data);
-          alert(error.data);
+        //   alert(error.data);
+          alert('Email is either not verified or not found');
       }     
     },
   },

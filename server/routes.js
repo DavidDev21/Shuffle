@@ -3,6 +3,7 @@ const JobController = require('./controllers/JobController');
 const verificationcontroller = require('./controllers/verificationcontroller');
 const ApplicantController = require('./controllers/ApplicantController');
 const EmployerController = require('./controllers/EmployerController');
+const AccountController = require('./controllers/AccountController');
 
 const multer = require('multer');
 const crypto =  require('crypto');
@@ -77,7 +78,7 @@ module.exports = (app) => {
     // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
 
     app.get('/change-password/:email', AccountController.redirectToNewPass);
-    app.post('/change-password/:email', AccountController.changePassword);
+    app.post('/change-password', AccountController.changePassword);
     app.post('/sendResetEmail',AccountController.sendResetEmail);
 
     // GET Routes

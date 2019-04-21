@@ -37,12 +37,12 @@ export default {
   methods: {
     registerRoute() {
       this.$router.push({
-        path: 'register',
+        path: '/register',
       });
     },
     resetPassRoute() {
       this.$router.push({
-        path: 'ResetPassForm'
+        path: '/reset-pass-form'
       });
     },
     async authenticateUser() {

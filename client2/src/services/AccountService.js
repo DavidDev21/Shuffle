@@ -7,7 +7,7 @@ export default {
     // with data of credentials
     return api().post('sendResetEmail', email);
   },
-  changePassword(password) {
-    return api().post('change-password', password);  
+  changePassword(accountInfo) {
+    return api().post('change-password', accountInfo);  
   }
 };

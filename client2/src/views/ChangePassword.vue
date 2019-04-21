@@ -5,14 +5,14 @@
         <label style="margin-top:30px" for="userPassword">Please enter new password:</label>
         <input style="width: 300px;" v-model="password" type="password" id="userPassword" required>
         <div class='container' style="margin-top:30px">
-          <button @click="returnHome" class="btn btn-primary">Return Home</button>
+          <button @click="returnHome" class="btn btn-primary mr-3">Return Home</button>
           <button @click="changePassword" class="btn btn-primary">Change Password</button>
         </div>
     </div>
 </template>
 
 <script>
-import AccountService from '@/services/AuthenticationService'
+import AccountService from '@/services/AccountService'
 import NavigationBar from '@/components/UI/NavigationBar'
 export default {
   name: 'change-password',
@@ -22,26 +22,34 @@ export default {
   methods: {
     returnHome: function() {
       this.$router.push({
-            path: '/dashboard'
+            path: '/'
       })
     },
     changePassword: async function() {
       try
       {
+        if(this.password.length <= 0)
+        {
+          alert('Please fill in the required field');
+          return;
+        }
+        console.log(this.$route.params);
         const response = await AccountService.changePassword({
+            email: this.$route.params.email,
             password: this.password
         });
 
         alert('New password is now set');
 
         this.$router.push({
-            path: '/dashboard'
+            path: '/'
         });
         console.log(response.data);
       }   
       catch(error)
       {
-          console.log(error.data);
+            console.log(error);
+        //   console.log(this.password);
           alert(error.data);
       }     
     },

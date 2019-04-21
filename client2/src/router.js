@@ -83,7 +83,7 @@ export default new Router({
       component: () => import('./views/ResetPassForm.vue'),
     },
     {
-      path: '/change-password',
+      path: '/change-password/:email',
       name: 'change-password',
       component: () => import('./views/ChangePassword.vue'),
     },

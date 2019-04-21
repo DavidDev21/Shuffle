@@ -30,7 +30,8 @@ module.exports = {
                 email: req.body.email
             }
         });
-        if(user!==undefined){
+        console.log(user)
+        if(user!==null){
             if(user.dataValues.isVerified==true){
                 sgMail.setApiKey('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');
                 console.log(req.body.email);
@@ -40,7 +41,7 @@ module.exports = {
                     from: 'no-reply@example.com',			//sender's email
                     subject: 'Please update your password using this link',				//Subject
                     text: 'Click on this link to change your password',		//content
-                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttp:\/\/' + req.headers.host + '\/change-password/\/'+ req.params.email +'\n',			//HTML content
+                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttp:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
                   };
                 sgMail.send(msg);
                 res.status(200).send('Reset Link sent');
@@ -56,17 +57,18 @@ module.exports = {
     //get new password from web form
     async redirectToNewPass(req,res){
         //let userEmail = req.params.email;
-        res.status(200).send('http:\/\/localhost:8080/change-password/'+req.params.email);
+        res.status(200).redirect('http:\/\/localhost:8080/change-password/'+req.params.email);
         //res.status(200).redirect('http:\/\/localhost:8080/resetPassword/'+userEmail);
     },
     async changePassword(req,res){
+        console.log("I amhere")
         let newPass = req.body.password;
         try {
             await User.update({
                 password: newPass
             }, {
                 where: {
-                    email: req.params.email
+                    email: req.body.email
                 }
             });
             res.status(200).send("password updated");
