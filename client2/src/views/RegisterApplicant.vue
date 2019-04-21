@@ -54,7 +54,7 @@
         </div>
 
         <div class='container'>
-            <button @click="loginRoute" class="btn btn-primary">Return to Login</button>
+            <button @click="loginRoute" class="btn btn-primary mr-3">Return to Login</button>
             <button @click="registerUser" class="btn btn-primary">Create account</button>
         </div>
       </div>
@@ -128,12 +128,20 @@ export default {
         Object.entries(formFields).forEach(([key, value]) => { formData.append(key, value); });
 
         formData.append('file', this.file);
-        const response = await AuthenticationService.registerUser(formData);
-        // note to self: try to pass params to SignIn component to detect a newly created a account
-        this.$router.push({
-          path: '/'
-        });
-        console.log(response.data);
+        try{
+          const response = await AuthenticationService.registerUser(formData);
+          // note to self: try to pass params to SignIn component to detect a newly created a account
+          this.$router.push({
+            path: '/'
+          });
+          console.log(response.data);
+        }
+        catch(error)
+        {
+          // alert('Email is taken');
+          alert(error.data);
+        }
+
       }
     },
   },

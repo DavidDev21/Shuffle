@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            // sgMail.setApiKey('to be filled');
+            sgMail.setApiKey('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');
 
             const user = await User.create({
                 email: req.body.email,
@@ -34,7 +34,7 @@ module.exports = {
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
               };
 
-            // sgMail.send(msg);
+            sgMail.send(msg);
             
             if(req.body.userType === 'applicant')
             {
@@ -100,6 +100,10 @@ module.exports = {
                     year_found: req.body.yearFound
                 });
             }
+
+            res.status(200).send(
+                req.body
+            );
         }
         catch(err)
         {
@@ -107,9 +111,9 @@ module.exports = {
             console.log(err.errors[0].message);
             res.status(400).send(err.errors[0].message);
         }
-        res.status(200).send(
-            req.body
-        )
+        // res.status(200).send(
+        //     req.body
+        // )
     },
 
     async login (req, res) {

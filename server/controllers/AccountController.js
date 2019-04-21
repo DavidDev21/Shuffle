@@ -1,5 +1,7 @@
 const {User} = require('../models');
-
+const {verificationtoken} = require('../models');
+const crypto =  require('crypto');
+const sgMail = require('@sendgrid/mail');
 module.exports = {
     async changeEmail(req, res)
     {
@@ -12,7 +14,7 @@ module.exports = {
             }, {
                 where:{
                     id: userID
-                }});
+                }})
         }
         catch(err)
         {
@@ -21,21 +23,91 @@ module.exports = {
             res.status(401).send(err);
         }
     },
-    async changePassword(req, res) 
+    async sendResetEmail(req, res) 
     {
-        const userID = req.params.userID;
-
-        const response = await User.update({
-            password: req.body.password
-        }, {
+        const user = await User.findOne({
             where: {
-                id: user_id
+                email: req.body.email
             }
         });
+        console.log(user)
+        if(user!==null){
+            if(user.dataValues.isVerified==true){
+                sgMail.setApiKey('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');
+                console.log(req.body.email);
+                console.log(req.headers.host);
+                const msg = {
+                    to: req.body.email,					//receiver's email
+                    from: 'no-reply@example.com',			//sender's email
+                    subject: 'Please update your password using this link',				//Subject
+                    text: 'Click on this link to change your password',		//content
+                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttp:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
+                  };
+                sgMail.send(msg);
+                res.status(200).send('Reset Link sent');
+            }
+            else{
+                res.status(404).send('Email not verified yet.')
+            }
+        }
+        else{
+            res.status(404).send('Email not found');
+        }
+    },
+    //get new password from web form
+    async redirectToNewPass(req,res){
+        //let userEmail = req.params.email;
+        res.status(200).redirect('http:\/\/localhost:8080/change-password/'+req.params.email);
+        //res.status(200).redirect('http:\/\/localhost:8080/resetPassword/'+userEmail);
+    },
+    async changePassword(req,res){
+        console.log("I amhere")
+        let newPass = req.body.password;
+        try {
+            await User.update({
+                password: newPass
+            }, {
+                where: {
+                    email: req.body.email
+                }
+            });
+            res.status(200).send("password updated");
+        }
+        catch(error)
+        {
+            console.log(error);
+            res.status(400).send(error);
+        }
     },
     async getProfile(req, res)
     {
-        
+        const response = await User.findOne({
+            where: {
+                id: req.body.id
+            }
+        });
+        let userProfile = undefined;
+        if(response.dataValues.userType==="applicant"){
+            userProfile = await Applicant.findOne({
+                where: {
+                    email: response.dataValues.email
+                }
+            });
+        }
+        else if(response.dataValues.userType==="employer"){
+            userProfile = await Applicant.findOne({
+                where: {
+                    email: response.dataValues.email
+                }
+            });
+        }
+        console.log(userProfile);
+        res.send(userProfile);
     },
+    async updateApplicantProfile(req, res){
 
+    },
+    async updateEmployerProfile(req, res){
+        
+    }
 };
