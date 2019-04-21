@@ -16,8 +16,9 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
-            <button type='button' @click='authenticateUser' class="btn btn-primary">Login</button>
-            <button type='button' @click='registerRoute' class="btn btn-primary">Register</button>
+            <button type='button' @click='authenticateUser' class="btn btn-primary mr-3">Login</button>
+            <button type='button' @click='registerRoute' class="btn btn-primary mr-3">Register</button>
+            <button type='button' @click='resetPassRoute' class="btn btn-primary">Reset Password</button>
           </form>
         </div>
       </div>
@@ -37,6 +38,11 @@ export default {
     registerRoute() {
       this.$router.push({
         path: 'register',
+      });
+    },
+    resetPassRoute() {
+      this.$router.push({
+        path: 'ResetPassForm'
       });
     },
     async authenticateUser() {

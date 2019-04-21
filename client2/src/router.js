@@ -78,6 +78,16 @@ export default new Router({
       component: () => import('./views/ViewJobPosts.vue'),
     },
     {
+      path: '/reset-pass-form',
+      name: 'ResetPassForm',
+      component: () => import('./views/ResetPassForm.vue'),
+    },
+    {
+      path: '/change-password',
+      name: 'change-password',
+      component: () => import('./views/ChangePassword.vue'),
+    },
+    {
       path: '*',
       component: () => import(/* webpackChunkName: "about" */ './views/NotFound.vue'),
     },
