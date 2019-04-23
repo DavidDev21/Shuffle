@@ -31,7 +31,7 @@ module.exports = {
             const msg = {
                 to: user.email,					//receiver's email
                 from: 'no-reply@example.com',			//sender's email
-                subject: 'verify your email',				//Subject
+                subject: 'Shuffle.com: verify your email',				//Subject
                 text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
                 html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'\n',			//HTML content
               };

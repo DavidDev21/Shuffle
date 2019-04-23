@@ -10,5 +10,8 @@ export default {
   },
   applyJob(userInfo) {
     return api().post('apply-job', userInfo);
+  },
+  postJob(jobInfo) {
+    return api().post('post-job', jobInfo);
   }
 };

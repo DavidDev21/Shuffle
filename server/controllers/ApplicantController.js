@@ -42,5 +42,24 @@ FROM ("Jobs" JOIN "Applied" ON "Jobs"."job_id" = "Applied"."job_id") JOIN
         {
             res.status(400).send(err);
         }
+    },
+    async withdrawApplication(req, res) {
+        try
+        {
+            await Applied.update({
+                status: 'withdraw'
+            }, {
+                where: {
+                    applicant: req.body.applicant,
+                    job_id: req.body.job_id
+                }
+            });
+
+            res.status(200).send(req.body.applicant + " has withdraw their application for jobID: " + req.body.job_id);
+        }
+        catch(err)
+        {
+            res.status(400).send(err);
+        }
     }
 };

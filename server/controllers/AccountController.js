@@ -1,7 +1,13 @@
 const {User} = require('../models');
+const {Applicant} = require('../models');
+const {Employer} = require('../models');
+const {sequelize} = require('../models');
 const {verificationtoken} = require('../models');
 const crypto =  require('crypto');
 const sgMail = require('@sendgrid/mail');
+const path = require('path');
+const fs = require('fs');
+const {Document} = require('../models');
 module.exports = {
     async changeEmail(req, res)
     {
@@ -72,33 +78,81 @@ module.exports = {
     },
     async getProfile(req, res)
     {
+        const email = req.body.email;
         const response = await User.findOne({
             where: {
-                id: req.body.id
+                email: email
             }
         });
         let userProfile = undefined;
         if(response.dataValues.userType==="applicant"){
-            userProfile = await Applicant.findOne({
-                where: {
-                    email: response.dataValues.email
-                }
-            });
+            try{
+                const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
+                \"Applicants\".\"bio\",\"Applicants\".\"f_name\",\"Applicants\".\"l_name\",\"Applicants\".\"email\"
+                    FROM \"Applicants\" INNER JOIN \"Users\" ON \"Applicants\".email = \"Users\".email
+                    WHERE \"Applicants\".\"email\" = \'${email}\' AND \"Users\".\"email\"= \'${email}\';`;
+                const result = await sequelize.query(getProfileQuery);
+
+                res.status(200).send(result[0][0]);
+            }
+            catch(err){
+                console.log(err);
+                res.status(400).send(err);
+            }
         }
         else if(response.dataValues.userType==="employer"){
-            userProfile = await Applicant.findOne({
-                where: {
-                    email: response.dataValues.email
-                }
-            });
+            try{
+                const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
+                \"Employers\".\"email\",\"Employers\".\"company_name\",\"Employers\".\"company_description\",\"Employers\".\"year_found\"
+                    FROM \"Employers\" INNER JOIN \"Users\" ON \"Employers\".email = \"Users\".email
+                    WHERE \"Employers\".\"email\" = \'${email}\' AND \"Users\".\"email\"= \'${email}\';`;
+                const result = await sequelize.query(getProfileQuery);
+
+                res.status(200).send(result[0][0]);
+            }
+            catch(err){
+                console.log(err);
+                res.status(400).send(err);
+            }
         }
-        console.log(userProfile);
-        res.send(userProfile);
     },
     async updateApplicantProfile(req, res){
-        
+        try{
+            const response = await Applicant.update({
+                f_name:req.body.email.f_name,
+                l_name:req.body.email.l_name,
+                bio:req.body.email.bio,
+            },
+            {
+                where:{
+                    email:req.body.email.email
+                }
+            });
+            res.status(200).send(response);
+        }
+        catch(err){
+            console.log(err);
+            console.log("wtf???");
+            res.status(400).send(err);
+        }
     },
     async updateEmployerProfile(req, res){
-        
+        try{
+            const response = await Employer.update({
+                company_name:req.body.email.company_name,
+                year_found:req.body.email.year_found,
+                company_description:req.body.email.company_description,
+            },
+            {
+                where:{
+                    email:req.body.email.email
+                }
+            });
+            res.status(200).send(response);
+        }
+        catch(err){
+            console.log(err);
+            res.status(400).send(err);
+        }
     }
 };

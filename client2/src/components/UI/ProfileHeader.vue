@@ -1,7 +1,7 @@
 <template>
   <div class='body'>
     <div class="row">
-      <div v-if="userType === NULL">
+      <div v-if="userType === 'applicant'">
         <div class="column side">
           <img src= "../../assets/logo.png" alt="Logo" style="width:150px">
           <p>Location/Home</p>
@@ -14,20 +14,20 @@
         <div class="column middle">
           <form action="/action_page.php">
             <label for="fname">First Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name is...">
+            <input type="text" id="fname" name="firstname">
 
             <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lastname" placeholder="Your last name is...">
+            <input type="text" id="lname" name="lastname">
 
             <label for="email">Email Address</label>
-            <input type="text" id="email" name="firstname" placeholder="Your email is...">
+            <input type="text" id="email" name="email">
 
             <label for="password">Password</label>
-            <input type="text" id="password" name="lastname" placeholder="Your password is...">
+            <input type="text" id="password" name="email">
 
             <p>Bio</p>
             <form>
-              <textarea>Your bio is...</textarea>
+              <textarea id="bio"></textarea>
             </form>
 
             <p>
@@ -40,7 +40,8 @@
               <input id="file-upload" type="file" ref="file" @change="selectFile"/>
             </p>
           
-            <input type="submit" value="Submit">
+            <!-- <input type="submit" value="Submit"> -->
+            <button type = "button" @click="updateApplicantProfile" class="btn btn-primary btn-lg btn-block">Submit</button>
           </form>
         </div>
       </div>
@@ -57,32 +58,31 @@
         <div class="column middle">
           <form action="/action_page.php">
             <label for="email">Email Address</label>
-            <input type="text" id="email" name="firstname" placeholder="Your email is...">
+            <input type="text" id="emaill" name="email" placeholder="Your email is...">
 
             <label for="password">Password</label>
-            <input type="text" id="password" name="lastname" placeholder="Your password is...">
+            <input type="text" id="pass" name="pass" placeholder="Your password is...">
 
             <label for="cname">Company Name</label>
-            <input type="text" id="cname" name="companyname" placeholder="Your company's name is...">
+            <input type="text" id="cname" name="cname" placeholder="Your company's name is...">
 
             <label for="Year">Year Found</label>
-            <select id="Year" name="Year">
-              <option value= 1997>1997</option>
+            <input id="Year" name="Year">
+              <!-- <option value= 1997>1997</option>
               <option value= 1998>1998</option>
-              <option value= 1999>1999</option>
-            </select>
+              <option value= 1999>1999</option> -->
 
             <p>Company Description</p>
-            <form>
-              <textarea>Your company is...</textarea>
-            </form>
+            <textarea id = "des"></textarea>
+
 
             <p>
               <label for="file-upload" class="float-left">Upload Profile Image (JPEG, PNG only)-</label>
               <input id="file-upload" type="file" ref="file" @change="selectFile"/>
             </p>
           
-            <input type="submit" value="Submit">
+            <!-- <input type="submit" value="Submit"> -->
+            <button type = "button" @click="updateEmployerProfile" class="btn btn-primary btn-lg btn-block">Submit</button>
           </form>
         </div>
       </div>
@@ -91,16 +91,76 @@
 </template>
 
 <script>
+import ApplicantService from '@/services/ApplicantService';
+import EmployerService from '@/services/EmployerService';
 export default {
   methods: {
-    async getJob() {
-      try {
-        const response = await JobService.getJob();
-        this.img_path = response.data.img_path;
-        this.jobTitle = response.data.jobTitle;
-      } catch (error) {
-        // error.response.data = accessing data that was passed by the backend as part of the error object
-        console.log(error.response);
+    async getProfile(){
+      try{
+        const email = this.$store.getters.userData.email;
+        console.log(email);
+        const type = this.$store.getters.userType;
+        if(type ==='applicant'){
+          
+          const response = await ApplicantService.getProfile({
+              email: email
+          });
+          this.Applicant = response.data;
+          document.getElementById("fname").setAttribute('value',response.data.f_name);
+          document.getElementById("lname").setAttribute('value',response.data.l_name);
+          document.getElementById("email").setAttribute('value',response.data.email);
+          document.getElementById("password").setAttribute('value',response.data.password);
+          document.getElementById("bio").value = response.data.bio;
+        }
+        if(type ==='employer'){
+          
+          const response = await EmployerService.getProfile({
+              email: email
+          });
+          this.Employer = response.data;
+          document.getElementById("cname").setAttribute('value',response.data.company_name);
+          document.getElementById("emaill").setAttribute('value',response.data.email);
+          document.getElementById("pass").setAttribute('value',response.data.password);
+          document.getElementById("Year").setAttribute('value',response.data.year_found);
+          document.getElementById("des").value=response.data.company_description;
+        }
+      }
+      catch(err){
+        console.log(err.response);
+        alert(err.response.data);
+        this.$router.push({
+          name: 'dashboard',
+        });
+      }
+    },
+    async updateApplicantProfile(){
+      try{   
+        this.Applicant.f_name=document.getElementById("fname").value;
+        this.Applicant.l_name=document.getElementById("lname").value;
+        this.Applicant.bio=document.getElementById("bio").value;
+        // console.log(this.Applicant);
+        const response = await ApplicantService.updateProfile({
+          email:this.Applicant
+        });
+        // // console.log(response.data);
+        // this.getProfile();
+      }
+      catch(err){
+        console.log(err);
+      }
+    },
+    async updateEmployerProfile(){
+      try{   
+        this.Employer.company_name=document.getElementById("cname").value;
+        this.Employer.company_description=document.getElementById("des").value;
+        this.Employer.year_found=document.getElementById("Year").value;
+        console.log(this.Employer);
+        const response = await EmployerService.updateProfile({
+          email:this.Employer
+        });
+      }
+      catch(err){
+        console.log(err);
       }
     },
   },
@@ -109,18 +169,12 @@ export default {
   //   // console.log(this.$store.getters.userType);
     this.userType = this.$store.getters.userType;
     this.userData = this.$store.getters.userData;
-
-    if(this.userType === 'applicant')
-    {
-      this.name = this.userData.f_name;
-    }
-    else if(this.userType === 'employer')
-    {
-      this.name = this.userData.company_name;
-    }
+    this.getProfile();
   },
   data() {
     return {
+      Applicant: null,
+      Employer:null,
       userType: null,
       userData: null,
       name: null
