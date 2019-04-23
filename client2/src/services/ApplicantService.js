@@ -9,5 +9,11 @@ export default {
   },
   withdrawApplication(user) {
     return api().post('withdraw-application', user);
+  },
+  getProfile(userEmail){
+    return api().post('get-profile',userEmail);
+  },
+  updateProfile(email){
+    return api().post('update-applicant-profile',email);
   }
 };

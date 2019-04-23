@@ -22,5 +22,11 @@ export default {
   updateJobPost(job)
   {
     return api().post('update-job', job);
+  },
+  getProfile(UserEmail){
+    return api().post('get-profile',UserEmail);
+  },
+  updateProfile(email){
+    return api().post('update-employer-profile',email);
   }
 };

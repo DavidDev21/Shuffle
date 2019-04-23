@@ -50,6 +50,8 @@ const upload = multer({
     storage: storage
 });
 
+let varietyUpload = upload.fields([{ name: 'resume', maxCount: 1 }, { name: 'profileImg', maxCount: 1 }])
+
 module.exports = (app) => {
     // POST Routes
     app.post('/register', upload.single("file"), AuthenticationController.register);
@@ -73,9 +75,9 @@ module.exports = (app) => {
     // app.post('/get-applicants/:jobID', ApplicantController.getApplicants);
     // app.post('/get-posted-jobs', JobController.getPostedJobs);
 
-    // app.post('/get-profile/:userID), AccountController.getProfile);
-    // app.post('/update-applicant-profile', AccountController.updateApplicantProfile);
-    // app.post('/update-employer-profile', AccountController.updateEmployerProfile);
+    app.post('/get-profile', AccountController.getProfile);
+    app.post('/update-applicant-profile', varietyUpload, AccountController.updateApplicantProfile);
+    app.post('/update-employer-profile', varietyUpload, AccountController.updateEmployerProfile);
 
     app.get('/change-password/:email', AccountController.redirectToNewPass);
     app.post('/change-password', AccountController.changePassword);
