@@ -12,11 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-<<<<<<< HEAD
             sgMail.setApiKey('to be filled');
-=======
-            sgMail.setApiKey('to befilled');
->>>>>>> 066a89eb5e0af5c303b75667c521817bc38844e1
 
             const user = await User.create({
                 email: req.body.email,
@@ -27,7 +23,7 @@ module.exports = {
 
             const token = await verificationtoken.create({ 
                 userID: user.id, 
-                token: crypto.randomBytes(18).toString('hex') 
+                token: crypto.randomBytes(16).toString('hex') 
             });
 
             const msg = {
@@ -35,7 +31,7 @@ module.exports = {
                 from: 'no-reply@example.com',			//sender's email
                 subject: 'Shuffle.com: verify your email',				//Subject
                 text: 'Click on this link to verify your email ${hostUrl}/verification',		//content
-                html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttps:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
+                html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/'+token.token+'.\n',			//HTML content
               };
 
             sgMail.send(msg);
@@ -62,11 +58,11 @@ module.exports = {
                 {
                     let docID = undefined;
                     // console.log(path.resolve(__dirname,".."));
-                    console.log(req.file);
+
                     // strips apart the server path from the full path of where the file is stored
                     // the docPath should match what the GET route for the files are
-                    // let serverPath = path.resolve(__dirname, "..");
-                    // let docPath = req.file.path.substring(serverPath.length);
+                    let serverPath = path.resolve(__dirname, "..");
+                    let docPath = req.file.path.substring(serverPath.length);
                     
                     //path.join(serverPath, "/uploads/documents", req.file.filename);
                     //console.log(docPath);
@@ -74,7 +70,7 @@ module.exports = {
                     const doc = await Document.create({
                         owner: req.body.email,
                         documentType: req.body.documentType,
-                        filePath: req.file.key
+                        filePath: docPath
                     });
 
                     docID = doc.dataValues.documentID;
@@ -111,14 +107,9 @@ module.exports = {
         }
         catch(err)
         {
-            if(err.errors !== undefined)
-            {
-                // Uniqueness Errors
-                console.log(err.errors[0].message);
-                res.status(400).send(err.errors[0].message);
-            }
-            console.log(err);
-            res.status(400).send(err);
+            // Uniqueness Errors
+            console.log(err.errors[0].message);
+            res.status(400).send(err.errors[0].message);
         }
         // res.status(200).send(
         //     req.body
