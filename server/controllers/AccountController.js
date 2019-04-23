@@ -1,7 +1,21 @@
 const {User} = require('../models');
-const {verificationtoken} = require('../models');
-const crypto =  require('crypto');
 const sgMail = require('@sendgrid/mail');
+const {Applicant} = require('../models');
+const {Employer} = require('../models');
+const {sequelize} = require('../models');
+const {ApplicantDoc} = require('../models');
+const {Document} = require('../models');
+const path = require('path');
+const fs = require('fs');
+const aws = require('aws-sdk');
+
+aws.config.update({ 
+    accessKeyId: "ASIAZ2SCCNQ4BSAR6FIY", 
+    secretAccessKey: "+04wrbeKg03zo+UwK/K97qBgEdoel+UKPjXL27oD", 
+    sessionToken: "FQoGZXIvYXdzEM7//////////wEaDMYGqY8zRxtCWvIlsyL5AgtSD9FkSk1uppSOO+CHZEmkXDqHEzrzVY3puFPHxzug21Z1r9L+NpiRGqvHoj3E52MvmgrGiiuaaCRr1sQYZotLsaMErSODTXeIGNvLDZ4VaPsPK6g9yhW6sjy4lmqKLxumH2JAf58jhUErSuVEHkoGcruTDWxMx1Kai/xm/BUaR2DLvMD5eYJQT/weffI/p6bkZLRO+3SHyY/B1jgt4wQxV3MymXfsr3GCr5juF7UebuQbJYLQJkW94LlkEkLPGEgkzVsCPHWUu9W70vtHi9t+4cP/CxurhYK/AttHANVKjXp9Oy1qMGBq9bngQZ4JXYAO7sQ/ILu3sRi7MyVDiv5ktLG2sK4ERbVCJPcb+oxeZ3Ivw3gOd2s4m8RWZ8sxkzRIX7c9FmkRugWk4hp6GZVo92JxFelKzkJYV/Zpo5doN3DTBdZ40tYhFgs4Qn9WtFzVPjFNLQOBAmkZe4HoG9Ty3EN8bVmMvffJn51BZLbpnjQ5UU4/635VKJie8+UF" });
+
+const s3 = new aws.S3({});
+
 module.exports = {
     async changeEmail(req, res)
     {
@@ -104,10 +118,249 @@ module.exports = {
         console.log(userProfile);
         res.send(userProfile);
     },
-    async updateApplicantProfile(req, res){
+    async getProfile(req, res)
+    {
+        const email = req.body.email;
+        const response = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+        let userProfile = undefined;
+        if(response.dataValues.userType==="applicant"){
+            try{
+                const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
+                \"Applicants\".\"bio\",\"Applicants\".\"f_name\",\"Applicants\".\"l_name\",\"Applicants\".\"email\"
+                    FROM \"Applicants\" INNER JOIN \"Users\" ON \"Applicants\".email = \"Users\".email
+                    WHERE \"Applicants\".\"email\" = \'${email}\' AND \"Users\".\"email\"= \'${email}\';`;
+                const result = await sequelize.query(getProfileQuery);
 
+                res.status(200).send(result[0][0]);
+            }
+            catch(err){
+                console.log(err);
+                res.status(400).send(err);
+            }
+        }
+        else if(response.dataValues.userType==="employer"){
+            try{
+                const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
+                \"Employers\".\"email\",\"Employers\".\"company_name\",\"Employers\".\"company_description\",\"Employers\".\"year_found\"
+                    FROM \"Employers\" INNER JOIN \"Users\" ON \"Employers\".email = \"Users\".email
+                    WHERE \"Employers\".\"email\" = \'${email}\' AND \"Users\".\"email\"= \'${email}\';`;
+                const result = await sequelize.query(getProfileQuery);
+
+                res.status(200).send(result[0][0]);
+            }
+            catch(err){
+                console.log(err);
+                res.status(400).send(err);
+            }
+        }
+    },
+    async updateApplicantProfile(req, res){
+        try{
+
+            await User.update({
+                password: req.body.password
+            }, {
+                where: {
+                    email: req.body.email
+                }
+            });
+
+            await Applicant.update({
+                f_name:req.body.f_name,
+                l_name:req.body.l_name,
+                bio:req.body.bio,
+            },
+            {
+                where:{
+                    email:req.body.email
+                }
+            });
+
+            // if there is a new resume
+            if(req.files.resume !== undefined)
+            {
+                // destory old entries
+                const response = await ApplicantDoc.findOne({
+                    where: {
+                        email: req.body.email,
+                        main_resume: true
+                    }
+                });
+                if(response !== null)
+                {
+                    const docEntry = await Document.findOne({
+                        where: {
+                            email: req.body.email,
+                            documentID: response.dataValues.documentID
+                        }
+                    });
+
+                    // S3 destroy
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: docEntry.dataValues.filePath
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
+                    });
+                    
+                    await ApplicantDoc.destroy({
+                        where: {
+                            email: req.body.email,
+                            documentID: response.dataValues.documentID
+                        }
+                    });
+
+                    await Document.destroy({
+                        where: {
+                            owner: req.body.email,
+                            documentID: response.dataValues.documentID
+                        }
+                    });
+                }
+                    
+
+                // straight copy from AuthenticationController.js
+                let docID = undefined;
+                // console.log(path.resolve(__dirname,".."));
+
+                // strips apart the server path from the full path of where the file is stored
+                // the docPath should match what the GET route for the files are
+                let serverPath = path.resolve(__dirname, "..");
+                let docPath = req.files.resume[0].path.substring(serverPath.length);
+                
+                //path.join(serverPath, "/uploads/documents", req.file.filename);
+                //console.log(docPath);
+                // console.log(req.file.path.substring(path.join("..",__dirname).length));
+                const doc = await Document.create({
+                    owner: req.body.email,
+                    documentType: 'resume',
+                    filePath: req.files.resume[0].key
+                });
+
+                docID = doc.dataValues.documentID;
+
+                if(docID !== undefined)
+                {
+                    const appDoc = await ApplicantDoc.create({
+                        email: req.body.email,
+                        documentID: docID,
+                        main_resume: true
+                    });
+                }
+            }
+
+            if(req.files.profileImg !== undefined)
+            {
+                const response = await User.findOne({
+                    where: {
+                        email: req.body.email
+                    }
+                });
+                
+                // detect if its default profile img
+                // the file names should never contain /assets sinces it has been hashed
+                if(response.dataValues.profileImg.includes('/assets') === false)
+                {
+                    // delete the old file
+                    // let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: response.dataValues.profileImg
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
+                    });
+                }
+                
+                // let serverPath = path.resolve(__dirname, "..");
+                // let filePath = req.files.profileImg[0].path.substring(serverPath.length);
+
+                // update the entry in the database
+                await User.update({
+                    profileImg: req.files.profileImg[0].key
+                },{
+                    where: {
+                        email: req.body.email
+                    }
+                });
+            }
+            res.status(200).send("Applicant Profile Updated");
+        }
+        catch(err){
+            console.log(err);
+            res.status(400).send(err);
+        }
     },
     async updateEmployerProfile(req, res){
-        
+        try{
+            await User.update({
+                password: req.body.password
+            }, {
+                where: {
+                    email: req.body.email
+                }
+            });
+            await Employer.update({
+                company_name:req.body.company_name,
+                year_found:req.body.year_found,
+                company_description:req.body.company_description,
+            },
+            {
+                where:{
+                    email:req.body.email
+                }
+            });
+
+            if(req.files.profileImg !== undefined)
+            {
+                const response = await User.findOne({
+                    where: {
+                        email: req.body.email
+                    }
+                });
+                
+                // detect if its default profile img
+                // the file names should never contain /assets sinces it has been hashed
+                if(response.dataValues.profileImg.includes('/assets') === false)
+                {
+                    // delete the old file
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: response.dataValues.profileImg
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
+                    });
+                }
+                
+                // update the entry in the database
+                await User.update({
+                    profileImg: req.files.profileImg[0].key
+                },{
+                    where: {
+                        email: req.body.email
+                    }
+                });
+            }
+            res.status(200).send("Employer Profile Updated");
+        }
+        catch(err){
+            console.log(err);
+            res.status(400).send(err);
+        }
     }
 };

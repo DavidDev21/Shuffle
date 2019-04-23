@@ -1,16 +1,7 @@
 <template>
     <div class='container'>
       <NavigationBar></NavigationBar>
-      <div class='row justify-content-center'>
-        <!-- Profile Header (left sidebar)-->
-        <div class='col-4 profile-border'>
-          <ProfileHeader></ProfileHeader>
-        </div>
-
-        <!-- Profile Body (right sidebar)-->
-        <div class='col-8'>
-        </div>
-      </div>
+      <ProfileHeader></ProfileHeader>
     </div>
 </template>
 
