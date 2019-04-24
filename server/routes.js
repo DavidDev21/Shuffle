@@ -26,14 +26,14 @@ const storage = multer.diskStorage({
         else if(fileExt === '.png' || fileExt === '.jpg')
         {
             // this is physical location? __dirname would give you the path to this folder we are in
-            cb(null, path.join(__dirname, '/uploads/img'));
+            cb(null, path.join(__dirname, '/uploads/img/'));
             // don't actually need the full path since the GET request is already relative to the root directory
             
             // cb(null, '/uploads/img');
         }
         else
         {
-            cb(null, path.join(__dirname, '/uploads/documents'));
+            cb(null, path.join(__dirname, '/uploads/documents/'));
             // cb(null, '/uploads/documents');
         }
     },
