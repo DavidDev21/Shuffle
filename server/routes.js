@@ -16,14 +16,14 @@ const {Document} = require('./models');
 const storage = multer.diskStorage({
     //storage location
     destination: function (req, file, cb) {
-        const fileExt = path.extname(file.originalname);
-        allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
+        const fileExt = path.extname(file.originalname).toLowerCase();
+        allowedExts = new Set(['.png','.jpg', '.doc','.docx','.pdf']);
 
         if(!allowedExts.has(fileExt))
         {
-            cb({error: 'Mime Type not supported'});
+            cb(new Error('Mime Type not supported'));
         }
-        else if(fileExt === '.png' || fileExt === '.jpeg')
+        else if(fileExt === '.png' || fileExt === '.jpg')
         {
             // this is physical location? __dirname would give you the path to this folder we are in
             cb(null, path.join(__dirname, '/uploads/img'));
