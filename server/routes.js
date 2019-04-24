@@ -68,14 +68,14 @@ const storage = multerS3({
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
-        const fileExt = path.extname(file.originalname);
+        const fileExt = path.extname(file.originalname).toLowerCase();
         allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
         let folderGroup = undefined;
         if(!allowedExts.has(fileExt))
         {
-            cb({error: 'Mime Type not supported'});
+            cb(new Error('Mime Type not supported'));
         }
-        else if(fileExt === '.png' || fileExt === '.jpeg')
+        else if(fileExt === '.png' || fileExt === '.jpg')
         {
             folderGroup = '/uploads/img/' ;           
         }
