@@ -58,34 +58,29 @@ export default new Router({
       component: () => import('./views/Profile.vue'),
     },
     {
+      path: '/postevent',
+      name: 'postevent',
+      component: () => import('./views/PostEvent.vue'),
+    },
+    {
+      path: '/eventlist',
+      name: 'eventlist',
+      component: () => import('./views/EventList.vue'),
+    },
+    {
+      path: '/joblist',
+      name: 'joblist',
+      component: () => import('./views/JobList.vue'),
+    },
+    {
+      path: '/updatejob',
+      name: 'updatejob',
+      component: () => import('./views/UpdateJob.vue'),
+    },
+    {
       path: '/application-status',
       name: 'application-status',
       component: () => import('./views/ApplicationStatus.vue'),
-    },
-    {
-      path:'/get-applicant',
-      name: 'get-applicant',
-      component: () => import('./views/ViewApplicant.vue'),
-    },
-    {
-      path: '/post-job',
-      name: 'post-job',
-      component: () => import('./views/PostJob.vue'),
-    },
-    {
-      path: '/manage-job',
-      name: 'manage-job',
-      component: () => import('./views/ViewJobPosts.vue'),
-    },
-    {
-      path: '/reset-pass-form',
-      name: 'ResetPassForm',
-      component: () => import('./views/ResetPassForm.vue'),
-    },
-    {
-      path: '/change-password/:email',
-      name: 'change-password',
-      component: () => import('./views/ChangePassword.vue'),
     },
     {
       path: '*',
