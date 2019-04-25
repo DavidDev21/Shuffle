@@ -47,7 +47,7 @@ module.exports = {
         console.log(user)
         if(user!==null){
             if(user.dataValues.isVerified==true){
-                sgMail.setApiKey('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');
+                sgMail.setApiKey('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');
                 console.log(req.body.email);
                 console.log(req.headers.host);
                 const msg = {
