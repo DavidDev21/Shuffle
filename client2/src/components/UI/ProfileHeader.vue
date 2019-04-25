@@ -232,7 +232,6 @@ export default {
             formData.append('profileImg', this.$refs.profileImg.files[0]);
           }
           Object.entries(formFields).forEach(([key, value]) => { formData.append(key, value); });
-          formData.append('password', this.userPassword);
           // Display the key/value pairs
           for (let pair of formData.entries()) {
               console.log(pair[0]+ ', ' + pair[1]); 

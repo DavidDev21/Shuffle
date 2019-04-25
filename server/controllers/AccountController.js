@@ -160,7 +160,7 @@ module.exports = {
     },
     async updateApplicantProfile(req, res){
         try{
-
+            console.log(req.body.password);
             await User.update({
                 password: req.body.password
             }, {
