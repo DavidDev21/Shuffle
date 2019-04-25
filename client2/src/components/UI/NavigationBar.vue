@@ -3,11 +3,13 @@
         <router-link class="navbar-brand" to="dashboard">
             <img src="@/assets/shuffleLogo.png" height="30" class="d-inline-block align-top" alt="Shuffle">
         </router-link>
-
-        <div class="navbar-nav justify-content-end">
-            <router-link class="nav-item nav-link" to="/profile">Profile</router-link>
-            <router-link class="nav-item nav-link" to="/">Logout</router-link>
-        </div>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <div class="navbar-nav ml-auto justify-content-end">
+              <router-link class="nav-item nav-link" to="/profile">Profile</router-link>
+              <router-link class="nav-item nav-link" to="/">Logout</router-link>
+          </div>
+        </b-collapse>
     </nav>
 </template>
 

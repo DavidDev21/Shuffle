@@ -69,7 +69,7 @@ const storage = multerS3({
     },
     key: function (req, file, cb) {
         const fileExt = path.extname(file.originalname).toLowerCase();
-        allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
+        allowedExts = new Set(['.png','jpg', '.doc','.docx','.pdf']);
         let folderGroup = undefined;
         if(!allowedExts.has(fileExt))
         {
