@@ -12,7 +12,7 @@ module.exports = {
     async register (req, res) {
         try 
         {
-            sgMail.setApiKey('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');
+            sgMail.setApiKey('To Be Filled');
 
             const user = await User.create({
                 email: req.body.email,
