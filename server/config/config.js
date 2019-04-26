@@ -1,7 +1,7 @@
 // config.js holds configuration settings for various of things
 // port = the port that the server listens on
 // db = all the db connection information
-
+// idk
 module.exports = {
     port: process.env.PORT || 5000,
     db: {

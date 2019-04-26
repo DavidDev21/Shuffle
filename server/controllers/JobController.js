@@ -5,6 +5,7 @@ const {sequelize} = require('../models');
 const path = require('path');
 const fs = require('fs');
 
+
 /* POSTGRES VERSION (Filters out jobs that the applicant already applied to)
 SELECT  job."job_id", job."title", job."description", company_name, "Users"."profileImg", 
 job."salary", job."location", job."requireCoverLetter", DATE(job."createdAt") as postedAt
@@ -88,12 +89,23 @@ module.exports = {
             for(let i = 0; i < filesToDelete.length; i++)
             {
                 // absolute path to the file
-                let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
-                console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
-                // Delete the file
-                fs.unlink(absPath, (err) => {
-                    if(err) throw err
-                    console.log('File Deleted');
+                // let absPath = path.join(__dirname, '..', filesToDelete[i].dataValues.filePath);
+                // console.log(path.join(__dirname, '..', filesToDelete[i].dataValues.filePath));
+                // Delete the file (To be modified for S3)
+                // fs.unlink(absPath, (err) => {
+                //     if(err) throw err
+                //     console.log('File Deleted');
+                // });
+                console.log(filesToDelete[i].dataValues.filePath);
+                s3.deleteObject({
+                    Bucket: 'shuffleproject',
+                    Key: filesToDelete[i].dataValues.filePath
+                }, function(error, data) {
+                    if(error)
+                    {
+                        console.log(error);
+                    }
+                    console.log(data);
                 });
             }            
             console.log(filesToDelete);
@@ -208,8 +220,8 @@ module.exports = {
 
                 // strips apart the server path from the full path of where the file is stored
                 // the docPath should match what the GET route for the files are
-                let serverPath = path.resolve(__dirname, "..");
-                let docPath = req.file.path.substring(serverPath.length);
+                // let serverPath = path.resolve(__dirname, "..");
+                // let docPath = req.file.path.substring(serverPath.length);
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
@@ -217,7 +229,7 @@ module.exports = {
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: req.body.documentType,
-                    filePath: docPath,
+                    filePath: req.file.key,
                     job_id: req.body.job_id
                 });
             }

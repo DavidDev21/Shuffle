@@ -32,7 +32,7 @@
                         </tr>
                     </tbody>
                 </table>
-                 <h5 v-if="this.jobs === undefined || this.jobs.length === 0">No jobs have been posted</h5>
+                 <h5 v-if="this.jobs === undefined === 0">No jobs have been posted</h5>
             </div>
         </div>
 

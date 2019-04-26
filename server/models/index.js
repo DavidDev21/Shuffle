@@ -4,13 +4,21 @@ const Sequelize = require('sequelize')
 const config = require('../config/config')
 const db = {}
 
-const sequelize = new Sequelize(
+let sequelize = undefined;
+
+sequelize = new Sequelize(
     config.db.database,
     config.db.user,
     config.db.password,
     config.db.options
 )
 
+if(process.env.NODE_ENV === 'production')
+{
+    sequelize = new Sequelize(
+        process.env.DATABASE_URL
+    )
+}
 // goes through the current directory (models) and import all the sequelize models into the sequelize instance
 fs
     .readdirSync(__dirname)

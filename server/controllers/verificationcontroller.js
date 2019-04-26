@@ -51,6 +51,11 @@ module.exports = {
                     // note: frontend and backend are running on two different ports at the moment
                     // response is sent back to localhost:5000 cause that is where the req came from
                     // this is an issue for development since frontend is running on 8080 at the moment
+                    if(process.env.NODE_ENV === "production")
+                    {
+                        res.status(200).redirect('/');
+                    }
+
                     res.status(200).redirect('http:\/\/localhost:8080/');
                 }
             }

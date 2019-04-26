@@ -101,6 +101,7 @@ export default {
             console.log(this.description);
             const userData = this.$store.getters.userData;
 
+            console.log(this.coverLetter);
             const response = await JobService.postJob({
                 employer: userData.email,
                 title: this.title,

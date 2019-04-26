@@ -48,21 +48,21 @@ export default {
   }
 };
 /* Desktops and laptops ----------- medium */
-@media screen and (min-width : 800px) {
+/* @media screen and (min-width : 800px) {
   .btn-sq-big{
       padding: 0;
       width: 300px !important;
       height: 300px !important;
   }
-};
+}; */
 
 /* Large screens ----------- large */
-@media screen and (min-width : 1824px) {
+/* @media screen and (min-width : 1824px) {
   .btn-sq-big{
       padding: 0;
       width: 450px !important;
       height: 450px !important;
   }
-};
+}; */
 
 </style>
