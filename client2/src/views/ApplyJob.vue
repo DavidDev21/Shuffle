@@ -15,7 +15,7 @@
         <!-- Job Card -->
         <div class='container mt-2'>
             <div class='row justify-content-center'>
-                <div class='row job-card' id='draggable'>
+                <div class='row job-card' id='thisCard'>
                     <div class='card-left d-flex align-items-center justify-content-center col-4'>
                         <img class='job-image' v-bind:src="img_path" alt='Some Img' />
                     </div>

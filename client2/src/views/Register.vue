@@ -79,11 +79,11 @@ export default {
 };
 
 /* Large screens ----------- large */
-@media (min-width : 900px) {
+/* @media (min-width : 900px) {
   .btn-sq-big{
       padding: 0;
       width: 450px !important;
       height: 450px !important;
   }
-};
+}; */
 </style>

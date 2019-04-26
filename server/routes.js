@@ -5,7 +5,9 @@ const ApplicantController = require('./controllers/ApplicantController');
 const EmployerController = require('./controllers/EmployerController');
 const AccountController = require('./controllers/AccountController');
 
+const aws = require('aws-sdk');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
 const crypto =  require('crypto');
 const path = require('path');
 const {Document} = require('./models');
@@ -13,36 +15,79 @@ const {Document} = require('./models');
 // Controllers are essentially endpoints (Controllers control the responds to the request)
 // Routes points to controllers aka endpoints which will perform some action
 // to respond to the request from the client
-const storage = multer.diskStorage({
-    //storage location
-    destination: function (req, file, cb) {
-        const fileExt = path.extname(file.originalname).toLowerCase();
-        allowedExts = new Set(['.png','.jpg', '.doc','.docx','.pdf']);
 
+// {
+//     //storage location
+//     destination: function (req, file, cb) {
+//         const fileExt = path.extname(file.originalname);
+//         allowedExts = new Set(['.png','jpeg', '.doc','.docx','.pdf']);
+
+//         if(!allowedExts.has(fileExt))
+//         {
+//             cb({error: 'Mime Type not supported'});
+//         }
+//         else if(fileExt === '.png' || fileExt === '.jpeg')
+//         {
+//             // this is physical location? __dirname would give you the path to this folder we are in
+//             cb(null, path.join(__dirname, '/uploads/img'));
+//             // don't actually need the full path since the GET request is already relative to the root directory
+            
+//             // cb(null, '/uploads/img');
+//         }
+//         else
+//         {
+//             cb(null, path.join(__dirname, '/uploads/documents'));
+//             // cb(null, '/uploads/documents');
+//         }
+//     },
+//     //custom naming scheme for incoming file
+//     filename: (req, file, cb) => {
+//         // hash original filename
+//         let customFileName = crypto.randomBytes(18).toString('hex');
+//         fileExtension = path.extname(file.originalname);// get file extension from original file name
+//         cb(null, customFileName + fileExtension);
+//     }
+//   }
+
+
+// const storage = multer.diskStorage();
+
+// NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
+aws.config.update({ 
+    accessKeyId: "ASIAZ2SCCNQ4D4EWHZHK", 
+    secretAccessKey: "BZmXfvwhrNOVZj3HZGUR4Zphz0FGOvUBjh0SCQM1", 
+    sessionToken: "FQoGZXIvYXdzEDQaDPN0uKGwjtcVNoznaiL5ApOIEJuSlDdylu059COV+k9KlgUv7fQAQRNRETv2+0qz0p/fwhvQ4FjbE8fLt2aPuCJy+lVAb+S2uU33uAoY7kYhKQ1YJaBApu77z5VoS/XGB5PLb8SXLowto8+gSdBWPgpGGYNuHI7oi62yfUsYHf32iVLaRWLX9xdGrp558CJuW58+emtnnlQMBDTPFz5mfljnInmXLXoU8z9JJShH88BCak2MATaiDxlmwIGVoJn8dGUBM0SBpma66uFCdezD/8dKKcy9/Pl+mN9AxjCBm+I0/5fCFLU0yjhuNoSgwsXV0SXt3AuW+BHe9qDP5d6+PQt2xxySFGJsagCZmyMfxlsLNIwkOu4hZb5ukNzDUYEgqN1ALQ1CdVXxKoZ6b9xLa2ecsoXWjJ9GBOUUAQvxS4ISu7SB5VirUyHR+jo4nHB1bHvVnZQ28a9NulZQVht1PyoSyFU6s3LQBwlqT276O/d6+UK2B9oKmRIFb/qvPtkBhAPeDbKqkPl0KL3aieYF" });
+
+const s3 = new aws.S3({});
+
+
+const storage = multerS3({
+    s3: s3,
+    bucket: 'shuffleproject',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+        const fileExt = path.extname(file.originalname).toLowerCase();
+        allowedExts = new Set(['.png','jpg', '.doc','.docx','.pdf']);
+        let folderGroup = undefined;
         if(!allowedExts.has(fileExt))
         {
             cb(new Error('Mime Type not supported'));
         }
         else if(fileExt === '.png' || fileExt === '.jpg')
         {
-            // this is physical location? __dirname would give you the path to this folder we are in
-            cb(null, path.join(__dirname, '/uploads/img/'));
-            // don't actually need the full path since the GET request is already relative to the root directory
-            
-            // cb(null, '/uploads/img');
+            folderGroup = '/uploads/img/' ;           
         }
         else
         {
-            cb(null, path.join(__dirname, '/uploads/documents/'));
-            // cb(null, '/uploads/documents');
+            folderGroup = '/uploads/documents/';
+
         }
-    },
-    //custom naming scheme for incoming file
-    filename: (req, file, cb) => {
         // hash original filename
         let customFileName = crypto.randomBytes(18).toString('hex');
         fileExtension = path.extname(file.originalname);// get file extension from original file name
-        cb(null, customFileName + fileExtension);
+        cb(null, folderGroup + customFileName + fileExtension);
     }
   });
 
@@ -91,13 +136,62 @@ module.exports = (app) => {
         res.sendFile(path.join(__dirname, '/assets/', req.params.assetName));
     });
 
+    /*
+        the "filePath" in the database is the key for the Object in the S3 Bucket
+        the key also happens to be matching the API URL endpoint like ('/uploads/documents/....')
+        this could be changed, but right now it is a matter of convenience 
+    */
+
+
     app.get('/uploads/documents/:fileName', (req,res) => {
         let file = req.params.fileName;
-        res.sendFile(path.join(__dirname, '/uploads/documents/',file));
+        let s3ObjectKey = req.url;
+        s3.getObject({
+            Bucket: "shuffleproject",
+            Key: s3ObjectKey,
+        }, function(err, data) {
+            if (err) {
+                console.log(err);
+                res.status(400).send(err);
+            }
+
+            // Headers
+            res.set("Content-Length",data.ContentLength)
+            .set("Content-Type",data.ContentType);
+            res.send(data.Body);
+        });
+
+        // this is a slightly better way to get the data from AWS
+        // if the file is large, we can stream the data to the client as it is coming from AWS
+        // rather than waiting for the data to buffer
+        // }).on('httpHeaders', function (statusCode, headers) {
+        //     res.set('Content-Length', headers['content-length']);
+        //     res.set('Content-Type', headers['content-type']);
+        //     this.response.httpResponse.createUnbufferedStream()
+        //         .pipe(res);
+        // })
+        // .send();
+
+        // res.sendFile(path.join(__dirname, '/uploads/documents/',file));
     });
 
     app.get('/uploads/img/:fileName', (req,res) =>{
-        let file = req.params.fileName;
-        res.sendFile(path.join(__dirname, '/uploads/img/', file));
+        let s3ObjectKey = req.url;
+
+        s3.getObject({
+            Bucket: "shuffleproject",
+            Key: s3ObjectKey,
+        }, function(err, data) {
+            if (err) {
+                console.log(err);
+                res.status(400).send(err);
+            }
+            // Headers
+            res.set("Content-Length",data.ContentLength)
+            .set("Content-Type",data.ContentType);
+            res.send(data.Body);
+        });
+        // let file = req.params.fileName;
+        // res.sendFile(path.join(__dirname, '/uploads/img/', file));
     });
 }

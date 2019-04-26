@@ -7,6 +7,15 @@ const {ApplicantDoc} = require('../models');
 const {Document} = require('../models');
 const path = require('path');
 const fs = require('fs');
+const aws = require('aws-sdk');
+
+aws.config.update({ 
+    accessKeyId: "ASIAZ2SCCNQ4D4EWHZHK", 
+    secretAccessKey: "BZmXfvwhrNOVZj3HZGUR4Zphz0FGOvUBjh0SCQM1", 
+    sessionToken: "FQoGZXIvYXdzEDQaDPN0uKGwjtcVNoznaiL5ApOIEJuSlDdylu059COV+k9KlgUv7fQAQRNRETv2+0qz0p/fwhvQ4FjbE8fLt2aPuCJy+lVAb+S2uU33uAoY7kYhKQ1YJaBApu77z5VoS/XGB5PLb8SXLowto8+gSdBWPgpGGYNuHI7oi62yfUsYHf32iVLaRWLX9xdGrp558CJuW58+emtnnlQMBDTPFz5mfljnInmXLXoU8z9JJShH88BCak2MATaiDxlmwIGVoJn8dGUBM0SBpma66uFCdezD/8dKKcy9/Pl+mN9AxjCBm+I0/5fCFLU0yjhuNoSgwsXV0SXt3AuW+BHe9qDP5d6+PQt2xxySFGJsagCZmyMfxlsLNIwkOu4hZb5ukNzDUYEgqN1ALQ1CdVXxKoZ6b9xLa2ecsoXWjJ9GBOUUAQvxS4ISu7SB5VirUyHR+jo4nHB1bHvVnZQ28a9NulZQVht1PyoSyFU6s3LQBwlqT276O/d6+UK2B9oKmRIFb/qvPtkBhAPeDbKqkPl0KL3aieYF"});
+
+const s3 = new aws.S3({});
+
 module.exports = {
     async changeEmail(req, res)
     {
@@ -38,7 +47,7 @@ module.exports = {
         console.log(user)
         if(user!==null){
             if(user.dataValues.isVerified==true){
-                sgMail.setApiKey('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');
+                sgMail.setApiKey('To Be Filled');
                 console.log(req.body.email);
                 console.log(req.headers.host);
                 const msg = {
@@ -153,7 +162,7 @@ module.exports = {
     },
     async updateApplicantProfile(req, res){
         try{
-
+            console.log(req.body.password);
             await User.update({
                 password: req.body.password
             }, {
@@ -185,6 +194,25 @@ module.exports = {
                 });
                 if(response !== null)
                 {
+                    const docEntry = await Document.findOne({
+                        where: {
+                            email: req.body.email,
+                            documentID: response.dataValues.documentID
+                        }
+                    });
+
+                    // S3 destroy
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: docEntry.dataValues.filePath
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
+                    });
+                    
                     await ApplicantDoc.destroy({
                         where: {
                             email: req.body.email,
@@ -216,7 +244,7 @@ module.exports = {
                 const doc = await Document.create({
                     owner: req.body.email,
                     documentType: 'resume',
-                    filePath: docPath
+                    filePath: req.files.resume[0].key
                 });
 
                 docID = doc.dataValues.documentID;
@@ -244,19 +272,25 @@ module.exports = {
                 if(response.dataValues.profileImg.includes('/assets') === false)
                 {
                     // delete the old file
-                    let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
-                    fs.unlink(absPath, (err) => {
-                        if(err) throw err
-                        console.log('File Deleted');
+                    // let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: response.dataValues.profileImg
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
                     });
                 }
                 
-                let serverPath = path.resolve(__dirname, "..");
-                let filePath = req.files.profileImg[0].path.substring(serverPath.length);
+                // let serverPath = path.resolve(__dirname, "..");
+                // let filePath = req.files.profileImg[0].path.substring(serverPath.length);
 
                 // update the entry in the database
                 await User.update({
-                    profileImg: filePath
+                    profileImg: req.files.profileImg[0].key
                 },{
                     where: {
                         email: req.body.email
@@ -271,8 +305,6 @@ module.exports = {
         }
     },
     async updateEmployerProfile(req, res){
-        console.log("INEMPLOYER");
-        console.log(req.body);
         try{
             await User.update({
                 password: req.body.password
@@ -305,19 +337,21 @@ module.exports = {
                 if(response.dataValues.profileImg.includes('/assets') === false)
                 {
                     // delete the old file
-                    let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
-                    fs.unlink(absPath, (err) => {
-                        if(err) throw err
-                        console.log('File Deleted');
+                    s3.deleteObject({
+                        Bucket: 'shuffleproject',
+                        Key: response.dataValues.profileImg
+                    }, function(error, data) {
+                        if(error)
+                        {
+                            console.log(error);
+                        }
+                        console.log(data);
                     });
                 }
                 
-                let serverPath = path.resolve(__dirname, "..");
-                let filePath = req.files.profileImg[0].path.substring(serverPath.length);
-
                 // update the entry in the database
                 await User.update({
-                    profileImg: filePath
+                    profileImg: req.files.profileImg[0].key
                 },{
                     where: {
                         email: req.body.email
