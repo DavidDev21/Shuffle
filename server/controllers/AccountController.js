@@ -10,9 +10,8 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4MWCZBP5N", 
-    secretAccessKey: "/zY9ZmRpdf8tMO6uBnRxS7qTakEdbb4zyHB9nNzb", 
-    sessionToken: "FQoGZXIvYXdzEI///////////wEaDGatED20j25BBFxhAyL5AvnFY2xNs4QFbECA9WO2nio+/2AkJdQEVpmujjOgrJVPW35BlMzljfESYNjPUOiEp2q1vtcd33jP8wcylFxXgxI8nBJFmSW5Atqg+lKFj6kF1eFFfZCS7GXvYam1W1sYm8fwizzsAH579QjE2uTnYrG/qUP4ZZrtnEodwt0rCdYYJzUSBWPUBrOV1qJH9Ul+MVG8NFkc9RxWxp8QKnx0V/PtPLakgrnOBv5ZqpdvpckiJPAHgvoCMHV1qpDGFVxX6IzajaL4phXMov9qucNBL9jAvCwyrM/X1hpEFEWINAcZ5f/7BhiAIWaLOgf6GmhzbKmt+GijHRy9PmUAA9TbXurDi8Aha7Dhkm24FdoYIPGmCjeq/h2Fj7XfM4ghmW9ptJweao1rh/M9+CBVKT+J8M0tUFOy2B5kQLrRPxuWwIuSlp6OIpG5D5h8TDL8GbRvihMj6DxayscHic3wLIyCFB8u3ypfdQpW4KoPuLOZ96HLzZwiKC2WSMf3KNTkneYF"});
+    accessKeyId: "ASAKIAJ2F3TQUTWANGMZDQ", 
+    secretAccessKey: "mVttN+UaxfgeNGYfMXXxxR/7l7H/lcIcgX+zT82K", });
 
 const s3 = new aws.S3({});
 
