@@ -54,8 +54,9 @@ const {Document} = require('./models');
 
 // NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
 aws.config.update({ 
-    accessKeyId: "ASAKIAJ2F3TQUTWANGMZDQ", 
-    secretAccessKey: "mVttN+UaxfgeNGYfMXXxxR/7l7H/lcIcgX+zT82K", });
+    accessKeyId: "ASIAZ2SCCNQ4A5PP55MW", 
+    secretAccessKey: "cdwW0gg0vT1ziXom93/4MSgbolfpbAjwGwWw+eKl",
+    sessionToken: "FQoGZXIvYXdzEJD//////////wEaDDMzwDUqe+fWaZ6RaCL5AkVqn1e4YqQq5XE7OpQ2k1984dzD4SJsI+FHcEbGA/IXzsAjffjQQXXBw8F/iEr4K3ad4n9qiSczKFRNrS/qJDFL6ypde2i+U9rcupHis7sFPBp95vcNtPftDwvYzKb0/ldqpaTAA3MAQmfaGCwAuLJkzJzVVV1tkI0dbUev6tVUQiNDstOipuZWOFuFlDFz0NmF5LCKXo/8az2Cz5r1Z6POAMQKlINRSDYJ1IKjh937hgnvZ/FHShb1TfnRU2iSREYFusHdJRXbQmol07BTapkp79v2i1aVDuUJf8WUN6165g1vFhnJsySJo2Yn4ud2l5q+E6klAjt2kDl2SpFSp5sjXypH2wl1D+g+OwzBT61WVWmj70SyeP3nqks7sC0YrT8qBYUZg9FbB3j59hR9yJ5VfIlbQbeDHfSxmlPLoJdmIJiZmRXyWk+U4t3KzbLjondlLMZaVHW9w3RSuWsqjVgHYfjwZJzx9pRid0U8/QXjZTh46NhZ22tJKKf2neYF" });
 
 const s3 = new aws.S3({});
 
@@ -146,7 +147,7 @@ module.exports = (app) => {
         let file = req.params.fileName;
         let s3ObjectKey = req.url;
         s3.getObject({
-            Bucket: "shuffleproject1",
+            Bucket: "shuffleproject",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
@@ -178,7 +179,7 @@ module.exports = (app) => {
         let s3ObjectKey = req.url;
 
         s3.getObject({
-            Bucket: "shuffleproject1",
+            Bucket: "shuffleproject",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
