@@ -10,9 +10,9 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4A5PP55MW", 
-    secretAccessKey: "cdwW0gg0vT1ziXom93/4MSgbolfpbAjwGwWw+eKl",
-    sessionToken: "FQoGZXIvYXdzEJD//////////wEaDDMzwDUqe+fWaZ6RaCL5AkVqn1e4YqQq5XE7OpQ2k1984dzD4SJsI+FHcEbGA/IXzsAjffjQQXXBw8F/iEr4K3ad4n9qiSczKFRNrS/qJDFL6ypde2i+U9rcupHis7sFPBp95vcNtPftDwvYzKb0/ldqpaTAA3MAQmfaGCwAuLJkzJzVVV1tkI0dbUev6tVUQiNDstOipuZWOFuFlDFz0NmF5LCKXo/8az2Cz5r1Z6POAMQKlINRSDYJ1IKjh937hgnvZ/FHShb1TfnRU2iSREYFusHdJRXbQmol07BTapkp79v2i1aVDuUJf8WUN6165g1vFhnJsySJo2Yn4ud2l5q+E6klAjt2kDl2SpFSp5sjXypH2wl1D+g+OwzBT61WVWmj70SyeP3nqks7sC0YrT8qBYUZg9FbB3j59hR9yJ5VfIlbQbeDHfSxmlPLoJdmIJiZmRXyWk+U4t3KzbLjondlLMZaVHW9w3RSuWsqjVgHYfjwZJzx9pRid0U8/QXjZTh46NhZ22tJKKf2neYF" });
+    accessKeyId: "ASIAZ2SCCNQ4HFGF776H", 
+    secretAccessKey: "75auNYkNjqN8X23ijmUaVZH3dbdKwhfO0gmHslVJ",
+    sessionToken: "FQoGZXIvYXdzEJH//////////wEaDDSiPwkOv55mYtuA4iL5ArEIzzAuSGwJ7GXRCBP9gIAoQw/uVbJc3ljkoKfGEetI3Zigfl8ayvMMZeqipL8sGcGj+aVYttcj3iBgtlsVUpnpx0+ncGSQiYAMNITfqPJG5pROMednjcJkpr2+KqyT7jjxX8gqo0Cl8maZB5/eVCuUQMM9dNGBr4QeGqf3pplSvzKTQgLXEn7P3fz8sO0g33i1FZxhwSDGNuvsD4ZUh8xqlbBOvLrqAa/jjcChtUBm27pgEFbkiA6J9ZxLNhLcGvL4Ym0TH9ngQLlaxRLw8QKeQ6XDjWP/tFd586iHDp81aqUbiotO/MXPUPh/AIobP3HJcalis2q8GBcNH0d4Gx7TtM3luPDVF70XSSXZnD5C8FhpKnj2G8pUnof3cFHxsZmhMNvr0h8q52TW8O72KHm3PuVIZcVazcXALlgguTF/U0i7HIVQNZI7EwHqdb1gzJml7I0Hf2Bz/i1HXWco/TGnaMpqt8+q7EgkRX1yjP1BfIpCZNydFWc6KKKTnuYF" });
 
 const s3 = new aws.S3({});
 
@@ -55,7 +55,7 @@ module.exports = {
                     from: 'no-reply@example.com',			//sender's email
                     subject: 'Please update your password using this link',				//Subject
                     text: 'Click on this link to change your password',		//content
-                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttp:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
+                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttps:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
                   };
                 sgMail.send(msg);
                 res.status(200).send('Reset Link sent');
