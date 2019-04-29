@@ -200,7 +200,7 @@ module.exports = {
 
                     // S3 destroy
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: docEntry.dataValues.filePath
                     }, function(error, data) {
                         if(error)

@@ -146,7 +146,7 @@ module.exports = (app) => {
         let file = req.params.fileName;
         let s3ObjectKey = req.url;
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
@@ -178,7 +178,7 @@ module.exports = (app) => {
         let s3ObjectKey = req.url;
 
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
