@@ -124,7 +124,7 @@ module.exports = (app) => {
     app.post('/update-applicant-profile', varietyUpload, AccountController.updateApplicantProfile);
     app.post('/update-employer-profile', varietyUpload, AccountController.updateEmployerProfile);
 
-    app.get('/change-password/:email', AccountController.redirectToNewPass);
+    // app.get('/change-password/:email', AccountController.redirectToNewPass);
     app.post('/change-password', AccountController.changePassword);
     app.post('/sendResetEmail',AccountController.sendResetEmail);
 

@@ -71,7 +71,7 @@ module.exports = {
     //get new password from web form
     async redirectToNewPass(req,res){
         //let userEmail = req.params.email;
-        res.status(200).redirect('https://shuffleproject.herokuapp.com/change-password/davidzheng54@gmail.com')
+        res.status(200).redirect('https:\/\/shuffleproject.herokuapp.com/change-password/' + req.params.email);
         // res.status(200).redirect('http:\/\/localhost:8080/change-password/'+req.params.email);
         //res.status(200).redirect('http:\/\/localhost:8080/resetPassword/'+userEmail);
     },
