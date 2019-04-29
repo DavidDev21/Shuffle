@@ -94,7 +94,7 @@
               <textarea v-model="userData.company_description" class="form-control"  id = "des"></textarea>
             </div>
             <div class="form-row">
-              <label for="profileImg-upload" class="float-left">Upload Profile Image (JPEG, PNG only)-</label>
+              <label for="profileImg-upload" class="float-left">Upload Profile Image (JPG, PNG only)-</label>
               <input id="profileImg-upload" type="file" ref="profileImg" @change="selectFile('profileImg')"/>
             </div>
           
