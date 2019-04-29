@@ -94,7 +94,7 @@ export default {
       else if(event.keyCode === 39)
       {
         // this.applyJob();
-        this.getJob();
+        this.applyJob();
         window.removeEventListener('keydown', this.onkey);
         document.getElementById('thisCard').classList.add('rightAnimation');
         setTimeout(() => {
