@@ -10,9 +10,9 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4PZLDNUO2", 
-    secretAccessKey: "esFcBuOClcVquqTxvQ7btEhHEs3EyMTgCm6TfLGO", 
-    sessionToken: "FQoGZXIvYXdzEC4aDAa5DiEgc4v8UsRTliL5AjjwW108fYu5DmZppZeF9p/uVUgCoQ6QO69gEcD0rIXFh8uKjY8yVAljPx156KTkrq8OQ4l+4eBtwMfJpJFwPdkzvQZ6/nPsXrPWbNFPGn73ibvS78Kmjv49EhCSDv9nTCCvH04hoyG0RLWwBXfOzsH/jT8HyVH7PBOaXqgLaCFgGLguQK0Q2gOVDcHIjaio1HHB+0qViUSPLVcwnZeV7FQ1OzM3aYXyp/YbsQP0nsQ6y9GP/I8SVLREoN68EPpHljrWYvHa9kfs4ApovWhmwVIv06sPSrRyCwidE9Md1vbv3rMqy2xNmRAyi2K+VtCnuEo6kKQtZYvLmC+v+DPi5wAoj91VC5FM6fay7++9InJl1tptBHWWZXbzSZLg66NUtEXFv/crh5wMSXEUQAEMUBWgJY9bGENVMkVebf14aYwJKkD1fFuW1V00NvzC+oBSrurQzXZJ7tnQScuKgMB5K0fwwbLF1JzFgm0Ejhdm7eOLrSNaJu5/7AW/KOKqiOYF"});
+    accessKeyId: "ASIAZ2SCCNQ4ABO2GOFE", 
+    secretAccessKey: "Wo5iN2Aqdx+RbL6OCtNB0kHotNFFj7A7oiMtKrI6", 
+    sessionToken: "FQoGZXIvYXdzEHoaDHiK1idF2+jSPLgN/yL5ApIkQapeqiORblrkshml90ax5Oik2ppx18UJUjiTVfwQ/vVUR1gUmKbsTxAiD1L7fAJg0YSNaEXXON4xHpuOoxGZ9EYi9RleFsIc36XI979mKjGwVY3wYqOLnu6+qWubZ2COT8T/x6Pya0vJjB0Rk/bh22crMPerA1QPpT/agl9Z44aYQdt7+C3+847vxxCITI7ohb0ZBgzIlVvRsKEBOOPXF1z01sRExIXF/Xp0/VgmNCmWjW52/urtCHKQ8xvSoONz3kjNg27RLZEvs5SaSN5j23hMPAOX3xoLnF9w8AfA2OfyoBxUaTWHW/yrLJqYQD/B/58Po6717Wt1+l3rRhQLksqQPvIRb5dqtxFpSF5Xrjo7YlopDFit1qBliqZUFqFOmBaq39h+jxkCpQDuxNPcFn1ceqAzUfIKKMVexXC4MTEvnB+P9Bsu7wd4gqaDXZu9kmDeDzX0KJFREmWQKUOh8dxDi7UNL4LD2B1nHf+9fwOyZNuAKtk6KLWVmeYF" });
 
 const s3 = new aws.S3({});
 
@@ -47,7 +47,7 @@ module.exports = {
         console.log(user)
         if(user!==null){
             if(user.dataValues.isVerified==true){
-                sgMail.setApiKey('To Be Filled');
+                sgMail.setApiKey('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');
                 console.log(req.body.email);
                 console.log(req.headers.host);
                 const msg = {

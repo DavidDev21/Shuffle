@@ -3,14 +3,14 @@
         <NavigationBar></NavigationBar>
 
         <div class='container'>
-            <h3>Search Filter</h3>
+            <!-- <h3>Search Filter</h3>
             <div class='row justify-content-center'>
               <div class='col-12'>
                 <label class='mr-1' for="searchLocation">By Location:</label>
                 <input type='text' placeholder="enter location">
                 <button class="btn btn-primary" @click="applyFilter">Apply Filter</button>
               </div>
-            </div>
+            </div> -->
         </div>
         <!-- Job Card -->
         <div class='container mt-2'>
