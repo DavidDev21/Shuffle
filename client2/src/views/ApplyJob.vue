@@ -74,10 +74,21 @@ export default {
     // JobCard,
     NavigationBar,
   },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.onkey);
+  },
   // Future: put file upload related methods into another file
   methods: {
-    applyFilter() {
-
+    onkey(event) {
+      if(event.keyCode === 37)
+      {
+        this.getJob();
+      }
+      else if(event.keyCode === 39)
+      {
+        this.applyJob();
+      }
+      return;
     },
     validFileType(fileName, allowedExt) {
       const fileExt = fileName.slice(fileName.lastIndexOf('.'));
@@ -163,6 +174,7 @@ export default {
   },
   mounted() {
     console.log('hello');
+    window.addEventListener('keydown', this.onkey);
     this.getJob();
   },
   data() {
