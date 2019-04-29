@@ -14,7 +14,7 @@
         </div>
         <!-- Job Card -->
         <div class='container mt-2'>
-            <div class='row justify-content-center'>
+            <div class='row justify-content-center overFlows'>
                 <div class='row job-card' id='thisCard'>
                     <div class='card-left d-flex align-items-center justify-content-center col-4'>
                         <img class='job-image' v-bind:src="img_path" alt='Some Img' />
@@ -67,6 +67,7 @@
 import NavigationBar from '@/components/UI/NavigationBar';
 // import JobCard from '@/components/UI/JobCard';
 import JobService from '@/services/JobService';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'apply-job',
@@ -83,11 +84,25 @@ export default {
       if(event.keyCode === 37)
       {
         this.getJob();
+        window.removeEventListener('keydown', this.onkey);
+        document.getElementById('thisCard').classList.add('leftAnimation');
+        setTimeout(() => {
+          document.getElementById('thisCard').classList.remove('leftAnimation');
+          window.addEventListener('keydown', this.onkey);
+        }, 1250);
       }
       else if(event.keyCode === 39)
       {
-        this.applyJob();
+        // this.applyJob();
+        this.getJob();
+        window.removeEventListener('keydown', this.onkey);
+        document.getElementById('thisCard').classList.add('rightAnimation');
+        setTimeout(() => {
+          document.getElementById('thisCard').classList.remove('rightAnimation');
+          window.addEventListener('keydown', this.onkey);
+        }, 1250);
       }
+      // document.getElementById('thisCard').classList.remove('leftAnimation');
       return;
     },
     validFileType(fileName, allowedExt) {
@@ -196,6 +211,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.overFlows
+{
+  overflow: hidden;
+}
 .job-card
 {
     border: black 1px solid;
@@ -230,5 +249,44 @@ export default {
 {
     color: grey;
     font-size: small;
+}
+
+@keyframes swipe-left
+{
+  from {
+    transform: rotate(0deg);
+    position: relative;
+    left: 0;
+  }
+  to {
+    transform: rotate(-90deg);
+    position: relative;
+    left: -100%;
+  }
+}
+
+@keyframes swipe-right
+{
+  from {
+    transform: rotate(0deg);
+    position: relative;
+    left: 0;
+  }
+  to {
+    transform: rotate(90deg);
+    position: relative;
+    left: 100%;
+  }
+}
+.leftAnimation
+{
+  animation-name: swipe-left;
+  animation-duration: 1s;
+}
+
+.rightAnimation
+{
+  animation-name: swipe-right;
+  animation-duration: 1s;
 }
 </style>
