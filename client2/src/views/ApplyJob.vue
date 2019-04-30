@@ -56,7 +56,7 @@
         </form>
 
         <div class='row mt-3 justify-content-center'>
-            <button class='btn btn-primary mr-3' @click='getJob'>&#60;&#60;&#60; View Next Job</button>
+            <button class='btn btn-primary mr-3' @click='getJob(true)'>&#60;&#60;&#60; View Next Job</button>
             <button class='btn btn-primary' @click='applyJob'>Apply To Job &#62;&#62;&#62;</button>
         </div>
     </div>
@@ -83,24 +83,13 @@ export default {
     onkey(event) {
       if(event.keyCode === 37)
       {
-        this.getJob();
-        window.removeEventListener('keydown', this.onkey);
-        document.getElementById('thisCard').classList.add('leftAnimation');
-        setTimeout(() => {
-          document.getElementById('thisCard').classList.remove('leftAnimation');
-          window.addEventListener('keydown', this.onkey);
-        }, 1250);
+        this.getJob(true);
       }
       else if(event.keyCode === 39)
       {
         // this.applyJob();
         this.applyJob();
-        window.removeEventListener('keydown', this.onkey);
-        document.getElementById('thisCard').classList.add('rightAnimation');
-        setTimeout(() => {
-          document.getElementById('thisCard').classList.remove('rightAnimation');
-          window.addEventListener('keydown', this.onkey);
-        }, 1250);
+
       }
       // document.getElementById('thisCard').classList.remove('leftAnimation');
       return;
@@ -132,7 +121,16 @@ export default {
         alert(`The file extension ${fileExt} is not allowed`);
       }
     },
-    async getJob() {
+    async getJob(enableAnimation) {
+      if(enableAnimation === true)
+      {
+        window.removeEventListener('keydown', this.onkey);
+        document.getElementById('thisCard').classList.add('leftAnimation');
+        setTimeout(() => {
+          document.getElementById('thisCard').classList.remove('leftAnimation');
+          window.addEventListener('keydown', this.onkey);
+        }, 1250);
+      }
       try {
 
         const email = this.$store.getters.userData.email;
@@ -164,7 +162,12 @@ export default {
         alert("Please upload your cover letter before applying");
         return;
       }
-
+      window.removeEventListener('keydown', this.onkey);
+      document.getElementById('thisCard').classList.add('rightAnimation');
+      setTimeout(() => {
+        document.getElementById('thisCard').classList.remove('rightAnimation');
+        window.addEventListener('keydown', this.onkey);
+      }, 1250);
       try {
         const userData = this.$store.getters.userData;
         const formData = new FormData();
@@ -190,7 +193,7 @@ export default {
   mounted() {
     console.log('hello');
     window.addEventListener('keydown', this.onkey);
-    this.getJob();
+    this.getJob(false);
   },
   data() {
     return {
