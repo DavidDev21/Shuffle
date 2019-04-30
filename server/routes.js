@@ -54,16 +54,15 @@ const {Document} = require('./models');
 
 // NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4ANRXUPFX", 
-    secretAccessKey: "H2JG/vLdwc2ASKHoqGB3GzlFaY9ZMRCgFD6WrCaP",
-    sessionToken: "FQoGZXIvYXdzEJ3//////////wEaDIi5yo7thWUlY0+upyL5Atun70EXc/dApI8jsv1BBJX742VQ91iWU22wTQmDqFRnPPlsOksmPf+FoJ8LBO3fZYu9oGx9vux+8H7vFxytroKqqFRgIiw2ZsM0Pv278JhberYlTyZmyamhGZg0Vrfq7/DvSzctaThRtv+n0TnYg0B35MKOLKU4Qw+LddBvydgZtB/sWLDDCdHle9yPtpnbw2xXk80aKNfmgA6WvUrRCRAgFEBbdHRe+UZUUGrluphBZJBA2J0PLAsc2I9B1P7X5CUuR6iUZN0CDOoGot7zSjLeUCFEjMF6Va7ocN2HrahkD/TswaBJluIdDXp4MLb/WXzycs+VqtwBrwBsDntnUQIAnwJrD51QHWodP6G9r41iPyS7ldIkEx/2eCZRMW0l6YjDiXNVJt75ZbUedW7knYcboqXfwvxDMPOx8qJLy3z5Kzjofytt8q15asCzy3OBA4Xcqs60bzA9ciIvQQwWwRVIO5hr3kqle1NZn/ST9/SKZgBZUm2gvATVKNvtoOYF"});
+    accessKeyId: "AKIAIF2ZYZOUWPA6IIIQ", 
+    secretAccessKey: "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" });
 
 const s3 = new aws.S3({});
 
 
 const storage = multerS3({
     s3: s3,
-    bucket: 'shuffleproject',
+    bucket: 'shuffleproject1',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
@@ -124,7 +123,11 @@ module.exports = (app) => {
     app.post('/update-applicant-profile', varietyUpload, AccountController.updateApplicantProfile);
     app.post('/update-employer-profile', varietyUpload, AccountController.updateEmployerProfile);
 
-    // app.get('/change-password/:email', AccountController.redirectToNewPass);
+    // Don't need this for production
+    if(process.env.NODE_ENV !== 'production')
+    {
+        app.get('/change-password/:email', AccountController.redirectToNewPass);
+    }
     app.post('/change-password', AccountController.changePassword);
     app.post('/sendResetEmail',AccountController.sendResetEmail);
 
@@ -147,7 +150,7 @@ module.exports = (app) => {
         let file = req.params.fileName;
         let s3ObjectKey = req.url;
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
@@ -179,7 +182,7 @@ module.exports = (app) => {
         let s3ObjectKey = req.url;
 
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {

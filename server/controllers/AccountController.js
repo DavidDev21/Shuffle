@@ -10,9 +10,8 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4ANRXUPFX", 
-    secretAccessKey: "H2JG/vLdwc2ASKHoqGB3GzlFaY9ZMRCgFD6WrCaP",
-    sessionToken: "FQoGZXIvYXdzEJ3//////////wEaDIi5yo7thWUlY0+upyL5Atun70EXc/dApI8jsv1BBJX742VQ91iWU22wTQmDqFRnPPlsOksmPf+FoJ8LBO3fZYu9oGx9vux+8H7vFxytroKqqFRgIiw2ZsM0Pv278JhberYlTyZmyamhGZg0Vrfq7/DvSzctaThRtv+n0TnYg0B35MKOLKU4Qw+LddBvydgZtB/sWLDDCdHle9yPtpnbw2xXk80aKNfmgA6WvUrRCRAgFEBbdHRe+UZUUGrluphBZJBA2J0PLAsc2I9B1P7X5CUuR6iUZN0CDOoGot7zSjLeUCFEjMF6Va7ocN2HrahkD/TswaBJluIdDXp4MLb/WXzycs+VqtwBrwBsDntnUQIAnwJrD51QHWodP6G9r41iPyS7ldIkEx/2eCZRMW0l6YjDiXNVJt75ZbUedW7knYcboqXfwvxDMPOx8qJLy3z5Kzjofytt8q15asCzy3OBA4Xcqs60bzA9ciIvQQwWwRVIO5hr3kqle1NZn/ST9/SKZgBZUm2gvATVKNvtoOYF"  });
+    accessKeyId: "AKIAIF2ZYZOUWPA6IIIQ", 
+    secretAccessKey: "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"  });
 
 const s3 = new aws.S3({});
 
@@ -71,8 +70,8 @@ module.exports = {
     //get new password from web form
     async redirectToNewPass(req,res){
         //let userEmail = req.params.email;
-        res.status(200).redirect('https:\/\/shuffleproject.herokuapp.com/change-password/' + req.params.email);
-        // res.status(200).redirect('http:\/\/localhost:8080/change-password/'+req.params.email);
+        // res.status(200).redirect('https:\/\/shuffleproject.herokuapp.com/change-password/' + req.params.email);
+        res.status(200).redirect('https:\/\/localhost:8080/change-password/'+req.params.email);
         //res.status(200).redirect('http:\/\/localhost:8080/resetPassword/'+userEmail);
     },
     async changePassword(req,res){
@@ -202,7 +201,7 @@ module.exports = {
 
                     // S3 destroy
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: docEntry.dataValues.filePath
                     }, function(error, data) {
                         if(error)
@@ -235,7 +234,7 @@ module.exports = {
                 // strips apart the server path from the full path of where the file is stored
                 // the docPath should match what the GET route for the files are
                 let serverPath = path.resolve(__dirname, "..");
-                let docPath = req.files.resume[0].path.substring(serverPath.length);
+                // let docPath = req.files.resume[0].path.substring(serverPath.length);
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
@@ -273,7 +272,7 @@ module.exports = {
                     // delete the old file
                     // let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: response.dataValues.profileImg
                     }, function(error, data) {
                         if(error)
@@ -337,7 +336,7 @@ module.exports = {
                 {
                     // delete the old file
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: response.dataValues.profileImg
                     }, function(error, data) {
                         if(error)
