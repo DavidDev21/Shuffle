@@ -54,9 +54,9 @@ const {Document} = require('./models');
 
 // NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4HFGF776H", 
-    secretAccessKey: "75auNYkNjqN8X23ijmUaVZH3dbdKwhfO0gmHslVJ",
-    sessionToken: "FQoGZXIvYXdzEJH//////////wEaDDSiPwkOv55mYtuA4iL5ArEIzzAuSGwJ7GXRCBP9gIAoQw/uVbJc3ljkoKfGEetI3Zigfl8ayvMMZeqipL8sGcGj+aVYttcj3iBgtlsVUpnpx0+ncGSQiYAMNITfqPJG5pROMednjcJkpr2+KqyT7jjxX8gqo0Cl8maZB5/eVCuUQMM9dNGBr4QeGqf3pplSvzKTQgLXEn7P3fz8sO0g33i1FZxhwSDGNuvsD4ZUh8xqlbBOvLrqAa/jjcChtUBm27pgEFbkiA6J9ZxLNhLcGvL4Ym0TH9ngQLlaxRLw8QKeQ6XDjWP/tFd586iHDp81aqUbiotO/MXPUPh/AIobP3HJcalis2q8GBcNH0d4Gx7TtM3luPDVF70XSSXZnD5C8FhpKnj2G8pUnof3cFHxsZmhMNvr0h8q52TW8O72KHm3PuVIZcVazcXALlgguTF/U0i7HIVQNZI7EwHqdb1gzJml7I0Hf2Bz/i1HXWco/TGnaMpqt8+q7EgkRX1yjP1BfIpCZNydFWc6KKKTnuYF" });
+    accessKeyId: "ASIAZ2SCCNQ4FDN36V6Z", 
+    secretAccessKey: "F2tNcxDKYs2Nws2jKwwNZ6zM/wamqoCsUaEq5sYZ",
+    sessionToken: "FQoGZXIvYXdzEJX//////////wEaDFfn1fslRQPDdPn0UCL5ArErNsFBi286ZPfQF0f2t2/xDHBj+SHS3NsnrJ4Zph6vbC6V5C3hvULEHGeUQYc0148fh6KxPz22v/GGHd3ZmQrraxyT177V1Eqyrp3S0gAkBh/o7qDBuf7RFVJtFtWxJjOttirsm8HWc5d8rzEvZaFORM9aZX8FCmyOfJoO20SJ/QjONOQ+DhQ7V3G74bhZd42xVDIMSGYuFkg3NNI+b6XtLL97pj8DUIm1PV7u6KYcxRRWaQzRXpjACoNr9BIAVo8aDrRgBaWYhraqh5m5P/ppAsAb87xKiBYU9jeDYeeBFEHffXtMxjTYKamRrYVkXqZ48EaonnSuvRlD1Ft9rIzkCegOArarkfjHhyOC/BHRruZuEYhVeCaxRixir87ksFVGBbaN1VQK5zvRO/2rNOZhNq3Uyo9rkJ+sjOYooedIUsi1ww3+nq43C/SbBmOB75JN4j676f9gMGM1Jry6Wn21u8WnfKZdqU6sxMoDum0dzkNdYkK+gr3NKIyMn+YF" });
 
 const s3 = new aws.S3({});
 
