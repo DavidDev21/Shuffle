@@ -57,6 +57,7 @@ aws.config.update({
     accessKeyId: "", 
     secretAccessKey: "" });
 
+
 const s3 = new aws.S3({});
 
 

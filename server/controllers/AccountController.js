@@ -126,8 +126,9 @@ module.exports = {
                 email: email
             }
         });
-        let userProfile = undefined;
+        console.log(response.dataValues.userType);
         if(response.dataValues.userType==="applicant"){
+            console.log("I am in applicant")
             try{
                 const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
                 \"Applicants\".\"bio\",\"Applicants\".\"f_name\",\"Applicants\".\"l_name\",\"Applicants\".\"email\"
@@ -143,6 +144,7 @@ module.exports = {
             }
         }
         else if(response.dataValues.userType==="employer"){
+            console.log("I am in employer")
             try{
                 const getProfileQuery = `SELECT \"Users\".\"password\",\"Users\".\"profileImg\",
                 \"Employers\".\"email\",\"Employers\".\"company_name\",\"Employers\".\"company_description\",\"Employers\".\"year_found\"
