@@ -54,8 +54,8 @@ const {Document} = require('./models');
 
 // NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
 aws.config.update({ 
-    accessKeyId: "AKIAIF2ZYZOUWPA6IIIQ", 
-    secretAccessKey: "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" });
+    accessKeyId: "", 
+    secretAccessKey: "" });
 
 const s3 = new aws.S3({});
 

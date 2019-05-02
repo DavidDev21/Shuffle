@@ -10,8 +10,8 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "AKIAIF2ZYZOUWPA6IIIQ", 
-    secretAccessKey: "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"  });
+    accessKeyId: "", 
+    secretAccessKey: ""  });
 
 const s3 = new aws.S3({});
 
@@ -46,7 +46,7 @@ module.exports = {
         console.log(user)
         if(user!==null){
             if(user.dataValues.isVerified==true){
-                sgMail.setApiKey('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');
+                sgMail.setApiKey('TO BE FILLED');
                 console.log(req.body.email);
                 console.log(req.headers.host);
                 const msg = {

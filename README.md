@@ -1,6 +1,6 @@
 # Demo
 https://shuffleproject.herokuapp.com/
-
+(Features may break due to AWS account issues)
 # Shuffle
 CS 4513 / 4523 - Software Engineering Project
 
