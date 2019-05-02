@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-row">
                         <label for="description" class="float-left required">Description</label>
-                        <textarea rows="7" cols="100" v-model="description" type="text" id="description" class="form-control" placeholder="Write your job description here..." required>
+                        <textarea maxlength="250" rows="7" cols="100" v-model="description" type="text" id="description" class="form-control" placeholder="Write your job description here..." required>
                         </textarea>
                     </div>
                 </form>

@@ -3,18 +3,18 @@
         <NavigationBar></NavigationBar>
 
         <div class='container'>
-            <h3>Search Filter</h3>
+            <!-- <h3>Search Filter</h3>
             <div class='row justify-content-center'>
               <div class='col-12'>
                 <label class='mr-1' for="searchLocation">By Location:</label>
                 <input type='text' placeholder="enter location">
                 <button class="btn btn-primary" @click="applyFilter">Apply Filter</button>
               </div>
-            </div>
+            </div> -->
         </div>
         <!-- Job Card -->
         <div class='container mt-2'>
-            <div class='row justify-content-center'>
+            <div class='row justify-content-center overFlows'>
                 <div class='row job-card' id='thisCard'>
                     <div class='card-left d-flex align-items-center justify-content-center col-4'>
                         <img class='job-image' v-bind:src="img_path" alt='Some Img' />
@@ -56,7 +56,7 @@
         </form>
 
         <div class='row mt-3 justify-content-center'>
-            <button class='btn btn-primary mr-3' @click='getJob'>&#60;&#60;&#60; View Next Job</button>
+            <button class='btn btn-primary mr-3' @click='getJob(true)'>&#60;&#60;&#60; View Next Job</button>
             <button class='btn btn-primary' @click='applyJob'>Apply To Job &#62;&#62;&#62;</button>
         </div>
     </div>
@@ -67,6 +67,7 @@
 import NavigationBar from '@/components/UI/NavigationBar';
 // import JobCard from '@/components/UI/JobCard';
 import JobService from '@/services/JobService';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'apply-job',
@@ -74,10 +75,24 @@ export default {
     // JobCard,
     NavigationBar,
   },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.onkey);
+  },
   // Future: put file upload related methods into another file
   methods: {
-    applyFilter() {
+    onkey(event) {
+      if(event.keyCode === 37)
+      {
+        this.getJob(true);
+      }
+      else if(event.keyCode === 39)
+      {
+        // this.applyJob();
+        this.applyJob();
 
+      }
+      // document.getElementById('thisCard').classList.remove('leftAnimation');
+      return;
     },
     validFileType(fileName, allowedExt) {
       const fileExt = fileName.slice(fileName.lastIndexOf('.'));
@@ -106,7 +121,16 @@ export default {
         alert(`The file extension ${fileExt} is not allowed`);
       }
     },
-    async getJob() {
+    async getJob(enableAnimation) {
+      if(enableAnimation === true)
+      {
+        window.removeEventListener('keydown', this.onkey);
+        document.getElementById('thisCard').classList.add('leftAnimation');
+        setTimeout(() => {
+          document.getElementById('thisCard').classList.remove('leftAnimation');
+          window.addEventListener('keydown', this.onkey);
+        }, 1250);
+      }
       try {
 
         const email = this.$store.getters.userData.email;
@@ -138,7 +162,12 @@ export default {
         alert("Please upload your cover letter before applying");
         return;
       }
-
+      window.removeEventListener('keydown', this.onkey);
+      document.getElementById('thisCard').classList.add('rightAnimation');
+      setTimeout(() => {
+        document.getElementById('thisCard').classList.remove('rightAnimation');
+        window.addEventListener('keydown', this.onkey);
+      }, 1250);
       try {
         const userData = this.$store.getters.userData;
         const formData = new FormData();
@@ -163,7 +192,8 @@ export default {
   },
   mounted() {
     console.log('hello');
-    this.getJob();
+    window.addEventListener('keydown', this.onkey);
+    this.getJob(false);
   },
   data() {
     return {
@@ -184,6 +214,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.overFlows
+{
+  overflow: hidden;
+}
 .job-card
 {
     border: black 1px solid;
@@ -218,5 +252,44 @@ export default {
 {
     color: grey;
     font-size: small;
+}
+
+@keyframes swipe-left
+{
+  from {
+    transform: rotate(0deg);
+    position: relative;
+    left: 0;
+  }
+  to {
+    transform: rotate(-90deg);
+    position: relative;
+    left: -100%;
+  }
+}
+
+@keyframes swipe-right
+{
+  from {
+    transform: rotate(0deg);
+    position: relative;
+    left: 0;
+  }
+  to {
+    transform: rotate(90deg);
+    position: relative;
+    left: 100%;
+  }
+}
+.leftAnimation
+{
+  animation-name: swipe-left;
+  animation-duration: 1s;
+}
+
+.rightAnimation
+{
+  animation-name: swipe-right;
+  animation-duration: 1s;
 }
 </style>

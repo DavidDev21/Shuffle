@@ -54,22 +54,22 @@ const {Document} = require('./models');
 
 // NOTE: AWS EDUCATE STARTER ACCOUNT REFRESHES THEIR KEYS AFTER AN HOUR
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4D4EWHZHK", 
-    secretAccessKey: "BZmXfvwhrNOVZj3HZGUR4Zphz0FGOvUBjh0SCQM1", 
-    sessionToken: "FQoGZXIvYXdzEDQaDPN0uKGwjtcVNoznaiL5ApOIEJuSlDdylu059COV+k9KlgUv7fQAQRNRETv2+0qz0p/fwhvQ4FjbE8fLt2aPuCJy+lVAb+S2uU33uAoY7kYhKQ1YJaBApu77z5VoS/XGB5PLb8SXLowto8+gSdBWPgpGGYNuHI7oi62yfUsYHf32iVLaRWLX9xdGrp558CJuW58+emtnnlQMBDTPFz5mfljnInmXLXoU8z9JJShH88BCak2MATaiDxlmwIGVoJn8dGUBM0SBpma66uFCdezD/8dKKcy9/Pl+mN9AxjCBm+I0/5fCFLU0yjhuNoSgwsXV0SXt3AuW+BHe9qDP5d6+PQt2xxySFGJsagCZmyMfxlsLNIwkOu4hZb5ukNzDUYEgqN1ALQ1CdVXxKoZ6b9xLa2ecsoXWjJ9GBOUUAQvxS4ISu7SB5VirUyHR+jo4nHB1bHvVnZQ28a9NulZQVht1PyoSyFU6s3LQBwlqT276O/d6+UK2B9oKmRIFb/qvPtkBhAPeDbKqkPl0KL3aieYF" });
+    accessKeyId: "", 
+    secretAccessKey: "" });
+
 
 const s3 = new aws.S3({});
 
 
 const storage = multerS3({
     s3: s3,
-    bucket: 'shuffleproject',
+    bucket: 'shuffleproject1',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
         const fileExt = path.extname(file.originalname).toLowerCase();
-        allowedExts = new Set(['.png','jpg', '.doc','.docx','.pdf']);
+        allowedExts = new Set(['.png','.jpg', '.doc','.docx','.pdf']);
         let folderGroup = undefined;
         if(!allowedExts.has(fileExt))
         {
@@ -124,7 +124,11 @@ module.exports = (app) => {
     app.post('/update-applicant-profile', varietyUpload, AccountController.updateApplicantProfile);
     app.post('/update-employer-profile', varietyUpload, AccountController.updateEmployerProfile);
 
-    app.get('/change-password/:email', AccountController.redirectToNewPass);
+    // Don't need this for production
+    if(process.env.NODE_ENV !== 'production')
+    {
+        app.get('/change-password/:email', AccountController.redirectToNewPass);
+    }
     app.post('/change-password', AccountController.changePassword);
     app.post('/sendResetEmail',AccountController.sendResetEmail);
 
@@ -147,7 +151,7 @@ module.exports = (app) => {
         let file = req.params.fileName;
         let s3ObjectKey = req.url;
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {
@@ -179,7 +183,7 @@ module.exports = (app) => {
         let s3ObjectKey = req.url;
 
         s3.getObject({
-            Bucket: "shuffleproject",
+            Bucket: "shuffleproject1",
             Key: s3ObjectKey,
         }, function(err, data) {
             if (err) {

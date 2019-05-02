@@ -10,9 +10,8 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 aws.config.update({ 
-    accessKeyId: "ASIAZ2SCCNQ4D4EWHZHK", 
-    secretAccessKey: "BZmXfvwhrNOVZj3HZGUR4Zphz0FGOvUBjh0SCQM1", 
-    sessionToken: "FQoGZXIvYXdzEDQaDPN0uKGwjtcVNoznaiL5ApOIEJuSlDdylu059COV+k9KlgUv7fQAQRNRETv2+0qz0p/fwhvQ4FjbE8fLt2aPuCJy+lVAb+S2uU33uAoY7kYhKQ1YJaBApu77z5VoS/XGB5PLb8SXLowto8+gSdBWPgpGGYNuHI7oi62yfUsYHf32iVLaRWLX9xdGrp558CJuW58+emtnnlQMBDTPFz5mfljnInmXLXoU8z9JJShH88BCak2MATaiDxlmwIGVoJn8dGUBM0SBpma66uFCdezD/8dKKcy9/Pl+mN9AxjCBm+I0/5fCFLU0yjhuNoSgwsXV0SXt3AuW+BHe9qDP5d6+PQt2xxySFGJsagCZmyMfxlsLNIwkOu4hZb5ukNzDUYEgqN1ALQ1CdVXxKoZ6b9xLa2ecsoXWjJ9GBOUUAQvxS4ISu7SB5VirUyHR+jo4nHB1bHvVnZQ28a9NulZQVht1PyoSyFU6s3LQBwlqT276O/d6+UK2B9oKmRIFb/qvPtkBhAPeDbKqkPl0KL3aieYF"});
+    accessKeyId: "", 
+    secretAccessKey: ""  });
 
 const s3 = new aws.S3({});
 
@@ -47,7 +46,7 @@ module.exports = {
         console.log(user)
         if(user!==null){
             if(user.dataValues.isVerified==true){
-                sgMail.setApiKey('To Be Filled');
+                sgMail.setApiKey('TO BE FILLED');
                 console.log(req.body.email);
                 console.log(req.headers.host);
                 const msg = {
@@ -55,7 +54,7 @@ module.exports = {
                     from: 'no-reply@example.com',			//sender's email
                     subject: 'Please update your password using this link',				//Subject
                     text: 'Click on this link to change your password',		//content
-                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttp:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
+                    html: 'Hello,\n\n' + 'Please change your password by clicking the link: \nhttps:\/\/' + req.headers.host + '\/change-password\/'+ req.body.email +'\n',			//HTML content
                   };
                 sgMail.send(msg);
                 res.status(200).send('Reset Link sent');
@@ -71,7 +70,8 @@ module.exports = {
     //get new password from web form
     async redirectToNewPass(req,res){
         //let userEmail = req.params.email;
-        res.status(200).redirect('http:\/\/localhost:8080/change-password/'+req.params.email);
+        // res.status(200).redirect('https:\/\/shuffleproject.herokuapp.com/change-password/' + req.params.email);
+        res.status(200).redirect('https:\/\/localhost:8080/change-password/'+req.params.email);
         //res.status(200).redirect('http:\/\/localhost:8080/resetPassword/'+userEmail);
     },
     async changePassword(req,res){
@@ -203,7 +203,7 @@ module.exports = {
 
                     // S3 destroy
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: docEntry.dataValues.filePath
                     }, function(error, data) {
                         if(error)
@@ -236,7 +236,7 @@ module.exports = {
                 // strips apart the server path from the full path of where the file is stored
                 // the docPath should match what the GET route for the files are
                 let serverPath = path.resolve(__dirname, "..");
-                let docPath = req.files.resume[0].path.substring(serverPath.length);
+                // let docPath = req.files.resume[0].path.substring(serverPath.length);
                 
                 //path.join(serverPath, "/uploads/documents", req.file.filename);
                 //console.log(docPath);
@@ -274,7 +274,7 @@ module.exports = {
                     // delete the old file
                     // let absPath = path.join(__dirname, '..', response.dataValues.profileImg);
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: response.dataValues.profileImg
                     }, function(error, data) {
                         if(error)
@@ -338,7 +338,7 @@ module.exports = {
                 {
                     // delete the old file
                     s3.deleteObject({
-                        Bucket: 'shuffleproject',
+                        Bucket: 'shuffleproject1',
                         Key: response.dataValues.profileImg
                     }, function(error, data) {
                         if(error)

@@ -31,8 +31,12 @@ import AuthenticationService from '@/services/AuthenticationService';
 export default {
   name: 'sign-in',
   mounted() {
+    window.addEventListener('keydown', this.onkey);
     // Clear out state
     this.$store.dispatch('resetState');
+  },
+  beforeDestroy(){
+    window.removeEventListener('keydown', this.onkey);
   },
   methods: {
     registerRoute() {
@@ -70,6 +74,13 @@ export default {
         console.log(error.response);
         alert(error.response.data);
       }
+    },
+    onkey(event){
+      if(event.keyCode === 13)
+      {
+        this.authenticateUser();
+      }
+      return;
     },
   },
   data() {
