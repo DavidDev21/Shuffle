@@ -13,10 +13,10 @@ Employer
   Pass: 123
   
   User: employer2@gmail.com (Google)
-  Pass:123
+  Pass: 123
   
   User: employer3@gmail.com (Joe's Sushi) to show a possible local store
-  Pass:123
+  Pass: 123
   
   User: employer4@gmail.com (Bob's Repair Shop)
   Pass: 123
