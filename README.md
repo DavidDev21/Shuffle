@@ -6,6 +6,41 @@ https://shuffleproject.herokuapp.com/
 # Shuffle
 CS 4513 / 4523 - Software Engineering Project
 
+# Demo Accounts
+Employer
+```
+  User: employer1@gmail.com (Apple)
+  Pass: 123
+  
+  User: employer2@gmail.com (Google)
+  Pass:123
+  
+  User: employer3@gmail.com (Joe's Sushi) to show a possible local store
+  Pass:123
+  
+  User: employer4@gmail.com (Bob's Repair Shop)
+  Pass: 123
+  
+  User: employer5@gmail.com (Macy's)
+  Pass: 123
+```
+
+Applicant
+```
+Some applicant had resumes, and cover letter (and other permutations of those two things)
+  User: applicant1@gmail.com (Bob)
+  Pass: 1234
+  
+  User: applicant2@gmail.com (John)
+  Pass: 123
+  
+  User: applicant3@gmail.com (Jane)
+  Pass: 123
+  
+  User: applicant4@gmail.com (Angela)
+  Pass: 123
+```
+
 # Tech Stack (VERP)
 1. Vuejs
 2. Nodejs
