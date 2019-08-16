@@ -1,6 +1,8 @@
 # Demo
 https://shuffleproject.herokuapp.com/
-(Features may break due to AWS account issues)
+(Load times may be a few seconds longer than usual if heroku dyno is asleep)
+
+(If user assets don't load, please check AWS S3 error logs)
 # Shuffle
 CS 4513 / 4523 - Software Engineering Project
 
